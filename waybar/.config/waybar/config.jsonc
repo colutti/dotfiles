@@ -9,11 +9,11 @@
     "hyprland/window"
   ],
   "modules-right": [
-    "custom/hypridle",
-    "custom/notification",
     "network",
     "pulseaudio",
     "clock",
+    "custom/hypridle",
+    "custom/notification",
     "tray"
   ],
   "custom/hypridle": {
