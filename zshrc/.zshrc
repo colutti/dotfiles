@@ -78,6 +78,9 @@ alias c='clear'
 alias stow='stow -v -t ~ --dotfiles'
 alias cd="z"
 alias pacman="sudo pacman"
+alias install="yay -Syu --noconfirm"
+alias update="yay -Syu --noconfirm"
+alias remove="yay -Rns"
 
 # Shell integrations
 eval "$(fzf --zsh)"
