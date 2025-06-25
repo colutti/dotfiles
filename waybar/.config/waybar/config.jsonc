@@ -30,7 +30,7 @@
     "layer": "top"
   },
   "clock": {
-    "format": "<span foreground='#f5c2e7'>   </span>{:%a %d %H:%M}",
+    "format": "{:%a %d %H:%M}",
     "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
   },
   "network": {
@@ -41,7 +41,7 @@
     "tooltip-format-wifi": "Signal Strength: {signalStrength}%"
   },
   "pulseaudio": {
-    "format": "{icon}  {volume}%",
+    "format": "{volume}%",
     "format-muted": "",
     "format-icons": {
       "default": [
