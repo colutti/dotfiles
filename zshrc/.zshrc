@@ -77,6 +77,7 @@ alias vim='nvim'
 alias c='clear'
 alias stow='stow -v -t ~ --dotfiles'
 alias cd="z"
+alias pacman="sudo pacman"
 
 # Shell integrations
 eval "$(fzf --zsh)"
