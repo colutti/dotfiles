@@ -70,6 +70,7 @@ install_pacman \
     vulkan-radeon \
     lib32-mesa \
     lib32-vulkan-radeon \
+    wpctl \
     qt5ct \
     steam
 
@@ -101,12 +102,3 @@ install_flatpak_app app.zen_browser.zen # Zen Browser via Flatpak
 echo "Aplicando configurações específicas para Gamescope..."
 # Configurar permissões CAP_SYS_NICE para gamescope (para otimizações de jogos)
 sudo setcap 'cap_sys_nice=+ep' /usr/bin/gamescope || { echo "Aviso: Erro ao configurar CAP_SYS_NICE para gamescope. Verifique se gamescope está corretamente instalado."; }
-
-
-echo "--- Instalação de todos os pacotes concluída! ---"
-echo ""
-echo "PRÓXIMOS PASSOS ESSENCIAIS (manual):"
-echo "1. Copie seus arquivos de configuração do Hyprland (ex: hyprland.conf, ~/.config/hypr/caffeine.sh, ~/gamemode.sh) para os locais corretos."
-echo "2. Reinicie seu computador para que todas as alterações de kernel e serviços entrem em vigor e seu ambiente Hyprland seja carregado corretamente."
-echo "3. Se você utiliza um mouse Logitech MX Master e deseja remapear botões, você precisará instalar e configurar o 'logid' separadamente."
-echo "4. Configure seus temas QT (`qt5ct`, `qt6ct`) e GTK conforme sua preferência."
