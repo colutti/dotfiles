@@ -63,6 +63,8 @@ install_pacman \
     polkit \
     polkit-gnome \
     xdg-desktop-portal-hyprland \
+    xdg-desktop-portal-kde \
+    xdg-desktop-portal-gnome \
     gamemode \
     mesa \
     vulkan-radeon \
