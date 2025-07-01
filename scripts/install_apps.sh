@@ -89,7 +89,7 @@ install_yay_app \
     telegram-desktop \
     qt6ct-kde \
     nwg-displays \
-    vscodium-bin # VSCodium via AUR
+    vscodium-bin
 
 # 5. Configurar Flatpak e Instalar Aplicativos Flatpak
 echo "Configurando Flatpak e instalando aplicativos Flatpak..."

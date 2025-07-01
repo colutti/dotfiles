@@ -78,8 +78,8 @@ alias c='clear'
 alias stow='stow -v -t ~ --dotfiles'
 alias cd="z"
 alias pacman="sudo pacman"
-alias install="yay -Syu --noconfirm"
-alias update="yay -Syu --noconfirm"
+alias install="yay -Sy --noconfirm"
+alias update="echo 'Iniciando atualização do sistema (yay)...' && yay -Syu --noconfirm && echo 'Atualização do Flatpak...' && flatpak update -y && echo 'Limpando cache do yay...' && yay -Sc --noconfirm && echo 'Atualização concluída!'"
 alias remove="yay -Rns"
 
 # Shell integrations
