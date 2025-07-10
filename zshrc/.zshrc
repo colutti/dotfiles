@@ -79,8 +79,9 @@ alias stow='stow -v -t ~ --dotfiles'
 alias cd="z"
 alias pacman="sudo pacman"
 alias install="yay -Sy --noconfirm"
-alias update="echo 'Iniciando atualização do sistema (yay)...' && yay -Syu --noconfirm && echo 'Atualização do Flatpak...' && flatpak update -y && echo 'Limpando cache do yay...' && yay -Sc --noconfirm && echo 'Atualização concluída!'"
+alias update="yay -Syu --noconfirm && flatpak update -y && yay -Sc --noconfirm"
 alias remove="yay -Rns"
+alias reload="source ~/.zshrc"
 
 # Shell integrations
 eval "$(fzf --zsh)"
