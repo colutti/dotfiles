@@ -91,7 +91,30 @@ install_yay_app \
     nwg-displays \
     vscodium-bin \
     waypaper \
-    xwaylandvideobridge-git
+    xwaylandvideobridge-git \
+    ags-hyprpanel-git \
+    aylurs-gtk-shell-git \
+    wireplumber \
+    libgtop \
+    bluez \
+    bluez-utils \
+    btop \
+    dart-sass \
+    wl-clipboard \
+    swww \
+    python \
+    upower \
+    pacman-contrib \
+    power-profiles-daemon \
+    gvfs \
+    gtksourceview3 \
+    libsoup3 \
+    grimblast-git \
+    wf-recorder-git \ 
+    hyprpicker \
+    matugen-bin \
+    python-gpustat \
+    hyprsunset-git
 
 # 5. Configurar Flatpak e Instalar Aplicativos Flatpak
 echo "Configurando Flatpak e instalando aplicativos Flatpak..."
