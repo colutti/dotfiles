@@ -110,7 +110,7 @@ install_yay_app \
     gtksourceview3 \
     libsoup3 \
     grimblast-git \
-    wf-recorder-git \ 
+    wf-recorder-git \
     hyprpicker \
     matugen-bin \
     python-gpustat \
