@@ -390,6 +390,7 @@
         "media"
       ],
       "right": [
+        "microphone",
         "updates",
         "hypridle",
         "volume",
@@ -398,6 +399,14 @@
         "clock",
         "notifications",
         "systray"
+      ]
+    },
+      "1": {
+      "left": [
+      ],
+      "middle": [
+      ],
+      "right": [
       ]
     }
   },
