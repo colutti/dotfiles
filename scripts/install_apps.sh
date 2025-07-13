@@ -90,7 +90,8 @@ install_yay_app \
     qt6ct-kde \
     nwg-displays \
     vscodium-bin \
-    waypaper
+    waypaper \
+    xwaylandvideobridge-git
 
 # 5. Configurar Flatpak e Instalar Aplicativos Flatpak
 echo "Configurando Flatpak e instalando aplicativos Flatpak..."
