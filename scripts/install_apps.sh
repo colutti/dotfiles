@@ -80,10 +80,8 @@ install_yay_app \
     hyprlock \
     wlogout \
     hyprshot \
-    waybar \
     hypridle \
     swaync \
-    hyprpaper \
     gamescope \
     vesktop-bin \
     telegram-desktop \
