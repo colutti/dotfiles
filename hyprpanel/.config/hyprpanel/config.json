@@ -5,7 +5,7 @@
   "terminal": "kitty",
   "menus.clock.weather.location": "Villímar, provincia de Burgos",
   "menus.dashboard.shortcuts.left.shortcut3.command": "vesktop",
-  "menus.dashboard.shortcuts.left.shortcut4.command": "wofi -show drun",
+  "menus.dashboard.shortcuts.left.shortcut4.command": "wofi -i --show drun",
   "theme.bar.menus.menu.notifications.scrollbar.color": "#b4befe",
   "theme.bar.menus.menu.notifications.pager.label": "#9399b2",
   "theme.bar.menus.menu.notifications.pager.button": "#b4befe",
@@ -391,8 +391,7 @@
         "workspaces",
         "windowtitle"
       ],
-      "middle": [
-      ],
+      "middle": [],
       "right": [
         "updates",
         "hypridle",
@@ -410,5 +409,20 @@
   "theme.bar.buttons.modules.hypridle.enableBorder": false,
   "bar.battery.label": true,
   "theme.bar.transparent": true,
-  "theme.bar.floating": false
+  "theme.bar.floating": false,
+  "menus.dashboard.directories.left.directory1.command": "bash -c \"dolphin $HOME/Downloads/\"",
+  "menus.dashboard.directories.right.directory3.command": "bash -c \"dolphin $HOME/\"",
+  "menus.dashboard.directories.left.directory2.command": "bash -c \"dolphin $HOME/Videos/\"",
+  "menus.dashboard.directories.left.directory3.command": "bash -c \"dolphin $HOME/Projects/\"",
+  "menus.dashboard.directories.right.directory1.command": "bash -c \"dolphin $HOME/Documents/\"",
+  "menus.dashboard.directories.right.directory2.command": "bash -c \"dolphin $HOME/Pictures/\"",
+  "menus.dashboard.shortcuts.left.shortcut1.command": "firefox",
+  "menus.dashboard.shortcuts.left.shortcut1.tooltip": "Firefox",
+  "menus.dashboard.shortcuts.left.shortcut3.tooltip": "Vesktop",
+  "menus.dashboard.directories.left.directory1.label": "󰉍  Downloads",
+  "menus.dashboard.directories.left.directory2.label": "󰉏  Videos",
+  "menus.dashboard.directories.left.directory3.label": "󰚝  Projects",
+  "menus.dashboard.directories.right.directory1.label": "󱧶  Documents",
+  "menus.dashboard.directories.right.directory2.label": "󰉏  Pictures",
+  "menus.dashboard.directories.right.directory3.label": "󱂵  Home"
 }
