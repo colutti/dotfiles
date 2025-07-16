@@ -380,6 +380,11 @@
   "theme.bar.buttons.modules.microphone.icon": "#a6e3a1",
   "theme.bar.buttons.modules.microphone.icon_background": "#242438",
   "bar.layouts": {
+    "1": {
+      "left": [],
+      "middle": [],
+      "right": []
+    },
     "DP-2": {
       "left": [
         "dashboard",
@@ -387,26 +392,16 @@
         "windowtitle"
       ],
       "middle": [
-        "media"
       ],
       "right": [
         "updates",
         "hypridle",
-        "microphone",
         "volume",
         "network",
         "bluetooth",
-        "clock",
         "notifications",
-        "systray"
-      ]
-    },
-      "1": {
-      "left": [
-      ],
-      "middle": [
-      ],
-      "right": [
+        "systray",
+        "clock"
       ]
     }
   },
