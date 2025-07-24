@@ -58,10 +58,11 @@ install_pacman \
     networkmanager \
     network-manager-applet \
     udiskie \
-    gnome-keyring \
+    kwallet \
+    kwalletmanager \ 
+    kwallet-pam \
     dbus \
-    polkit \
-    polkit-gnome \
+    polkit-kde-agent \
     xdg-desktop-portal-hyprland \
     xdg-desktop-portal-kde \
     xdg-desktop-portal-gnome \
