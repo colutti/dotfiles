@@ -425,5 +425,10 @@
   "menus.dashboard.directories.right.directory1.label": "󱧶  Documents",
   "menus.dashboard.directories.right.directory2.label": "󰉏  Pictures",
   "menus.dashboard.directories.right.directory3.label": "󱂵  Home",
-  "bar.clock.format": "%a %b %d  %I:%M %p"
+  "bar.clock.format": "%d %b %a %I:%M %p",
+  "wallpaper.enable": false,
+  "theme.bar.opacity": 100,
+  "theme.bar.buttons.opacity": 100,
+  "theme.bar.buttons.background_opacity": 0,
+  "theme.bar.buttons.background_hover_opacity": 0
 }
