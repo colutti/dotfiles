@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "slug": "verdant-circuit",
+  "name": "Verdant Circuit",
+  "mode": "dark",
+  "contrast_ratio": 8.6,
+  "font": "Noto Sans",
+  "mono_font": "JetBrainsMono Nerd Font",
+  "icon_theme": "Papirus-Dark",
+  "cursor_theme": "Breeze",
+  "panel": {"layout": "canopy", "material": "matte", "animation_ms": 200},
+  "palette": {
+    "background": "#101a16", "surface": "#18251f", "surface_alt": "#23332b",
+    "text": "#e8f1ec", "muted": "#9baca2", "accent": "#71c893",
+    "accent_alt": "#8fb7b0", "success": "#65c184", "warning": "#d4ad61",
+    "critical": "#e17870", "outline": "#395247"
+  },
+  "wallpaper": {
+    "file": "forest-S8fNXJimqdU.jpg",
+    "source_url": "https://unsplash.com/photos/S8fNXJimqdU",
+    "license_url": "https://unsplash.com/license",
+    "sha256": "d6e240c5197050d404cb163dbe0a416131c04d6c80f0fcb4ce1360f7a0a71894"
+  }
+}

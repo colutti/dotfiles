@@ -1,0 +1,13 @@
+[Unit]
+Description=Restore workstation applications after Hyprland is ready
+After=colutti-desktop.target xdg-desktop-portal.service xdg-desktop-portal-hyprland.service
+Requires=colutti-quickshell.service
+Wants=xdg-desktop-portal-hyprland.service
+
+[Service]
+Type=oneshot
+ExecStart=%h/.local/bin/colutti-session-restore
+RemainAfterExit=yes
+
+[Install]
+WantedBy=colutti-desktop.target

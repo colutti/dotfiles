@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+: "${WAYLAND_DISPLAY:?Hyprland did not export WAYLAND_DISPLAY}"
+: "${HYPRLAND_INSTANCE_SIGNATURE:?Hyprland did not export its instance signature}"
+
+export XDG_CURRENT_DESKTOP=Hyprland
+export XDG_SESSION_DESKTOP=Hyprland
+
+environment=(
+  WAYLAND_DISPLAY
+  HYPRLAND_INSTANCE_SIGNATURE
+  XDG_CURRENT_DESKTOP
+  XDG_SESSION_DESKTOP
+)
+[[ -n "${DISPLAY:-}" ]] && environment+=(DISPLAY)
+
+systemctl --user import-environment "${environment[@]}"
+dbus-update-activation-environment --systemd "${environment[@]}"
+
+systemctl --user reset-failed \
+  xdg-desktop-portal-hyprland.service \
+  plasma-xdg-desktop-portal-kde.service \
+  xdg-desktop-portal-gtk.service || true
+systemctl --user restart xdg-desktop-portal-hyprland.service
+systemctl --user restart xdg-desktop-portal.service
+
+systemctl --user start colutti-desktop.target
+systemctl --user start --no-block colutti-session-restore.service

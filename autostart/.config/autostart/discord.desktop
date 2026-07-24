@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Exec=/usr/bin/discord
+TryExec=/usr/bin/discord
+OnlyShowIn=KDE;
+Name=Discord
+Icon=discord
+Comment=Text and voice chat for gamers
+Terminal=false

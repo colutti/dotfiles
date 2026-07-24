@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if systemctl --user is-active --quiet wayland-wm@Hyprland.service; then
+  exec uwsm stop
+fi
+
+# Compatibility path for a session started from the non-UWSM login entry.
+exec hyprctl dispatch exit

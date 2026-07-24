@@ -1,0 +1,5 @@
+[Desktop Entry]
+Type=Application
+Name=LocalSend
+Hidden=true
+Comment=Disable stale autostart entry while LocalSend is not installed

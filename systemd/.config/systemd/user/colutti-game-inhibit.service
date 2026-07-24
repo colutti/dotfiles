@@ -1,0 +1,7 @@
+[Unit]
+Description=Inhibit idle and sleep while manual game mode is active
+After=graphical-session.target
+PartOf=graphical-session.target
+
+[Service]
+ExecStart=/usr/bin/systemd-inhibit --what=idle:sleep --who=ColuttiGameMode --why=Manual_game_profile --mode=block /usr/bin/tail -f /dev/null

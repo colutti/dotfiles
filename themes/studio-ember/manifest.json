@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "slug": "studio-ember",
+  "name": "Studio Ember",
+  "mode": "dark",
+  "contrast_ratio": 7.7,
+  "font": "Noto Sans",
+  "mono_font": "JetBrainsMono Nerd Font",
+  "icon_theme": "Papirus-Dark",
+  "cursor_theme": "Breeze",
+  "panel": {"layout": "studio", "material": "solid", "animation_ms": 160},
+  "palette": {
+    "background": "#191613", "surface": "#241f1a", "surface_alt": "#302921",
+    "text": "#f2ebe3", "muted": "#b1a395", "accent": "#d68655",
+    "accent_alt": "#8fae91", "success": "#83b58a", "warning": "#dba764",
+    "critical": "#dc7569", "outline": "#524438"
+  },
+  "wallpaper": {
+    "file": "milad-fakurian-b7xmQWfmcDU.jpg",
+    "source_url": "https://unsplash.com/photos/b7xmQWfmcDU",
+    "license_url": "https://unsplash.com/license",
+    "sha256": "1813e233771d088cac7102a7677f787c434e36fdcbd8ff7780dfc77813ce24d5"
+  }
+}

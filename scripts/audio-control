@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+action="${1:-}"
+monitor="$(
+  hyprctl monitors -j 2>/dev/null |
+    jq -r '.[] | select(.focused == true).name' |
+    head -n 1
+)"
+
+osd() {
+  command -v swayosd-client >/dev/null 2>&1 || return 1
+  swayosd-client --monitor "${monitor:-DP-2}" "$@"
+}
+
+case "${action}" in
+  raise)
+    osd --output-volume +5 ||
+      wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+
+    ;;
+  lower)
+    osd --output-volume -5 ||
+      wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+    ;;
+  mute)
+    osd --output-volume mute-toggle ||
+      wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+    ;;
+  mic-mute)
+    osd --input-volume mute-toggle ||
+      wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
+    ;;
+  play|next|previous)
+    osd --playerctl "${action}" || playerctl "${action}"
+    ;;
+  *)
+    printf 'usage: colutti-audio-control <raise|lower|mute|mic-mute|play|next|previous>\n' >&2
+    exit 64
+    ;;
+esac

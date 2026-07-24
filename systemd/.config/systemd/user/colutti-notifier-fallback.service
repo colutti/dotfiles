@@ -1,0 +1,12 @@
+[Unit]
+Description=Emergency notification daemon
+After=graphical-session.target
+Conflicts=swaync.service
+Wants=colutti-notifier-recovery.timer
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/dunst
+TimeoutStopSec=5
+ExecStopPost=-/usr/bin/systemctl --user --no-block start swaync.service
+Restart=no

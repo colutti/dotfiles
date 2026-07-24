@@ -1,0 +1,8 @@
+[Unit]
+Description=Retry SwayNC after emergency notification fallback
+PartOf=colutti-notifier-fallback.service
+
+[Timer]
+OnActiveSec=30s
+AccuracySec=1s
+Unit=swaync.service

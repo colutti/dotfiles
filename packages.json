@@ -1,0 +1,27 @@
+{
+  "policy": "official-repositories-only",
+  "install": [
+    "alacritty", "brightnessctl", "breeze", "cava", "cliphist", "ddcutil",
+    "discord", "dunst", "file", "flatpak", "fuzzel", "gamemode", "gamescope", "grim", "hypridle", "hyprland",
+    "hyprlock", "hyprpaper", "hyprsunset", "jq", "lib32-gamemode",
+    "libnotify", "mangohud", "noto-fonts", "noto-fonts-emoji",
+    "papirus-icon-theme", "pyside6", "playerctl", "power-profiles-daemon", "quickshell",
+    "satty", "slurp", "socat", "steam", "stow", "swaync", "swayosd", "telegram-desktop", "ttf-jetbrains-mono-nerd", "uwsm",
+    "wl-clipboard", "wtype", "xdg-desktop-portal-hyprland"
+  ],
+  "optional": [
+    "network-manager-applet",
+    "nwg-clipman",
+    "nwg-displays",
+    "nwg-look"
+  ],
+  "flatpak_apps": [
+    "app.zen_browser.zen"
+  ],
+  "remove": [
+    "quickshell-git"
+  ],
+  "session_conflicts": [
+    "dms-shell"
+  ]
+}

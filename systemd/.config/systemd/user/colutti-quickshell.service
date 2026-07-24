@@ -1,0 +1,15 @@
+[Unit]
+Description=Colutti Quickshell desktop shell
+After=graphical-session.target pipewire.service
+PartOf=colutti-desktop.target
+StartLimitIntervalSec=30
+StartLimitBurst=5
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/qs -c colutti
+Restart=on-failure
+RestartSec=2
+
+[Install]
+WantedBy=colutti-desktop.target

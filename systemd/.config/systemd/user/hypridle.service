@@ -1,0 +1,11 @@
+[Unit]
+Description=Hypridle session idle manager
+After=graphical-session.target
+PartOf=colutti-desktop.target
+
+[Service]
+ExecStart=/usr/bin/hypridle
+Restart=on-failure
+
+[Install]
+WantedBy=colutti-desktop.target

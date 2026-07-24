@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Exec=/usr/bin/steam %U
+TryExec=/usr/bin/steam
+OnlyShowIn=KDE;
+Name=Steam
+Icon=steam
+Terminal=false
+PrefersNonDefaultGPU=true

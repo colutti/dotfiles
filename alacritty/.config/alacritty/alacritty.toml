@@ -1,0 +1,14 @@
+general.import = ["~/.local/state/colutti-desktop/generated/alacritty-theme.toml"]
+
+[window]
+padding = { x = 12, y = 12 }
+dynamic_padding = true
+decorations = "None"
+
+[font]
+size = 11.0
+normal = { family = "JetBrainsMono Nerd Font", style = "Regular" }
+bold = { family = "JetBrainsMono Nerd Font", style = "Bold" }
+
+[cursor]
+style = { shape = "Beam", blinking = "On" }

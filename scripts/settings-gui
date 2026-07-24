@@ -1,0 +1,386 @@
+#!/usr/bin/env python3
+from __future__ import annotations
+
+import copy
+import json
+import os
+import subprocess
+import sys
+import tempfile
+from pathlib import Path
+
+os.environ.setdefault("QT_QPA_PLATFORMTHEME", "kde")
+
+from PySide6.QtCore import QTimer, Qt
+from PySide6.QtGui import QColor, QFont
+from PySide6.QtWidgets import (
+    QApplication,
+    QCheckBox,
+    QComboBox,
+    QDoubleSpinBox,
+    QFormLayout,
+    QFrame,
+    QHBoxLayout,
+    QLabel,
+    QLineEdit,
+    QListWidget,
+    QListWidgetItem,
+    QMainWindow,
+    QMessageBox,
+    QPushButton,
+    QScrollArea,
+    QStackedWidget,
+    QTextEdit,
+    QVBoxLayout,
+    QWidget,
+)
+
+
+CTL = "colutti-desktopctl"
+
+
+def ctl(arguments: list[str], *, json_output: bool = False) -> object:
+    result = subprocess.run(
+        [CTL, *arguments],
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    if result.returncode != 0:
+        raise RuntimeError(result.stderr.strip() or result.stdout.strip())
+    return json.loads(result.stdout) if json_output else result.stdout.strip()
+
+
+class MonitorEditor(QWidget):
+    def __init__(self, output: str, values: dict[str, object]) -> None:
+        super().__init__()
+        self.output = output
+        layout = QFormLayout(self)
+        layout.setContentsMargins(0, 12, 0, 18)
+        layout.setHorizontalSpacing(24)
+        layout.setVerticalSpacing(10)
+
+        heading = QLabel(output)
+        heading.setObjectName("sectionHeading")
+        layout.addRow(heading)
+        self.mode = QLineEdit(str(values["mode"]))
+        self.position = QLineEdit(str(values["position"]))
+        self.scale = QDoubleSpinBox()
+        self.scale.setRange(0.5, 4.0)
+        self.scale.setDecimals(6)
+        self.scale.setSingleStep(0.05)
+        self.scale.setValue(float(values["scale"]))
+        self.bitdepth = QComboBox()
+        self.bitdepth.addItems(["8", "10"])
+        self.bitdepth.setCurrentText(str(values["bitdepth"]))
+        self.color_mode = QComboBox()
+        self.color_mode.addItems(
+            ["srgb", "wide", "hdr", "hdredid", "dciedid", "dp3"]
+        )
+        self.color_mode.setCurrentText(str(values["color_mode"]))
+        self.hdr = QCheckBox("Permitir passthrough HDR fullscreen")
+        self.hdr.setChecked(bool(values["hdr_fullscreen_passthrough"]))
+
+        layout.addRow("Modo", self.mode)
+        layout.addRow("Posição", self.position)
+        layout.addRow("Escala", self.scale)
+        layout.addRow("Profundidade", self.bitdepth)
+        layout.addRow("Espaço de cor", self.color_mode)
+        layout.addRow("", self.hdr)
+
+    def value(self) -> dict[str, object]:
+        return {
+            "mode": self.mode.text().strip(),
+            "position": self.position.text().strip(),
+            "scale": self.scale.value(),
+            "bitdepth": int(self.bitdepth.currentText()),
+            "color_mode": self.color_mode.currentText(),
+            "hdr_fullscreen_passthrough": self.hdr.isChecked(),
+        }
+
+
+class SettingsWindow(QMainWindow):
+    def __init__(self) -> None:
+        super().__init__()
+        self.setWindowTitle("Colutti Desktop")
+        self.resize(1040, 720)
+        self.settings = ctl(["settings", "show"], json_output=True)
+        self.themes = ctl(["theme", "list", "--json"], json_output=True)
+        self.monitor_editors: dict[str, MonitorEditor] = {}
+
+        root = QWidget()
+        self.setCentralWidget(root)
+        shell = QHBoxLayout(root)
+        shell.setContentsMargins(0, 0, 0, 0)
+        shell.setSpacing(0)
+
+        self.navigation = QListWidget()
+        self.navigation.setFixedWidth(220)
+        self.navigation.setObjectName("navigation")
+        self.navigation.setSpacing(4)
+        for label in ("Visão geral", "Temas", "Monitores", "Sistema"):
+            QListWidgetItem(label, self.navigation)
+        shell.addWidget(self.navigation)
+
+        self.pages = QStackedWidget()
+        shell.addWidget(self.pages, 1)
+        self.pages.addWidget(self.overview_page())
+        self.pages.addWidget(self.themes_page())
+        self.pages.addWidget(self.monitors_page())
+        self.pages.addWidget(self.system_page())
+        self.navigation.currentRowChanged.connect(self.pages.setCurrentIndex)
+        self.navigation.setCurrentRow(0)
+
+        self.setStyleSheet(
+            """
+            QWidget { font-family: "Noto Sans"; font-size: 14px; }
+            #navigation { padding: 20px 10px; border: 0; }
+            #navigation::item { min-height: 38px; padding: 0 12px; border-radius: 8px; }
+            #navigation::item:selected { font-weight: 600; }
+            #pageTitle { font-size: 24px; font-weight: 700; }
+            #sectionHeading { font-size: 17px; font-weight: 650; }
+            QPushButton { min-height: 36px; padding: 0 14px; }
+            QLineEdit, QComboBox, QDoubleSpinBox { min-height: 34px; }
+            QTextEdit { font-family: "JetBrainsMono Nerd Font"; font-size: 12px; }
+            """
+        )
+
+    @staticmethod
+    def page(title: str, subtitle: str) -> tuple[QWidget, QVBoxLayout]:
+        page = QWidget()
+        layout = QVBoxLayout(page)
+        layout.setContentsMargins(34, 30, 34, 30)
+        layout.setSpacing(16)
+        heading = QLabel(title)
+        heading.setObjectName("pageTitle")
+        layout.addWidget(heading)
+        description = QLabel(subtitle)
+        description.setWordWrap(True)
+        description.setMaximumWidth(720)
+        layout.addWidget(description)
+        return page, layout
+
+    def overview_page(self) -> QWidget:
+        page, layout = self.page(
+            "Estado operacional",
+            "Uma leitura direta dos serviços que sustentam a sessão.",
+        )
+        self.health = QTextEdit()
+        self.health.setReadOnly(True)
+        layout.addWidget(self.health, 1)
+        refresh = QPushButton("Atualizar diagnóstico")
+        refresh.clicked.connect(self.refresh_health)
+        layout.addWidget(refresh, 0, Qt.AlignmentFlag.AlignLeft)
+        QTimer.singleShot(0, self.refresh_health)
+        return page
+
+    def themes_page(self) -> QWidget:
+        page, layout = self.page(
+            "Temas",
+            "A prévia volta ao tema anterior em 20 segundos. Aplicar confirma a escolha em todos os componentes.",
+        )
+        self.theme_list = QListWidget()
+        for theme in self.themes:
+            item = QListWidgetItem(
+                f"{theme['name']}  ·  {theme['mode']}  ·  {theme['panel']['material']}"
+            )
+            item.setData(Qt.ItemDataRole.UserRole, theme["slug"])
+            item.setToolTip(theme["wallpaper"]["source_url"])
+            self.theme_list.addItem(item)
+            if theme["slug"] == self.settings["theme"]:
+                self.theme_list.setCurrentItem(item)
+        layout.addWidget(self.theme_list, 1)
+        actions = QHBoxLayout()
+        preview = QPushButton("Prévia por 20 s")
+        preview.clicked.connect(self.preview_theme)
+        apply = QPushButton("Aplicar tema")
+        apply.setDefault(True)
+        apply.clicked.connect(self.apply_theme)
+        actions.addWidget(preview)
+        actions.addWidget(apply)
+        actions.addStretch()
+        layout.addLayout(actions)
+        return page
+
+    def monitors_page(self) -> QWidget:
+        page, layout = self.page(
+            "Monitores",
+            "A alteração só permanece após confirmação. Sem resposta, a geometria anterior é restaurada.",
+        )
+        contents = QWidget()
+        form = QVBoxLayout(contents)
+        form.setContentsMargins(0, 0, 12, 0)
+        for output, values in self.settings["monitors"].items():
+            editor = MonitorEditor(output, values)
+            self.monitor_editors[output] = editor
+            form.addWidget(editor)
+            divider = QFrame()
+            divider.setFrameShape(QFrame.Shape.HLine)
+            form.addWidget(divider)
+        form.addStretch()
+        scroll = QScrollArea()
+        scroll.setWidgetResizable(True)
+        scroll.setFrameShape(QFrame.Shape.NoFrame)
+        scroll.setWidget(contents)
+        layout.addWidget(scroll, 1)
+        apply = QPushButton("Aplicar e confirmar")
+        apply.setDefault(True)
+        apply.clicked.connect(self.apply_monitors)
+        layout.addWidget(apply, 0, Qt.AlignmentFlag.AlignLeft)
+        return page
+
+    def system_page(self) -> QWidget:
+        page, layout = self.page(
+            "Sistema",
+            "Perfis e ferramentas especializadas, sem duplicar interfaces maduras.",
+        )
+        rows = (
+            ("Modo jogo", "Ativar", lambda: self.profile("on"), "Desativar", lambda: self.profile("off")),
+            ("HDR do BenQ", "Ativar", lambda: self.hdr("on"), "Voltar a SDR", lambda: self.hdr("off")),
+            ("Áudio", "Abrir mixer", lambda: self.open_tool("audio"), "", None),
+            ("Rede", "Abrir conexões", lambda: self.open_tool("network"), "", None),
+            ("Clipboard", "Abrir histórico", lambda: self.open_tool("clipboard"), "", None),
+        )
+        for label, primary_text, primary, secondary_text, secondary in rows:
+            row = QHBoxLayout()
+            name = QLabel(label)
+            name.setMinimumWidth(180)
+            name.setFont(QFont("Noto Sans", 14, QFont.Weight.DemiBold))
+            row.addWidget(name)
+            button = QPushButton(primary_text)
+            button.clicked.connect(primary)
+            row.addWidget(button)
+            if secondary:
+                other = QPushButton(secondary_text)
+                other.clicked.connect(secondary)
+                row.addWidget(other)
+            row.addStretch()
+            layout.addLayout(row)
+        layout.addStretch()
+        return page
+
+    def selected_theme(self) -> str:
+        item = self.theme_list.currentItem()
+        if item is None:
+            raise RuntimeError("Selecione um tema.")
+        return str(item.data(Qt.ItemDataRole.UserRole))
+
+    def preview_theme(self) -> None:
+        self.run_action(["theme", "preview", self.selected_theme()])
+
+    def apply_theme(self) -> None:
+        self.run_action(["theme", "apply", self.selected_theme()])
+        self.settings = ctl(["settings", "show"], json_output=True)
+
+    def apply_monitors(self) -> None:
+        candidate = copy.deepcopy(self.settings)
+        candidate["monitors"] = {
+            output: editor.value()
+            for output, editor in self.monitor_editors.items()
+        }
+        try:
+            with tempfile.NamedTemporaryFile(
+                mode="w",
+                encoding="utf-8",
+                suffix=".json",
+            ) as stream:
+                json.dump(candidate, stream)
+                stream.flush()
+                ctl(["settings", "apply", stream.name])
+            token = str(ctl(["monitors", "apply", "--timeout", "20"]))
+        except RuntimeError as error:
+            self.error(str(error))
+            return
+
+        dialog = QMessageBox(self)
+        dialog.setWindowTitle("Confirmar monitores")
+        dialog.setIcon(QMessageBox.Icon.Question)
+        dialog.setText("Manter esta configuração?")
+        dialog.setInformativeText("Rollback automático em 20 segundos.")
+        keep = dialog.addButton("Manter", QMessageBox.ButtonRole.AcceptRole)
+        rollback = dialog.addButton("Reverter", QMessageBox.ButtonRole.RejectRole)
+        remaining = 20
+
+        def tick() -> None:
+            nonlocal remaining
+            remaining -= 1
+            dialog.setInformativeText(
+                f"Rollback automático em {remaining} segundos."
+            )
+            if remaining <= 0:
+                dialog.done(0)
+
+        timer = QTimer(dialog)
+        timer.timeout.connect(tick)
+        timer.start(1000)
+        dialog.exec()
+        timer.stop()
+        try:
+            if dialog.clickedButton() is keep and remaining > 0:
+                ctl(["monitors", "confirm", token])
+                self.settings = candidate
+            else:
+                ctl(["monitors", "rollback"])
+        except RuntimeError as error:
+            self.error(str(error))
+
+    def profile(self, state: str) -> None:
+        self.run_action(["profile", "game", state])
+
+    def hdr(self, state: str) -> None:
+        self.run_action(["monitors", "hdr", state])
+
+    @staticmethod
+    def open_tool(component: str) -> None:
+        subprocess.Popen(
+            ["colutti-settings-open", component],
+            start_new_session=True,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        )
+
+    def refresh_health(self) -> None:
+        result = subprocess.run(
+            [CTL, "doctor"],
+            text=True,
+            capture_output=True,
+            check=False,
+        )
+        try:
+            report = json.loads(result.stdout)
+            lines = []
+            for check in report["checks"]:
+                marker = {"ok": "✓", "warning": "!", "error": "×"}.get(
+                    check["status"], "?"
+                )
+                detail = check.get("detail")
+                suffix = ""
+                if detail not in (None, [], {}, ""):
+                    suffix = "  " + json.dumps(detail, ensure_ascii=False)
+                lines.append(f"{marker}  {check['name']}{suffix}")
+            self.health.setPlainText("\n".join(lines))
+        except (KeyError, json.JSONDecodeError):
+            self.health.setPlainText(result.stderr or result.stdout)
+
+    def run_action(self, arguments: list[str]) -> None:
+        try:
+            ctl(arguments)
+        except RuntimeError as error:
+            self.error(str(error))
+
+    def error(self, message: str) -> None:
+        QMessageBox.critical(self, "Não foi possível concluir", message)
+
+
+def main() -> int:
+    app = QApplication(sys.argv)
+    app.setApplicationName("Colutti Desktop")
+    window = SettingsWindow()
+    window.show()
+    if "--smoke-test" in sys.argv:
+        QTimer.singleShot(0, app.quit)
+    return app.exec()
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

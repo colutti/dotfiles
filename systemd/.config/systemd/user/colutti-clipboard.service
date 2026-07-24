@@ -1,0 +1,12 @@
+[Unit]
+Description=Clipboard history with sensitive-content filtering
+After=graphical-session.target
+PartOf=colutti-desktop.target
+
+[Service]
+ExecStart=/usr/bin/wl-paste --type text --watch %h/.local/bin/colutti-clipboard-ingest
+Restart=on-failure
+RestartSec=2
+
+[Install]
+WantedBy=colutti-desktop.target

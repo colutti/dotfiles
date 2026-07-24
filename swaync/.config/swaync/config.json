@@ -1,0 +1,126 @@
+{
+  "$schema": "/etc/xdg/swaync/configSchema.json",
+  "ignore-gtk-theme": true,
+  "positionX": "right",
+  "positionY": "top",
+  "layer": "overlay",
+  "control-center-layer": "overlay",
+  "layer-shell": true,
+  "layer-shell-cover-screen": true,
+  "control-center-margin-top": 54,
+  "control-center-margin-right": 10,
+  "control-center-exclusive-zone": false,
+  "notification-window-preferred-output": "DP-2",
+  "control-center-width": 480,
+  "notification-window-width": 440,
+  "fit-to-screen": true,
+  "keyboard-shortcuts": true,
+  "notification-grouping": true,
+  "notification-2fa-action": true,
+  "notification-inline-replies": true,
+  "image-visibility": "when-available",
+  "transition-time": 180,
+  "timeout": 8,
+  "timeout-low": 5,
+  "timeout-critical": 0,
+  "hide-on-clear": false,
+  "hide-on-action": true,
+  "relative-timestamps": true,
+  "text-empty": "Nenhuma notificação",
+  "widgets": [
+    "title",
+    "dnd",
+    "volume",
+    "mpris",
+    "buttons-grid#actions",
+    "notifications"
+  ],
+  "widget-config": {
+    "title": {
+      "text": "Central",
+      "clear-all-button": true,
+      "button-text": "Limpar"
+    },
+    "dnd": {
+      "text": "Não perturbe"
+    },
+    "volume": {
+      "label": "Volume",
+      "show-per-app": true,
+      "show-per-app-icon": true,
+      "show-per-app-label": true,
+      "expand-per-app": false,
+      "empty-list-label": "Nenhum aplicativo reproduzindo áudio"
+    },
+    "mpris": {
+      "autohide": true,
+      "show-album-art": "when-available",
+      "loop-carousel": false,
+      "blacklist": []
+    },
+    "buttons-grid#actions": {
+      "buttons-per-row": 3,
+      "actions": [
+        {
+          "label": "Áudio",
+          "command": "colutti-settings-open audio"
+        },
+        {
+          "label": "Rede",
+          "command": "colutti-settings-open network"
+        },
+        {
+          "label": "Monitores",
+          "command": "uwsm app -- colutti-settings-gui"
+        },
+        {
+          "label": "Display externo",
+          "command": "colutti-settings-open displays"
+        },
+        {
+          "label": "Aparência",
+          "command": "colutti-settings-open appearance"
+        },
+        {
+          "label": "Clipboard",
+          "command": "colutti-settings-open clipboard"
+        },
+        {
+          "label": "Diagnóstico",
+          "command": "colutti-settings-open diagnostics"
+        },
+        {
+          "label": "Modo jogo",
+          "command": "colutti-desktopctl profile game on"
+        },
+        {
+          "label": "Equilibrado",
+          "command": "colutti-desktopctl profile game off"
+        },
+        {
+          "label": "Bloquear",
+          "command": "loginctl lock-session"
+        },
+        {
+          "label": "Brilho HDMI −",
+          "command": "colutti-brightness-control down"
+        },
+        {
+          "label": "Brilho HDMI +",
+          "command": "colutti-brightness-control up"
+        },
+        {
+          "label": "Suspender",
+          "command": "systemctl suspend"
+        },
+        {
+          "label": "Sair",
+          "command": "colutti-session-logout"
+        }
+      ]
+    },
+    "notifications": {
+      "vexpand": true
+    }
+  }
+}
