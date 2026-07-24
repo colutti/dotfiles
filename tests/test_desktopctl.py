@@ -406,6 +406,8 @@ class CliTests(unittest.TestCase):
             self.assertIn("primary-panel", names)
             self.assertIn("audio-defaults", names)
             self.assertIn("restored-apps", names)
+            self.assertIn("storage-headroom", names)
+            self.assertIn("gamemode-group", names)
 
     def test_settings_apply_validates_before_atomic_replacement(self):
         with tempfile.TemporaryDirectory() as tmp:

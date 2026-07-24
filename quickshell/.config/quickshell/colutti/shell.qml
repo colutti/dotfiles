@@ -27,6 +27,7 @@ ShellRoot {
     property int panelRadius: 14
     property int panelMargin: 4
     property real panelOpacity: 0.96
+    property bool gameMode: false
 
     function loadTheme() {
         try {
@@ -84,9 +85,25 @@ ShellRoot {
         onFileChanged: reload()
     }
 
+    FileView {
+        id: settingsFile
+        path: (Quickshell.env("XDG_CONFIG_HOME") || Quickshell.env("HOME") + "/.config")
+              + "/colutti-desktop/settings.json"
+        watchChanges: true
+        printErrors: false
+        onLoaded: {
+            try {
+                root.gameMode = JSON.parse(text()).profile.game === "on"
+            } catch (error) {
+                root.gameMode = false
+            }
+        }
+        onFileChanged: reload()
+    }
+
     Process {
         id: metricsProcess
-        command: ["sh", "-lc", "printf 'CPU %s%%  RAM %s  GPU %s°C' \"$(awk '/cpu /{u=$2+$4;t=$2+$4+$5} END {printf \"%.0f\",u*100/t}' /proc/stat)\" \"$(free -h | awk '/Mem:/{print $3}')\" \"$(cat /sys/class/drm/card*/device/hwmon/hwmon*/temp1_input 2>/dev/null | head -1 | awk '{printf \"%.0f\",$1/1000}')\""]
+        command: [Quickshell.env("HOME") + "/.local/bin/colutti-metrics-line"]
         running: true
         stdout: StdioCollector {
             onStreamFinished: {
@@ -268,6 +285,38 @@ ShellRoot {
                         }
                         MouseArea { anchors.fill: parent; onClicked: root.run("swaync-client -t -sw") }
                     }
+                }
+            }
+        }
+    }
+
+    Variants {
+        model: Quickshell.screens.filter(screen => screen.name === "HDMI-A-1")
+
+        PanelWindow {
+            required property var modelData
+            screen: modelData
+            visible: root.gameMode
+            color: "transparent"
+            implicitWidth: 760
+            implicitHeight: 20
+            anchors { bottom: true }
+            margins { bottom: 1 }
+            exclusiveZone: 0
+
+            Rectangle {
+                anchors.fill: parent
+                radius: 7
+                color: Qt.rgba(root.background.r, root.background.g, root.background.b, 0.90)
+                border.width: 1
+                border.color: root.outline
+                Text {
+                    anchors.centerIn: parent
+                    text: "GAME · " + root.metricsText
+                    color: root.text
+                    font.family: "JetBrainsMono Nerd Font"
+                    font.pixelSize: 10
+                    font.weight: Font.DemiBold
                 }
             }
         }

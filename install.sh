@@ -40,6 +40,7 @@ preflight() {
 }
 
 install_packages() {
+  local desktop_user
   if (( EUID != 0 )); then
     printf 'install must run as root: sudo ./install.sh install\n' >&2
     exit 1
@@ -53,6 +54,14 @@ install_packages() {
   fi
   mapfile -t official < <(packages | tr ' ' '\n')
   pacman -Syu --needed -- "${official[@]}"
+  desktop_user="${SUDO_USER:-}"
+  if [[ -n "${desktop_user}" && "${desktop_user}" != root ]] &&
+    getent group gamemode >/dev/null &&
+    ! id -nG "${desktop_user}" | tr ' ' '\n' | grep -qx gamemode; then
+    usermod -aG gamemode -- "${desktop_user}"
+    printf 'Added %s to gamemode; log in again before testing GameMode.\n' \
+      "${desktop_user}"
+  fi
 }
 
 link_config() {
@@ -131,6 +140,8 @@ link_config() {
     "${HOME}/.local/bin/colutti-clipboard-menu"
   ln -sfn "${repo_root}/scripts/status-line" \
     "${HOME}/.local/bin/colutti-status-line"
+  ln -sfn "${repo_root}/scripts/metrics-line" \
+    "${HOME}/.local/bin/colutti-metrics-line"
   ln -sfn "${repo_root}/scripts/game-run" \
     "${HOME}/.local/bin/colutti-game-run"
   ln -sfn "${repo_root}/scripts/brightness-control" \

@@ -20,6 +20,7 @@ class RepositoryContractTests(unittest.TestCase):
             self.assertRegex(installer, rf"\b{mode}\b")
         forbidden = re.compile(r"\b(paru|yay|trizen|pikaur)\b")
         self.assertIsNone(forbidden.search(installer))
+        self.assertIn('usermod -aG gamemode -- "${desktop_user}"', installer)
 
     def test_package_manifest_uses_official_repository_packages(self):
         packages = json.loads((ROOT / "packages.json").read_text())
@@ -166,13 +167,16 @@ class RepositoryContractTests(unittest.TestCase):
     def test_shell_overlays_are_layer_shell_windows_not_floating_windows(self):
         shell = (ROOT / "quickshell/.config/quickshell/colutti/shell.qml").read_text()
         self.assertNotIn("FloatingWindow {", shell)
-        self.assertEqual(shell.count("PanelWindow {"), 1)
+        self.assertEqual(shell.count("PanelWindow {"), 2)
         self.assertNotIn("NotificationServer", shell)
         self.assertNotIn("launcherWindow", shell)
         self.assertNotIn("controlCenter", shell)
         self.assertIn('root.run("fuzzel")', shell)
         self.assertIn('root.run("swaync-client -t -sw")', shell)
         self.assertIn('screen.name === "DP-2"', shell)
+        self.assertEqual(shell.count('screen.name === "HDMI-A-1"'), 1)
+        self.assertIn("visible: root.gameMode", shell)
+        self.assertIn("exclusiveZone: 0", shell)
         self.assertIn("parsed.panel", shell)
         self.assertIn("Hyprland.activeToplevel.title", shell)
         self.assertIn("modelData.display(bar", shell)
@@ -220,6 +224,18 @@ class RepositoryContractTests(unittest.TestCase):
         lock = (ROOT / "hyprland/.config/hypr/hyprlock.conf").read_text()
         self.assertIn("check_color = $success", lock)
         self.assertIn("fail_color = $critical", lock)
+        for obsolete in (
+            "no_fade_in",
+            "no_fade_out",
+            "disable_loading_bar",
+            "dots_color",
+            "fail_transition",
+        ):
+            self.assertNotIn(obsolete, lock)
+        permissions = (
+            ROOT / "hyprland/.config/hypr/modules/permissions.lua"
+        ).read_text()
+        self.assertIn('hyprlock", "screencopy", "allow"', permissions)
 
     def test_theme_reload_updates_hyprpaper_over_ipc_without_restart_storm(self):
         desktopctl = (
@@ -332,6 +348,12 @@ class RepositoryContractTests(unittest.TestCase):
             self.assertIn(token, status)
         self.assertIn("statusProcess", shell)
         self.assertIn("root.statusText", shell)
+        metrics = (ROOT / "scripts/metrics-line").read_text()
+        for token in ("gpu_busy_percent", "k10temp", "amdgpu", "RAM", "SSD"):
+            self.assertIn(token, metrics)
+        self.assertIn('screen.name === "HDMI-A-1"', shell)
+        self.assertIn("visible: root.gameMode", shell)
+        self.assertIn("implicitHeight: 20", shell)
 
     def test_game_launcher_composes_gamemode_mangohud_and_gamescope(self):
         launcher = (ROOT / "scripts/game-run").read_text()

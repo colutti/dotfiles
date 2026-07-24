@@ -6,7 +6,9 @@ restantes exigem nova entrada, credencial, hardware ou interação humana real.
 - [x] Modos, escalas, posições, SDR/8-bit e VRR off via `hyprctl monitors -j`.
 - [x] Geometria e tiling de Zen, Alacritty, Steam, Telegram e Discord.
 - [ ] Duas entradas consecutivas pela sessão **Hyprland (uwsm-managed)** sem duplicatas.
-- [ ] Janelas adicionais de cada um dos cinco aplicativos sem regra de bootstrap indevida.
+- [x] Janelas adicionais de Zen e Alacritty permaneceram no workspace de lançamento;
+  configurações da Steam não herdaram a regra da janela principal.
+- [ ] Janelas adicionais independentes de Telegram e Discord em aplicativos reais.
 - [x] Aplicação dos cinco temas e retorno ao Studio Ember sem geração híbrida.
 - [x] Preview de tema com rollback automático.
 - [x] Transação de monitor expirada com restauração byte a byte da geometria.
@@ -14,13 +16,19 @@ restantes exigem nova entrada, credencial, hardware ou interação humana real.
 - [x] Fuzzel com entrada de teclado e fechamento por Escape.
 - [x] Tray visível e menu de contexto implementado; barra ausente no HDMI.
 - [ ] OSD visual de volume após instalação do pacote oficial `swayosd`.
-- [x] Hyprlock renderizou nas duas escalas e foi encerrado pelo teste controlado.
+- [x] Hyprlock renderizou nas duas escalas; opções obsoletas foram removidas.
 - [x] DPMS off/on e inibidor manual de jogo.
 - [x] Portais frontend, Hyprland e KDE ativos; screenshot 3840×2160 válido.
 - [ ] Compartilhamento/gravação e FileChooser confirmados em aplicativos reais.
-- [x] iFi e SoloCast como dispositivos padrão; webcam e Xbox detectados.
-- [ ] Vídeo fullscreen, webcam e controle dentro de aplicativos reais.
-- [x] Vulkan RADV, Gamescope, MangoHud e GameMode em `vkcube`.
+- [x] iFi e SoloCast como dispositivos padrão; SoloCast gravou PCM mono 48 kHz.
+- [x] Webcam capturou um quadro MJPEG 1920×1080@30 pelo V4L2.
+- [x] Receptor Xbox 360 USB 045e:0719 detectado.
+- [ ] Vídeo fullscreen, webcam e controle dentro de aplicativos reais; nenhum gamepad
+  estava conectado ao subsistema input durante a validação do receptor.
+- [x] Vulkan RADV, Gamescope e MangoHud em `vkcube`; integração GameMode inicia.
+- [ ] `gamemoded -t` completo após adicionar `colutti` ao grupo `gamemode` e entrar
+  novamente; o teste atual falha ao elevar governador e prioridade de I/O.
+- [x] Métricas de jogo no gap inferior do HDMI sem alterar a geometria do Chat.
 - [ ] Um jogo Proton real e um jogo real via Gamescope.
 - [x] HDR/10-bit somente no DP-2 e retorno a XRGB8888/sRGB.
 - [ ] Logout UWSM, reboot, suspensão manual e retomada.

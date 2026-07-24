@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import grp
 import hashlib
 import json
 import os
@@ -1029,6 +1030,41 @@ def restored_apps_check() -> dict[str, Any]:
     }
 
 
+def storage_headroom_check() -> dict[str, Any]:
+    usage = shutil.disk_usage("/")
+    free_gib = usage.free / (1024 ** 3)
+    used_percent = round(usage.used * 100 / usage.total)
+    return {
+        "name": "storage-headroom",
+        "status": "ok" if free_gib >= 50 else ("warning" if free_gib >= 20 else "error"),
+        "detail": {
+            "free_gib": round(free_gib, 1),
+            "used_percent": used_percent,
+        },
+    }
+
+
+def gamemode_group_check() -> dict[str, Any]:
+    try:
+        group = grp.getgrnam("gamemode")
+    except KeyError:
+        return {
+            "name": "gamemode-group",
+            "status": "error",
+            "detail": "group missing",
+        }
+    member = group.gr_gid in os.getgroups()
+    return {
+        "name": "gamemode-group",
+        "status": "ok" if member else "error",
+        "detail": {
+            "group": group.gr_name,
+            "member": member,
+            "requires_new_login": not member,
+        },
+    }
+
+
 def doctor() -> tuple[dict[str, Any], int]:
     required = [
         "Hyprland",
@@ -1056,6 +1092,8 @@ def doctor() -> tuple[dict[str, Any], int]:
         service_check("portal-hyprland", "xdg-desktop-portal-hyprland.service"),
         service_check("portal-kde", "plasma-xdg-desktop-portal-kde.service"),
         bus_owner_check("notification-service", "org.freedesktop.Notifications"),
+        storage_headroom_check(),
+        gamemode_group_check(),
     ])
     try:
         settings = read_settings()

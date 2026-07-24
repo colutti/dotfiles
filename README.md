@@ -15,8 +15,10 @@ sudo ./install.sh install
 
 `install` usa somente repositórios oficiais, atualiza o sistema, cria um snapshot
 Snapper quando a configuração `root` está disponível e substitui `quickshell-git` pela
-versão estável. Ele não reinicia a máquina. `link` é idempotente, preserva o tema
-selecionado e guarda conflitos antes de criar os links.
+versão estável. Ele também adiciona o usuário que chamou `sudo` ao grupo oficial
+`gamemode`, quando necessário. Ele não reinicia a máquina; a nova associação de grupo
+vale no próximo login. `link` é idempotente, preserva o tema selecionado e guarda
+conflitos antes de criar os links.
 
 Na tela de login, escolha exatamente **Hyprland (uwsm-managed)**. A entrada chamada
 apenas **Hyprland** funciona como compatibilidade, mas não satisfaz a arquitetura UWSM.
