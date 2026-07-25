@@ -146,6 +146,8 @@ class RepositoryContractTests(unittest.TestCase):
         self.assertIn("window_address", restore)
         self.assertIn("pgrep -f", restore)
         self.assertIn("reconcile_window", restore)
+        self.assertIn('if [[ -n "${address}" ]]; then', restore)
+        self.assertIn('reconcile_window "${address}" "${mode}"', restore)
         self.assertIn("hl.dsp.exec_cmd", restore)
         self.assertIn('size = \\"${width} ${height}\\"', restore)
         self.assertIn('move = \\"${x} ${y}\\"', restore)

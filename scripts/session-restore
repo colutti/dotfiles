@@ -75,10 +75,18 @@ start_once() {
   [[ "${mode}" == "floating" ]] && float_value=true
 
   address="$(window_address "${class}")"
-  [[ -n "${address}" ]] && return 0
+  if [[ -n "${address}" ]]; then
+    reconcile_window "${address}" "${mode}" "${workspace}" "${monitor}" \
+      "${width}" "${height}" "${x}" "${y}"
+    return 0
+  fi
   if [[ -z "${address}" ]] && pgrep -f -- "${process}" >/dev/null; then
     address="$(wait_for_window "${class}" || true)"
-    [[ -n "${address}" ]] && return 0
+    if [[ -n "${address}" ]]; then
+      reconcile_window "${address}" "${mode}" "${workspace}" "${monitor}" \
+        "${width}" "${height}" "${x}" "${y}"
+      return 0
+    fi
   fi
 
   if [[ -z "${address}" ]]; then
