@@ -39,6 +39,12 @@ hl.window_rule({
 })
 
 hl.window_rule({
+    name = "zen-no-compositor-border",
+    match = { initial_class = "app.zen_browser.zen" },
+    border_size = 0,
+})
+
+hl.window_rule({
     name = "settings-dialog",
     match = { initial_title = "Colutti Desktop" },
     float = true,

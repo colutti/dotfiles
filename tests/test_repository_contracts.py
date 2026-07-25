@@ -293,6 +293,9 @@ class RepositoryContractTests(unittest.TestCase):
         self.assertIn('initial_class = "org.telegram.desktop"', rules)
         self.assertIn('workspace = "6 silent"', rules)
         self.assertIn('monitor = "HDMI-A-1"', rules)
+        self.assertIn('name = "zen-no-compositor-border"', rules)
+        self.assertIn('initial_class = "app.zen_browser.zen"', rules)
+        self.assertIn("border_size = 0", rules)
 
     def test_stale_localsend_autostart_is_disabled(self):
         content = (
