@@ -17,7 +17,8 @@ restantes exigem nova entrada, credencial, hardware ou interação humana real.
 - [x] Notificações normal/crítica, ação, histórico, DND e recuperação Dunst → SwayNC.
 - [x] Fuzzel com entrada de teclado e fechamento por Escape.
 - [x] Tray visível e menu de contexto implementado; barra ausente no HDMI.
-- [ ] OSD visual de volume após instalação do pacote oficial `swayosd`.
+- [x] Serviço oficial `swayosd-server` instalado e ativo; falta somente observar o OSD
+  visual durante uma alteração real de volume.
 - [x] Hyprlock renderizou nas duas escalas; opções obsoletas foram removidas.
 - [x] DPMS off/on e inibidor manual de jogo.
 - [x] Portais frontend, Hyprland e KDE ativos; screenshot 3840×2160 válido.

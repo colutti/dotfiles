@@ -56,15 +56,14 @@ Validado em 25 de julho de 2026:
 - A entrada **Hyprland (uwsm-managed)** foi confirmada: `uwsm start` iniciou
   `wayland-wm@hyprland.desktop.service`; `session-init` limpou as unidades Plasma e
   Arch-Update herdadas, deixando zero unidades user failed.
-- 40 testes automatizados, parser Lua do Hyprland, `qmllint`, JSON, shell e Python
-  passaram na validação final deste checkpoint. O `doctor` terminou apenas com os
-  dois bloqueios esperados: grupo `gamemode` e pacote `swayosd`.
+- 41 testes automatizados, parser Lua do Hyprland, `qmllint`, JSON, shell e Python
+  passaram na validação final deste checkpoint. O pacote `swayosd` está instalado,
+  seu serviço está ativo e o `doctor` terminou apenas com o grupo `gamemode` pendente.
 
 ## Pendências bloqueantes para promoção final
 
-1. O pacote oficial `swayosd` ainda não está instalado e `colutti` ainda precisa entrar
-   no grupo `gamemode`; `sudo ./install.sh install` resolve ambos, mas exige
-   autenticação administrativa e um novo login.
+1. `colutti` ainda precisa entrar no grupo `gamemode`; execute `sudo usermod -aG
+   gamemode colutti` e faça um novo login.
 2. Reboot duplo, Plasma, suspensão/retomada, jogo Proton e compartilhamento de
    tela exigem testes interativos após a nova entrada.
 
