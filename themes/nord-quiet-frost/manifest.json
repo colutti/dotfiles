@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "slug": "nord-quiet-frost",
+  "name": "Nord Quiet Frost",
+  "mode": "dark",
+  "contrast_ratio": 9.7,
+  "font": "Noto Sans",
+  "mono_font": "JetBrainsMono Nerd Font",
+  "icon_theme": "Papirus-Dark",
+  "cursor_theme": "Breeze",
+  "panel": {"layout": "rail", "material": "matte", "animation_ms": 180},
+  "palette": {
+    "background": "#2e3440", "surface": "#3b4252", "surface_alt": "#434c5e",
+    "text": "#eceff4", "muted": "#d8dee9", "accent": "#88c0d0",
+    "accent_alt": "#81a1c1", "success": "#a3be8c", "warning": "#ebcb8b",
+    "critical": "#bf616a", "outline": "#4c566a"
+  },
+  "wallpaper": {
+    "file": "ice-field.jpg",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Icy_blue_mountain_range_(Unsplash).jpg",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "sha256": "da6058d1cffadd7b85fa40a9e438161db381db16e60a766b30d8af9a7a100f39"
+  }
+}

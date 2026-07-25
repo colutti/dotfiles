@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "slug": "aerospace-gruvbox",
+  "name": "Aerospace Gruvbox",
+  "mode": "dark",
+  "contrast_ratio": 10.8,
+  "font": "Noto Sans",
+  "mono_font": "JetBrainsMono Nerd Font",
+  "icon_theme": "Papirus-Dark",
+  "cursor_theme": "Breeze",
+  "panel": {"layout": "architect", "material": "matte", "animation_ms": 180},
+  "palette": {
+    "background": "#282828", "surface": "#3c3836", "surface_alt": "#504945",
+    "text": "#ebdbb2", "muted": "#bdae93", "accent": "#fabd2f",
+    "accent_alt": "#d79921", "success": "#b8bb26", "warning": "#fe8019",
+    "critical": "#fb4934", "outline": "#665c54"
+  },
+  "wallpaper": {
+    "file": "spacehawks.png",
+    "source_url": "https://www.reddit.com/r/unixporn/comments/1odcuyu/aerospace_i_thought_id_miss_arch/",
+    "license_url": "https://www.redditinc.com/policies/user-agreement",
+    "sha256": "d1b2be627072de4e63191155e539d6f2f4b073039aa255914ab9acbeb07774fa"
+  }
+}

@@ -20,6 +20,9 @@ THEMES = {
     "studio-ember",
     "arctic-paper",
     "verdant-circuit",
+    "nord-quiet-frost",
+    "glyph-nothing",
+    "aerospace-gruvbox",
 }
 
 
@@ -33,7 +36,7 @@ def load_desktopctl():
 
 
 class ThemeManifestTests(unittest.TestCase):
-    def test_all_five_versioned_themes_have_required_tokens(self):
+    def test_all_versioned_themes_have_required_tokens(self):
         for slug in THEMES:
             path = ROOT / "themes" / slug / "manifest.json"
             with self.subTest(theme=slug):
