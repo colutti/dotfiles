@@ -220,6 +220,8 @@ class RepositoryContractTests(unittest.TestCase):
             ROOT / "desktopctl/colutti_desktopctl.py"
         ).read_text()
         self.assertIn("destination.symlink_to(source)", desktopctl)
+        self.assertIn('inactive_border = "rgba({palette["outline"].lstrip("#")}ff)"', desktopctl)
+        self.assertNotIn('inactive_border = "rgba({palette["outline"].lstrip("#")}aa)"', desktopctl)
         for version in ("gtk-3.0", "gtk-4.0"):
             css = (ROOT / "gtk/.config" / version / "gtk.css").read_text()
             self.assertIn("generated/gtk-theme.css", css)
@@ -282,6 +284,15 @@ class RepositoryContractTests(unittest.TestCase):
                 "OnlyShowIn=KDE;" in content or "NotShowIn=Hyprland;" in content,
                 name,
             )
+
+    def test_chat_clients_are_persistently_routed_to_lower_monitor(self):
+        rules = (ROOT / "hyprland/.config/hypr/modules/rules.lua").read_text()
+        self.assertIn('name = "chat-discord-placement"', rules)
+        self.assertIn('initial_class = "discord"', rules)
+        self.assertIn('name = "chat-telegram-placement"', rules)
+        self.assertIn('initial_class = "org.telegram.desktop"', rules)
+        self.assertIn('workspace = "6 silent"', rules)
+        self.assertIn('monitor = "HDMI-A-1"', rules)
 
     def test_stale_localsend_autostart_is_disabled(self):
         content = (

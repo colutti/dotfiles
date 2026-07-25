@@ -502,7 +502,7 @@ class ThemeManager:
             generated / "hyprland-theme.lua",
             "hl.config({ general = { col = { "
             f'active_border = "rgba({palette["accent"].lstrip("#")}ff)", '
-            f'inactive_border = "rgba({palette["outline"].lstrip("#")}aa)" '
+            f'inactive_border = "rgba({palette["outline"].lstrip("#")}ff)" '
             "} } })\n",
         )
         atomic_text(

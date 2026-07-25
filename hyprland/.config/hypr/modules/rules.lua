@@ -25,6 +25,20 @@ hl.window_rule({
 })
 
 hl.window_rule({
+    name = "chat-telegram-placement",
+    match = { initial_class = "org.telegram.desktop" },
+    workspace = "6 silent",
+    monitor = "HDMI-A-1",
+})
+
+hl.window_rule({
+    name = "chat-discord-placement",
+    match = { initial_class = "discord" },
+    workspace = "6 silent",
+    monitor = "HDMI-A-1",
+})
+
+hl.window_rule({
     name = "settings-dialog",
     match = { initial_title = "Colutti Desktop" },
     float = true,
