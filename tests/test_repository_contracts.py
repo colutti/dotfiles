@@ -201,6 +201,7 @@ class RepositoryContractTests(unittest.TestCase):
         self.assertIn("Hyprland.activeToplevel.title", shell)
         self.assertIn("modelData.display(bar", shell)
         self.assertIn("Qt.RightButton", shell)
+        self.assertNotIn("NumberAnimation", shell)
 
     def test_mature_launcher_and_notification_center_are_configured(self):
         fuzzel = (ROOT / "fuzzel/.config/fuzzel/fuzzel.ini").read_text()

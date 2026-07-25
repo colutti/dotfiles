@@ -191,9 +191,6 @@ ShellRoot {
                                 implicitHeight: 28
                                 radius: 9
                                 color: modelData.active ? root.accent : root.surfaceAlt
-                                Behavior on implicitWidth {
-                                    NumberAnimation { duration: root.animationMs }
-                                }
                                 Text {
                                     anchors.centerIn: parent
                                     text: modelData.id
