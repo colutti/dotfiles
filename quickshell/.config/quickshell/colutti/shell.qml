@@ -209,17 +209,6 @@ ShellRoot {
                     Text {
                         Layout.fillWidth: true
                         horizontalAlignment: Text.AlignHCenter
-                        elide: Text.ElideRight
-                        text: Hyprland.activeToplevel && Hyprland.activeToplevel.title !== ""
-                              ? Hyprland.activeToplevel.title
-                              : (Hyprland.focusedWorkspace
-                                 ? "Workspace " + Hyprland.focusedWorkspace.id
-                                 : "Hyprland")
-                        color: root.muted
-                        font.pixelSize: 13
-                    }
-
-                    Text {
                         text: root.metricsText
                         color: root.muted
                         font.family: "JetBrainsMono Nerd Font"
