@@ -17,13 +17,15 @@ restantes exigem nova entrada, credencial, hardware ou interação humana real.
 - [x] Notificações normal/crítica, ação, histórico, DND e recuperação Dunst → SwayNC.
 - [x] Fuzzel com entrada de teclado e fechamento por Escape.
 - [x] Tray visível e menu de contexto implementado; barra ausente no HDMI.
-- [x] Serviço oficial `swayosd-server` instalado e ativo; falta somente observar o OSD
-  visual durante uma alteração real de volume.
+- [x] Serviço oficial `swayosd-server` instalado e ativo; OSD visual exibido por
+  `swayosd-client` na camada `swayosd` do DP-2.
 - [x] Hyprlock renderizou nas duas escalas; opções obsoletas foram removidas.
 - [x] DPMS off/on e inibidor manual de jogo.
 - [x] Portais frontend, Hyprland e KDE ativos; screenshot 3840×2160 válido.
 - [ ] Compartilhamento/gravação e FileChooser confirmados em aplicativos reais.
 - [x] iFi e SoloCast como dispositivos padrão; SoloCast gravou PCM mono 48 kHz.
+- [x] Sink iFi estava detectado porém mutado; o mute foi removido e `speaker-test`
+  via PipeWire concluiu com sucesso.
 - [x] Webcam capturou um quadro MJPEG 1920×1080@30 pelo V4L2.
 - [x] Receptor Xbox 360 USB 045e:0719 detectado.
 - [ ] Vídeo fullscreen, webcam e controle dentro de aplicativos reais; nenhum gamepad
@@ -32,7 +34,8 @@ restantes exigem nova entrada, credencial, hardware ou interação humana real.
 - [x] `gamemoded -t` completo passou; governador `amd_pstate`, supervisor, renice e
   prioridade de I/O foram validados.
 - [x] Métricas de jogo no gap inferior do HDMI sem alterar a geometria do Chat.
-- [ ] Um jogo Proton real e um jogo real via Gamescope.
+- [ ] Um jogo Proton real e um jogo real via Gamescope; ficam para execução manual
+  pelo usuário e não são iniciados automaticamente durante a auditoria.
 - [x] HDR/10-bit somente no DP-2 e retorno a XRGB8888/sRGB.
 - [ ] Logout UWSM, reboot, suspensão manual e retomada.
 - [ ] Plasma Wayland reiniciado e comprovado após a instalação.

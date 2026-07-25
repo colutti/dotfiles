@@ -47,6 +47,9 @@ Validado em 25 de julho de 2026:
 - A webcam produziu um quadro MJPEG 1920×1080 e o SoloCast produziu uma amostra PCM
   mono 48 kHz. O receptor Xbox 360 045e:0719 foi enumerado no USB, mas não havia
   gamepad conectado ao subsistema input para testar eventos.
+- O sink padrão iFi foi encontrado mutado, o mute foi removido e `speaker-test -D
+  pipewire -t sine -f 440 -l 1` terminou com código 0. O OSD foi exibido no DP-2
+  como camada `swayosd` durante um teste sem alterar o volume.
 - `gamemoded -t` passou integralmente: governador `amd_pstate`, supervisor, renice e
   prioridade de I/O foram validados. A associação ao grupo `gamemode` permanece
   opcional para helpers avançados e não bloqueia a otimização funcional.
@@ -61,11 +64,12 @@ Validado em 25 de julho de 2026:
   Arch-Update herdadas, deixando zero unidades user failed.
 - 41 testes automatizados, parser Lua do Hyprland, `qmllint`, JSON, shell e Python
   passaram na validação final deste checkpoint. O pacote `swayosd` está instalado,
-  seu serviço está ativo e o `doctor` terminou apenas com o grupo `gamemode` pendente.
+  seu serviço está ativo e `install.sh doctor` terminou com código 0.
 
 ## Pendências bloqueantes para promoção final
 
 1. Reboot duplo, Plasma, suspensão/retomada, jogo Proton e compartilhamento de
-   tela exigem testes interativos após a nova entrada.
+   tela exigem testes interativos após a nova entrada. Os jogos não são iniciados
+   automaticamente pela auditoria.
 
 Até esses itens passarem, a sessão é funcional mas não deve ser declarada 100% promovida.
