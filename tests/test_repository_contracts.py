@@ -74,6 +74,12 @@ class RepositoryContractTests(unittest.TestCase):
         self.assertIn('hl.env("QT_QPA_PLATFORMTHEME", "kde")', hypr_env)
         self.assertIn('app("env QT_QPA_PLATFORMTHEME=kde dolphin")', binds)
 
+    def test_gtk_defaults_match_dark_desktop_theme(self):
+        for version in ("gtk-3.0", "gtk-4.0"):
+            settings = (ROOT / "gtk/.config" / version / "settings.ini").read_text()
+            self.assertIn("gtk-application-prefer-dark-theme=true", settings)
+            self.assertIn("gtk-theme-name=Adwaita-dark", settings)
+
     def test_session_initialization_exports_wayland_environment_before_portals(self):
         autostart = (ROOT / "hyprland/.config/hypr/modules/autostart.lua").read_text()
         initializer = (ROOT / "scripts/session-init").read_text()
