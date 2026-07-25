@@ -220,6 +220,9 @@ class RepositoryContractTests(unittest.TestCase):
         self.assertIn("volume", swaync["widgets"])
         self.assertIn("mpris", swaync["widgets"])
         self.assertIn("dnd", swaync["widgets"])
+        actions = swaync["widget-config"]["buttons-grid#actions"]["actions"]
+        balanced = next(item for item in actions if item["label"] == "Equilibrado")
+        self.assertIn("powerprofilesctl set balanced", balanced["command"])
         self.assertIn('readlink -f -- "${BASH_SOURCE[0]}"', wrapper)
         self.assertIn('["swaync-client", "-D"]', desktopctl)
         self.assertNotIn('"qs", "ipc", "call", "control"', desktopctl)

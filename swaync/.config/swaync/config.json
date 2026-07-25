@@ -95,7 +95,7 @@
         },
         {
           "label": "Equilibrado",
-          "command": "colutti-desktopctl profile game off"
+          "command": "colutti-desktopctl profile game off && powerprofilesctl set balanced"
         },
         {
           "label": "Bloquear",
