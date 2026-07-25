@@ -153,6 +153,8 @@ link_config() {
     "${HOME}/.local/bin/colutti-brightness-control"
   ln -sfn "${repo_root}/scripts/settings-gui" \
     "${HOME}/.local/bin/colutti-settings-gui"
+  ln -sfn "${repo_root}/scripts/shortcuts-open" \
+    "${HOME}/.local/bin/colutti-shortcuts"
   ln -sfn "${repo_root}/scripts/session-logout" \
     "${HOME}/.local/bin/colutti-session-logout"
   mkdir -p "${XDG_CONFIG_HOME:-${HOME}/.config}/colutti-desktop"

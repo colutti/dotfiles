@@ -259,7 +259,14 @@ ShellRoot {
                             font.pixelSize: 13
                             font.weight: Font.DemiBold
                         }
-                        MouseArea { anchors.fill: parent; onClicked: root.run("swaync-client -t -sw") }
+                        MouseArea {
+                            anchors.fill: parent
+                            acceptedButtons: Qt.LeftButton
+                            preventStealing: true
+                            onPressed: {
+                                root.run("swaync-client -t -sw")
+                            }
+                        }
                     }
                 }
             }

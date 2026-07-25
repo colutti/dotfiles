@@ -206,6 +206,9 @@ class RepositoryContractTests(unittest.TestCase):
         self.assertIn("modelData.display(bar", shell)
         self.assertIn("Qt.RightButton", shell)
         self.assertNotIn("NumberAnimation", shell)
+        self.assertIn("acceptedButtons: Qt.LeftButton", shell)
+        self.assertIn("preventStealing: true", shell)
+        self.assertIn("onPressed:", shell)
 
     def test_mature_launcher_and_notification_center_are_configured(self):
         fuzzel = (ROOT / "fuzzel/.config/fuzzel/fuzzel.ini").read_text()
@@ -224,8 +227,9 @@ class RepositoryContractTests(unittest.TestCase):
         self.assertIn("volume", swaync["widgets"])
         self.assertIn("mpris", swaync["widgets"])
         self.assertIn("dnd", swaync["widgets"])
-        actions = swaync["widget-config"]["buttons-grid#actions"]["actions"]
-        balanced = next(item for item in actions if item["label"] == "Equilibrado")
+        self.assertEqual(swaync["positionY"], "center")
+        actions = swaync["widget-config"]["buttons-grid#power"]["actions"]
+        balanced = next(item for item in actions if item["label"].endswith("Equilibrado"))
         self.assertIn("powerprofilesctl set balanced", balanced["command"])
         self.assertIn('readlink -f -- "${BASH_SOURCE[0]}"', wrapper)
         self.assertIn('["swaync-client", "-D"]', desktopctl)
@@ -364,16 +368,38 @@ class RepositoryContractTests(unittest.TestCase):
         swaync = json.loads(
             (ROOT / "swaync/.config/swaync/config.json").read_text()
         )
-        actions = swaync["widget-config"]["buttons-grid#actions"]["actions"]
+        widgets = swaync["widgets"]
+        for widget in (
+            "title#system",
+            "buttons-grid#system",
+            "title#session",
+            "buttons-grid#session",
+            "title#power",
+            "buttons-grid#power",
+            "title#help",
+            "buttons-grid#help",
+        ):
+            self.assertIn(widget, widgets)
+        actions = [
+            action
+            for grid in ("system", "session", "power", "help")
+            for action in swaync["widget-config"][f"buttons-grid#{grid}"]["actions"]
+        ]
         commands = {action["command"] for action in actions}
         for component in ("audio", "network", "displays", "appearance", "clipboard"):
             self.assertIn(f"colutti-settings-open {component}", commands)
+        labels = {action["label"] for action in actions}
+        for icon in ("󰕾", "󰖩", "󰌌"):
+            self.assertTrue(any(label.startswith(icon) for label in labels))
+        self.assertIn("colutti-shortcuts", commands)
         wrapper = (ROOT / "scripts/settings-open").read_text()
         self.assertIn("pavucontrol", wrapper)
         self.assertIn("nm-connection-editor", wrapper)
         self.assertIn("nwg-displays", wrapper)
         self.assertIn("nwg-look", wrapper)
         self.assertIn("nwg-clipman", wrapper)
+        shortcuts = (ROOT / "scripts/shortcuts-open").read_text()
+        self.assertIn("docs/shortcuts.md", shortcuts)
         logout = (ROOT / "scripts/session-logout").read_text()
         self.assertIn("wayland-wm@hyprland.desktop.service", logout)
         self.assertIn("exec uwsm stop", logout)

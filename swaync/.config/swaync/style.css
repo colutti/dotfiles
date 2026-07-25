@@ -61,6 +61,22 @@
   padding: 10px;
 }
 
+.widget-title {
+  margin-top: 10px;
+  margin-bottom: 1px;
+}
+
+.widget-title > label {
+  color: @muted;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.widget-buttons-grid#help {
+  margin-bottom: 10px;
+}
+
 button {
   background: @surface_alt;
   border: 1px solid @outline;
