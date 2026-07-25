@@ -229,7 +229,7 @@ class RepositoryContractTests(unittest.TestCase):
         self.assertIn("dnd", swaync["widgets"])
         self.assertEqual(swaync["positionY"], "center")
         actions = swaync["widget-config"]["buttons-grid#power"]["actions"]
-        balanced = next(item for item in actions if item["label"].endswith("Equilibrado"))
+        balanced = next(item for item in actions if item["label"] == "󰾅")
         self.assertIn("powerprofilesctl set balanced", balanced["command"])
         self.assertIn('readlink -f -- "${BASH_SOURCE[0]}"', wrapper)
         self.assertIn('["swaync-client", "-D"]', desktopctl)
@@ -390,7 +390,7 @@ class RepositoryContractTests(unittest.TestCase):
             self.assertIn(f"colutti-settings-open {component}", commands)
         labels = {action["label"] for action in actions}
         for icon in ("󰕾", "󰖩", "󰌌"):
-            self.assertTrue(any(label.startswith(icon) for label in labels))
+            self.assertIn(icon, labels)
         self.assertIn("colutti-shortcuts", commands)
         wrapper = (ROOT / "scripts/settings-open").read_text()
         self.assertIn("pavucontrol", wrapper)
@@ -400,6 +400,7 @@ class RepositoryContractTests(unittest.TestCase):
         self.assertIn("nwg-clipman", wrapper)
         shortcuts = (ROOT / "scripts/shortcuts-open").read_text()
         self.assertIn("docs/shortcuts.md", shortcuts)
+        self.assertIn('scripts/shortcuts-open', (ROOT / "install.sh").read_text())
         logout = (ROOT / "scripts/session-logout").read_text()
         self.assertIn("wayland-wm@hyprland.desktop.service", logout)
         self.assertIn("exec uwsm stop", logout)

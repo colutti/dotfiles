@@ -70,12 +70,12 @@
     "buttons-grid#system": {
       "buttons-per-row": 3,
       "actions": [
-        {"label": "󰕾  Áudio", "command": "colutti-settings-open audio"},
-        {"label": "󰖩  Rede", "command": "colutti-settings-open network"},
-        {"label": "󰍹  Monitores", "command": "uwsm app -- colutti-settings-gui"},
-        {"label": "󰗽  Display externo", "command": "colutti-settings-open displays"},
-        {"label": "󰃠  Brilho −", "command": "colutti-brightness-control down"},
-        {"label": "󰃠  Brilho +", "command": "colutti-brightness-control up"}
+        {"label": "󰕾", "command": "colutti-settings-open audio"},
+        {"label": "󰖩", "command": "colutti-settings-open network"},
+        {"label": "󰍹", "command": "uwsm app -- colutti-settings-gui"},
+        {"label": "󰗽", "command": "colutti-settings-open displays"},
+        {"label": "󰃠−", "command": "colutti-brightness-control down"},
+        {"label": "󰃠+", "command": "colutti-brightness-control up"}
       ]
     },
     "title#session": {
@@ -85,9 +85,9 @@
     "buttons-grid#session": {
       "buttons-per-row": 3,
       "actions": [
-        {"label": "󰏘  Aparência", "command": "colutti-settings-open appearance"},
-        {"label": "󰅍  Clipboard", "command": "colutti-settings-open clipboard"},
-        {"label": "󰒓  Diagnóstico", "command": "colutti-settings-open diagnostics"}
+        {"label": "󰏘", "command": "colutti-settings-open appearance"},
+        {"label": "󰅍", "command": "colutti-settings-open clipboard"},
+        {"label": "󰒓", "command": "colutti-settings-open diagnostics"}
       ]
     },
     "title#power": {
@@ -97,11 +97,11 @@
     "buttons-grid#power": {
       "buttons-per-row": 3,
       "actions": [
-        {"label": "󰊗  Modo jogo", "command": "colutti-desktopctl profile game on"},
-        {"label": "󰾅  Equilibrado", "command": "colutti-desktopctl profile game off && powerprofilesctl set balanced"},
-        {"label": "󰌾  Bloquear", "command": "loginctl lock-session"},
-        {"label": "󰤄  Suspender", "command": "systemctl suspend"},
-        {"label": "󰍃  Sair", "command": "colutti-session-logout"}
+        {"label": "󰊗", "command": "colutti-desktopctl profile game on"},
+        {"label": "󰾅", "command": "colutti-desktopctl profile game off && powerprofilesctl set balanced"},
+        {"label": "󰌾", "command": "loginctl lock-session"},
+        {"label": "󰤄", "command": "systemctl suspend"},
+        {"label": "󰍃", "command": "colutti-session-logout"}
       ]
     },
     "title#help": {
@@ -111,7 +111,7 @@
     "buttons-grid#help": {
       "buttons-per-row": 1,
       "actions": [
-        {"label": "󰌌  Atalhos de teclado", "command": "colutti-shortcuts"}
+        {"label": "󰌌", "command": "colutti-shortcuts"}
       ]
     },
     "notifications": {
