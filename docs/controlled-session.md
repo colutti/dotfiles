@@ -21,6 +21,8 @@ restantes exigem nova entrada, credencial, hardware ou interação humana real.
   `swayosd-client` na camada `swayosd` do DP-2.
 - [x] Hyprlock renderizou nas duas escalas; opções obsoletas foram removidas.
 - [x] DPMS off/on e inibidor manual de jogo.
+- [x] Suspensão automática configurada para 30 minutos de inatividade, após lock e
+  DPMS; não foi aguardado o timeout completo durante esta sessão.
 - [x] Portais frontend, Hyprland e KDE ativos; screenshot 3840×2160 válido.
 - [x] FileChooser KDE abriu por `org.freedesktop.portal.FileChooser` e foi encerrado
   sem deixar janela; compartilhamento/gravação ainda requerem um aplicativo real.

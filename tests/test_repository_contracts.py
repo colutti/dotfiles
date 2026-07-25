@@ -142,6 +142,8 @@ class RepositoryContractTests(unittest.TestCase):
         self.assertNotIn("brightnessctl", idle)
         self.assertIn("hyprctl hyprsunset gamma 35", idle)
         self.assertIn("hyprctl hyprsunset reset gamma", idle)
+        self.assertIn("timeout = 1800", idle)
+        self.assertIn("on-timeout = systemctl suspend", idle)
         self.assertIn("hyprsunset.service", target)
         self.assertIn("ExecStart=/usr/bin/hyprsunset", sunset)
         inhibitor = (
