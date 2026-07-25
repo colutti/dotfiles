@@ -1080,7 +1080,7 @@ def doctor() -> tuple[dict[str, Any], int]:
     ]
     checks = [{"name": command, "status": command_status(command)} for command in required]
     checks.extend([
-        service_check("uwsm-session", "wayland-wm@Hyprland.service"),
+        service_check("uwsm-session", "wayland-wm@hyprland.desktop.service"),
         service_check("shell", "colutti-quickshell.service"),
         service_check("wallpaper", "hyprpaper.service"),
         service_check("idle", "hypridle.service"),

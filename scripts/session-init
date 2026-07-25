@@ -18,6 +18,26 @@ environment=(
 systemctl --user import-environment "${environment[@]}"
 dbus-update-activation-environment --systemd "${environment[@]}"
 
+# Plasma's systemd autostart generator can run before UWSM imports the Hyprland
+# desktop variables. Stop only those session helpers here; Plasma itself remains
+# untouched and starts them normally in a Plasma session.
+plasma_helpers=(
+  arch-update-tray.service
+  app-discord@autostart.service
+  app-steam@autostart.service
+  app-org.telegram.desktop@autostart.service
+  plasma-foreground-booster.service
+  plasma-gmenudbusmenuproxy.service
+  plasma-kaccess.service
+  plasma-kactivitymanagerd.service
+  plasma-powerdevil.service
+  plasma-xembedsniproxy.service
+)
+systemctl --user stop --no-block "${plasma_helpers[@]}" 2>/dev/null || true
+systemctl --user reset-failed "${plasma_helpers[@]}" 2>/dev/null || true
+systemctl --user stop --no-block colutti-notifier-fallback.service 2>/dev/null || true
+systemctl --user reset-failed colutti-notifier-fallback.service 2>/dev/null || true
+
 systemctl --user reset-failed \
   xdg-desktop-portal-hyprland.service \
   plasma-xdg-desktop-portal-kde.service \

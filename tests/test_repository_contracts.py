@@ -84,6 +84,9 @@ class RepositoryContractTests(unittest.TestCase):
         self.assertIn("WAYLAND_DISPLAY", initializer)
         self.assertIn("HYPRLAND_INSTANCE_SIGNATURE", initializer)
         self.assertIn("XDG_CURRENT_DESKTOP", initializer)
+        self.assertIn("plasma-foreground-booster.service", initializer)
+        self.assertIn("app-discord@autostart.service", initializer)
+        self.assertIn("reset-failed", initializer)
         self.assertIn("xdg-desktop-portal-hyprland.service", initializer)
         self.assertIn("xdg-desktop-portal.service", initializer)
         self.assertNotIn("colutti-session-restore.service", target)
@@ -255,7 +258,7 @@ class RepositoryContractTests(unittest.TestCase):
             ROOT / "desktopctl/colutti_desktopctl.py"
         ).read_text()
         for unit in (
-            "wayland-wm@Hyprland.service",
+            "wayland-wm@hyprland.desktop.service",
             "colutti-quickshell.service",
             "hyprpaper.service",
             "hypridle.service",
@@ -333,7 +336,7 @@ class RepositoryContractTests(unittest.TestCase):
         self.assertIn("nwg-look", wrapper)
         self.assertIn("nwg-clipman", wrapper)
         logout = (ROOT / "scripts/session-logout").read_text()
-        self.assertIn("wayland-wm@Hyprland.service", logout)
+        self.assertIn("wayland-wm@hyprland.desktop.service", logout)
         self.assertIn("exec uwsm stop", logout)
         self.assertIn("hyprctl dispatch exit", logout)
 

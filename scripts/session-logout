@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-if systemctl --user is-active --quiet wayland-wm@Hyprland.service; then
+if systemctl --user is-active --quiet wayland-wm@hyprland.desktop.service; then
   exec uwsm stop
 fi
 
