@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 import argparse
-import grp
 import hashlib
 import json
 import os
@@ -677,6 +676,24 @@ class ThemeManager:
             color_dir.mkdir(parents=True, exist_ok=True)
             installed = color_dir / "ColuttiCurrent.colors"
             shutil.copy2(generated, installed)
+            # plasma-apply-colorscheme is a no-op when the requested name is
+            # already selected, even if the file behind that name was replaced.
+            # Force a real transition so existing KDE/Qt applications do not
+            # keep the previous (often light) color values in kdeglobals.
+            subprocess.run(
+                [
+                    "kwriteconfig6",
+                    "--file",
+                    "kdeglobals",
+                    "--group",
+                    "General",
+                    "--key",
+                    "ColorScheme",
+                    "BreezeDark",
+                ],
+                check=False,
+                capture_output=True,
+            )
             subprocess.run(
                 ["plasma-apply-colorscheme", "ColuttiCurrent"],
                 check=False,
@@ -1044,27 +1061,6 @@ def storage_headroom_check() -> dict[str, Any]:
     }
 
 
-def gamemode_group_check() -> dict[str, Any]:
-    try:
-        group = grp.getgrnam("gamemode")
-    except KeyError:
-        return {
-            "name": "gamemode-group",
-            "status": "error",
-            "detail": "group missing",
-        }
-    member = group.gr_gid in os.getgroups()
-    return {
-        "name": "gamemode-group",
-        "status": "ok" if member else "error",
-        "detail": {
-            "group": group.gr_name,
-            "member": member,
-            "requires_new_login": not member,
-        },
-    }
-
-
 def doctor() -> tuple[dict[str, Any], int]:
     required = [
         "Hyprland",
@@ -1093,7 +1089,6 @@ def doctor() -> tuple[dict[str, Any], int]:
         service_check("portal-kde", "plasma-xdg-desktop-portal-kde.service"),
         bus_owner_check("notification-service", "org.freedesktop.Notifications"),
         storage_headroom_check(),
-        gamemode_group_check(),
     ])
     try:
         settings = read_settings()

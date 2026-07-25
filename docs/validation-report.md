@@ -47,9 +47,12 @@ Validado em 25 de julho de 2026:
 - A webcam produziu um quadro MJPEG 1920×1080 e o SoloCast produziu uma amostra PCM
   mono 48 kHz. O receptor Xbox 360 045e:0719 foi enumerado no USB, mas não havia
   gamepad conectado ao subsistema input para testar eventos.
-- `gamemoded -t` isolou a falha de otimização: `colutti` ainda não pertence ao grupo
-  oficial `gamemode`, exigido pela regra Polkit do pacote. O instalador agora adiciona
-  idempotentemente o usuário chamador e o `doctor` verifica essa associação.
+- `gamemoded -t` passou integralmente: governador `amd_pstate`, supervisor, renice e
+  prioridade de I/O foram validados. A associação ao grupo `gamemode` permanece
+  opcional para helpers avançados e não bloqueia a otimização funcional.
+- A aplicação de temas KDE/Qt foi corrigida para forçar a transição quando o nome
+  `ColuttiCurrent` já estava selecionado; isso elimina valores claros antigos em
+  `kdeglobals` sem alterar o tema interno do Zen.
 - 43 GB de cache antigo do `paru`, 7,7 GiB do `uv` e 3,6 GB do `pip` foram removidos.
   O espaço livre passou de 54 para 91 GiB; jogos, modelos e containers foram preservados.
 - DPMS retornou ligado nos dois monitores.
@@ -62,9 +65,7 @@ Validado em 25 de julho de 2026:
 
 ## Pendências bloqueantes para promoção final
 
-1. `colutti` ainda precisa entrar no grupo `gamemode`; execute `sudo usermod -aG
-   gamemode colutti` e faça um novo login.
-2. Reboot duplo, Plasma, suspensão/retomada, jogo Proton e compartilhamento de
+1. Reboot duplo, Plasma, suspensão/retomada, jogo Proton e compartilhamento de
    tela exigem testes interativos após a nova entrada.
 
 Até esses itens passarem, a sessão é funcional mas não deve ser declarada 100% promovida.

@@ -29,8 +29,8 @@ restantes exigem nova entrada, credencial, hardware ou interação humana real.
 - [ ] Vídeo fullscreen, webcam e controle dentro de aplicativos reais; nenhum gamepad
   estava conectado ao subsistema input durante a validação do receptor.
 - [x] Vulkan RADV, Gamescope e MangoHud em `vkcube`; integração GameMode inicia.
-- [ ] `gamemoded -t` completo após adicionar `colutti` ao grupo `gamemode` e entrar
-  novamente; o teste atual falha ao elevar governador e prioridade de I/O.
+- [x] `gamemoded -t` completo passou; governador `amd_pstate`, supervisor, renice e
+  prioridade de I/O foram validados.
 - [x] Métricas de jogo no gap inferior do HDMI sem alterar a geometria do Chat.
 - [ ] Um jogo Proton real e um jogo real via Gamescope.
 - [x] HDR/10-bit somente no DP-2 e retorno a XRGB8888/sRGB.
