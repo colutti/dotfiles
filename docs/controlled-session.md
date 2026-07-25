@@ -22,7 +22,8 @@ restantes exigem nova entrada, credencial, hardware ou interação humana real.
 - [x] Hyprlock renderizou nas duas escalas; opções obsoletas foram removidas.
 - [x] DPMS off/on e inibidor manual de jogo.
 - [x] Portais frontend, Hyprland e KDE ativos; screenshot 3840×2160 válido.
-- [ ] Compartilhamento/gravação e FileChooser confirmados em aplicativos reais.
+- [x] FileChooser KDE abriu por `org.freedesktop.portal.FileChooser` e foi encerrado
+  sem deixar janela; compartilhamento/gravação ainda requerem um aplicativo real.
 - [x] iFi e SoloCast como dispositivos padrão; SoloCast gravou PCM mono 48 kHz.
 - [x] Sink iFi estava detectado porém mutado; o mute foi removido e `speaker-test`
   via PipeWire concluiu com sucesso.

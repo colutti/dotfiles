@@ -50,6 +50,8 @@ Validado em 25 de julho de 2026:
 - O sink padrão iFi foi encontrado mutado, o mute foi removido e `speaker-test -D
   pipewire -t sine -f 440 -l 1` terminou com código 0. O OSD foi exibido no DP-2
   como camada `swayosd` durante um teste sem alterar o volume.
+- O portal KDE `org.freedesktop.portal.FileChooser` abriu uma janela real de seleção
+  de arquivos na sessão Hyprland e foi encerrado sem deixar cliente ou unidade falha.
 - `gamemoded -t` passou integralmente: governador `amd_pstate`, supervisor, renice e
   prioridade de I/O foram validados. A associação ao grupo `gamemode` permanece
   opcional para helpers avançados e não bloqueia a otimização funcional.
