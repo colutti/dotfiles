@@ -74,6 +74,14 @@ class RepositoryContractTests(unittest.TestCase):
         self.assertIn('hl.env("QT_QPA_PLATFORMTHEME", "kde")', hypr_env)
         self.assertIn('app("env QT_QPA_PLATFORMTHEME=kde dolphin")', binds)
 
+    def test_window_close_and_animation_defaults(self):
+        binds = (ROOT / "hyprland/.config/hypr/modules/binds.lua").read_text()
+        appearance = (ROOT / "hyprland/.config/hypr/modules/appearance.lua").read_text()
+        self.assertIn('hl.bind("ALT + Q", hl.dsp.window.close()', binds)
+        self.assertNotIn('hl.bind("SUPER + Q", hl.dsp.window.close()', binds)
+        self.assertIn("animations = { enabled = false", appearance)
+        self.assertEqual(appearance.count('enabled = false'), 4)
+
     def test_gtk_defaults_match_dark_desktop_theme(self):
         for version in ("gtk-3.0", "gtk-4.0"):
             settings = (ROOT / "gtk/.config" / version / "settings.ini").read_text()

@@ -13,7 +13,7 @@ hl.bind("SUPER + N", app("swaync-client -t -sw"), { description = "Notifications
 hl.bind("SUPER + comma", app("colutti-theme-menu"), { description = "Theme selector" })
 hl.bind("SUPER + I", app("colutti-settings-gui"), { description = "Desktop settings" })
 hl.bind("SUPER + SHIFT + V", app("colutti-clipboard-menu"), { description = "Clipboard history" })
-hl.bind("SUPER + Q", hl.dsp.window.close(), { description = "Close window" })
+hl.bind("ALT + Q", hl.dsp.window.close(), { description = "Close window" })
 hl.bind("SUPER + C", hl.dsp.window.close(), { description = "Close window" })
 hl.bind("SUPER + F", hl.dsp.window.fullscreen(), { description = "Fullscreen" })
 hl.bind("SUPER + V", hl.dsp.window.float({ action = "toggle" }), { description = "Toggle float" })

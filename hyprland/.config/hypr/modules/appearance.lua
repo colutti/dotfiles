@@ -19,7 +19,7 @@ hl.config({
         blur = { enabled = true, size = 6, passes = 2, vibrancy = 0.12 },
         shadow = { enabled = true, range = 14, render_power = 3, color = "rgba(050a09aa)" },
     },
-    animations = { enabled = true },
+    animations = { enabled = false },
     dwindle = {
         preserve_split = true,
         force_split = 2,
@@ -33,6 +33,6 @@ hl.config({
 })
 
 hl.curve("coluttiOut", { type = "bezier", points = {{0.16, 1}, {0.3, 1}} })
-hl.animation({ leaf = "windows", enabled = true, speed = 4.4, bezier = "coluttiOut" })
-hl.animation({ leaf = "layers", enabled = true, speed = 4.0, bezier = "coluttiOut" })
-hl.animation({ leaf = "workspaces", enabled = true, speed = 3.6, bezier = "coluttiOut", style = "fade" })
+hl.animation({ leaf = "windows", enabled = false, speed = 4.4, bezier = "coluttiOut" })
+hl.animation({ leaf = "layers", enabled = false, speed = 4.0, bezier = "coluttiOut" })
+hl.animation({ leaf = "workspaces", enabled = false, speed = 3.6, bezier = "coluttiOut", style = "fade" })
