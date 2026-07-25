@@ -224,6 +224,8 @@ class RepositoryContractTests(unittest.TestCase):
         swaync_css = (ROOT / "swaync/.config/swaync/style.css").read_text()
         self.assertIn("generated/swaync-theme.css", swaync_css)
         self.assertNotIn("@define-color background", swaync_css)
+        self.assertIn("button:active", swaync_css)
+        self.assertNotIn("button:hover,\nbutton:focus", swaync_css)
         self.assertIn("volume", swaync["widgets"])
         self.assertIn("mpris", swaync["widgets"])
         self.assertIn("dnd", swaync["widgets"])

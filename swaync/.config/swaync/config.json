@@ -64,7 +64,7 @@
       "blacklist": []
     },
     "title#system": {
-      "text": "Sistema",
+      "text": "Sistema · áudio / rede / monitor / display / brilho",
       "clear-all-button": false
     },
     "buttons-grid#system": {
@@ -79,7 +79,7 @@
       ]
     },
     "title#session": {
-      "text": "Sessão",
+      "text": "Sessão · aparência / clipboard / diagnóstico",
       "clear-all-button": false
     },
     "buttons-grid#session": {
@@ -91,7 +91,7 @@
       ]
     },
     "title#power": {
-      "text": "Energia e sessão",
+      "text": "Energia · jogo / perfil / bloquear / suspender / sair",
       "clear-all-button": false
     },
     "buttons-grid#power": {
@@ -105,7 +105,7 @@
       ]
     },
     "title#help": {
-      "text": "Ajuda",
+      "text": "Ajuda · atalhos de teclado",
       "clear-all-button": false
     },
     "buttons-grid#help": {
