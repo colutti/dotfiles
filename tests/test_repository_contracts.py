@@ -200,6 +200,7 @@ class RepositoryContractTests(unittest.TestCase):
         self.assertIn("parsed.panel", shell)
         self.assertNotIn("Hyprland.activeToplevel.title", shell)
         self.assertIn("text: root.metricsText", shell)
+        self.assertIn('root.metricsText + "  ·  " + root.statusText', shell)
         self.assertIn("modelData.display(bar", shell)
         self.assertIn("Qt.RightButton", shell)
         self.assertNotIn("NumberAnimation", shell)

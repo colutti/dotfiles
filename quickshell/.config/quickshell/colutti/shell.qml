@@ -209,21 +209,11 @@ ShellRoot {
                     Text {
                         Layout.fillWidth: true
                         horizontalAlignment: Text.AlignHCenter
-                        text: root.metricsText
-                        color: root.muted
-                        font.family: "JetBrainsMono Nerd Font"
-                        font.pixelSize: 11
-                    }
-
-                    Text {
-                        text: root.statusText
+                        elide: Text.ElideRight
+                        text: root.metricsText + "  ·  " + root.statusText
                         color: root.text
                         font.family: "JetBrainsMono Nerd Font"
                         font.pixelSize: 10
-                        MouseArea {
-                            anchors.fill: parent
-                            onClicked: root.run("colutti-settings-open audio")
-                        }
                     }
 
                     RowLayout {
