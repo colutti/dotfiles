@@ -21,6 +21,7 @@ class RepositoryContractTests(unittest.TestCase):
         forbidden = re.compile(r"\b(paru|yay|trizen|pikaur)\b")
         self.assertIsNone(forbidden.search(installer))
         self.assertIn('usermod -aG gamemode -- "${desktop_user}"', installer)
+        self.assertIn("timeout 5s kscreen-doctor -o", installer)
 
     def test_package_manifest_uses_official_repository_packages(self):
         packages = json.loads((ROOT / "packages.json").read_text())

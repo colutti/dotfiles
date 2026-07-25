@@ -34,7 +34,12 @@ preflight() {
   lsusb >"${report_dir}/usb.txt"
   systemctl --user list-unit-files >"${report_dir}/user-units.txt"
   wpctl status >"${report_dir}/pipewire.txt" 2>&1 || true
-  kscreen-doctor -o >"${report_dir}/kscreen.txt" 2>&1 || true
+  # KScreen can wait indefinitely for the Plasma KScreen service under Hyprland;
+  # preflight is read-only and must never hold the whole audit open.
+  if ! timeout 5s kscreen-doctor -o >"${report_dir}/kscreen.txt" 2>&1; then
+    printf 'kscreen-doctor unavailable or timed out under this session\n' \
+      >>"${report_dir}/kscreen.txt"
+  fi
   git -C "${repo_root}" status --short --branch >"${report_dir}/git.txt"
   printf 'inventory=%s\n' "${report_dir}"
 }
