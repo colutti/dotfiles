@@ -53,18 +53,19 @@ Validado em 25 de julho de 2026:
 - 43 GB de cache antigo do `paru`, 7,7 GiB do `uv` e 3,6 GB do `pip` foram removidos.
   O espaço livre passou de 54 para 91 GiB; jogos, modelos e containers foram preservados.
 - DPMS retornou ligado nos dois monitores.
+- A entrada **Hyprland (uwsm-managed)** foi confirmada: `uwsm start` iniciou
+  `wayland-wm@hyprland.desktop.service`; `session-init` limpou as unidades Plasma e
+  Arch-Update herdadas, deixando zero unidades user failed.
 - 40 testes automatizados, parser Lua do Hyprland, `qmllint`, JSON, shell e Python
   passaram na validação final deste checkpoint. O `doctor` terminou apenas com os
-  três bloqueios esperados: UWSM inativo, grupo `gamemode` e pacote `swayosd`.
+  dois bloqueios esperados: grupo `gamemode` e pacote `swayosd`.
 
 ## Pendências bloqueantes para promoção final
 
-1. A sessão atual foi aberta pela entrada simples `Hyprland`, não por
-   `Hyprland (uwsm-managed)`. É necessário sair e entrar pela opção correta.
-2. O pacote oficial `swayosd` ainda não está instalado e `colutti` ainda precisa entrar
+1. O pacote oficial `swayosd` ainda não está instalado e `colutti` ainda precisa entrar
    no grupo `gamemode`; `sudo ./install.sh install` resolve ambos, mas exige
    autenticação administrativa e um novo login.
-3. Reboot duplo, Plasma, suspensão/retomada, jogo Proton e compartilhamento de
+2. Reboot duplo, Plasma, suspensão/retomada, jogo Proton e compartilhamento de
    tela exigem testes interativos após a nova entrada.
 
 Até esses itens passarem, a sessão é funcional mas não deve ser declarada 100% promovida.

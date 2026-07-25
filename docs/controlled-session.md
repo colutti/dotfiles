@@ -6,6 +6,8 @@ restantes exigem nova entrada, credencial, hardware ou interação humana real.
 - [x] Modos, escalas, posições, SDR/8-bit e VRR off via `hyprctl monitors -j`.
 - [x] Geometria e tiling de Zen, Alacritty, Steam, Telegram e Discord.
 - [ ] Duas entradas consecutivas pela sessão **Hyprland (uwsm-managed)** sem duplicatas.
+- [x] Entrada atual confirmou `uwsm start`, `wayland-wm@hyprland.desktop.service` ativo
+  e restauração sem duplicatas nesta entrada.
 - [x] Janelas adicionais de Zen e Alacritty permaneceram no workspace de lançamento;
   configurações da Steam não herdaram a regra da janela principal.
 - [ ] Janelas adicionais independentes de Telegram e Discord em aplicativos reais.
