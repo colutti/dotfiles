@@ -54,8 +54,8 @@ Validado em 25 de julho de 2026:
   de arquivos na sessão Hyprland e foi encerrado sem deixar cliente ou unidade falha.
 - Hypridle agora suspende automaticamente aos 30 minutos, depois de bloquear aos 12
   e desligar os monitores aos 15; o timeout completo permanece pendente de observação.
-- O retorno do escurecimento usa `hyprsunset identity`, que é o comando válido para
-  remover a gamma nesta versão; o alias anterior `reset gamma` deixava a tela escura.
+- O retorno do escurecimento usa `hyprsunset gamma 100`; `identity` remove a
+  temperatura, mas preserva a gamma reduzida e por isso não é suficiente.
 - `gamemoded -t` passou integralmente: governador `amd_pstate`, supervisor, renice e
   prioridade de I/O foram validados. A associação ao grupo `gamemode` permanece
   opcional para helpers avançados e não bloqueia a otimização funcional.
