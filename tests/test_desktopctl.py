@@ -69,6 +69,22 @@ class ThemeManifestTests(unittest.TestCase):
                     manifest["wallpaper"]["sha256"],
                 )
 
+    def test_reference_wallpapers_are_full_source_assets_and_arctic_is_dark(self):
+        expected_dimensions = {
+            "glyph-nothing": "3840x2160",
+            "aerospace-gruvbox": "3840x2160",
+        }
+        for slug, dimensions in expected_dimensions.items():
+            manifest = json.loads((ROOT / "themes" / slug / "manifest.json").read_text())
+            wallpaper = ROOT / "themes" / slug / manifest["wallpaper"]["file"]
+            image_info = subprocess.check_output(["file", str(wallpaper)], text=True)
+            self.assertIn(dimensions, image_info)
+            self.assertNotIn("1920x1080", image_info)
+
+        arctic = json.loads((ROOT / "themes" / "arctic-paper" / "manifest.json").read_text())
+        self.assertEqual(arctic["mode"], "dark")
+        self.assertEqual(arctic["icon_theme"], "Papirus-Dark")
+
     def test_theme_generation_is_deterministic_and_keeps_previous_valid_state(self):
         desktopctl = load_desktopctl()
         with tempfile.TemporaryDirectory() as tmp:

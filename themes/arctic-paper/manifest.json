@@ -2,18 +2,18 @@
   "schema_version": 1,
   "slug": "arctic-paper",
   "name": "Arctic Paper",
-  "mode": "light",
-  "contrast_ratio": 10.4,
+  "mode": "dark",
+  "contrast_ratio": 8.3,
   "font": "Noto Sans",
   "mono_font": "JetBrainsMono Nerd Font",
-  "icon_theme": "Papirus",
+  "icon_theme": "Papirus-Dark",
   "cursor_theme": "Breeze",
   "panel": {"layout": "architect", "material": "paper", "animation_ms": 150},
   "palette": {
-    "background": "#f1f3f2", "surface": "#e7eae9", "surface_alt": "#dce1df",
-    "text": "#17201f", "muted": "#586764", "accent": "#246b76",
-    "accent_alt": "#7d5c88", "success": "#317354", "warning": "#8c611d",
-    "critical": "#a43e3e", "outline": "#aab5b2"
+    "background": "#1b2221", "surface": "#252e2c", "surface_alt": "#303b38",
+    "text": "#e7efec", "muted": "#a3b2ad", "accent": "#66c3ce",
+    "accent_alt": "#b69ac4", "success": "#70bf8f", "warning": "#e3b765",
+    "critical": "#e37b78", "outline": "#4d615b"
   },
   "wallpaper": {
     "file": "stairs-ehMiO5aDXys.jpg",

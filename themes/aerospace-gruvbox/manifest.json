@@ -16,9 +16,9 @@
     "critical": "#fb4934", "outline": "#665c54"
   },
   "wallpaper": {
-    "file": "spacehawks.png",
-    "source_url": "https://www.reddit.com/r/unixporn/comments/1odcuyu/aerospace_i_thought_id_miss_arch/",
-    "license_url": "https://www.redditinc.com/policies/user-agreement",
-    "sha256": "d1b2be627072de4e63191155e539d6f2f4b073039aa255914ab9acbeb07774fa"
+    "file": "spacehawks.jpg",
+    "source_url": "https://www.reddit.com/r/wallpapers/comments/1l2glen/spacehawks_by_space_gooose_3840x2160/",
+    "license_url": "https://www.artstation.com/",
+    "sha256": "b3431bb6a1674a902d6bbb0f201ec245f780eda7c9bf0a407de97169d04c2c81"
   }
 }

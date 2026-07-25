@@ -16,9 +16,9 @@
     "critical": "#b51218", "outline": "#b7b7b2"
   },
   "wallpaper": {
-    "file": "wallpaper.png",
-    "source_url": "https://www.reddit.com/r/unixporn/comments/1uqr3ju/kde_plasma_nothingos_inspired_desktop/",
-    "license_url": "https://www.redditinc.com/policies/user-agreement",
-    "sha256": "f3cb4c40704c29c333abefacc027d8efce0ed403f70b646d77db5cbde2d2499c"
+    "file": "wallhaven-8ggrqy.jpg",
+    "source_url": "https://wallhaven.cc/w/8ggrqy",
+    "license_url": "https://wallhaven.cc/help/api",
+    "sha256": "9e68628122a19114b70b9ac9b85e61d9ff3afc37adf85120406b91fbcf84e5d7"
   }
 }
