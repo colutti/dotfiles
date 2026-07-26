@@ -1,0 +1,62 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if (( EUID == 0 )); then
+  root_run=()
+else
+  root_run=(sudo)
+fi
+
+if pacman -Si dms-shell >/dev/null 2>&1; then
+  printf 'cachyos-repository=already-configured\n'
+  exit 0
+fi
+
+command -v curl >/dev/null 2>&1 ||
+  "${root_run[@]}" pacman -Syu --needed --noconfirm curl
+
+base_url=https://mirror.cachyos.org/repo/x86_64/cachyos
+listing="$(curl -fsSL "${base_url}/")"
+keyring="$(printf '%s\n' "$listing" | grep -oE 'cachyos-keyring-[^" ]+\.pkg\.tar\.zst' | sort -V | tail -1)"
+mirrorlist="$(printf '%s\n' "$listing" | grep -oE 'cachyos-mirrorlist-[^" ]+\.pkg\.tar\.zst' | sort -V | tail -1)"
+[[ -n "$keyring" && -n "$mirrorlist" ]] || {
+  printf 'could not discover official CachyOS keyring/mirrorlist packages\n' >&2
+  exit 1
+}
+
+"${root_run[@]}" pacman -U --noconfirm \
+  "${base_url}/${keyring}" "${base_url}/${mirrorlist}"
+
+if ! grep -Eq '^\[cachyos\][[:space:]]*$' /etc/pacman.conf; then
+  conf_tmp="$(mktemp)"
+  cat /etc/pacman.conf >"$conf_tmp"
+  cat >>"$conf_tmp" <<'EOF'
+
+# Colutti bootstrap: official CachyOS packages used by DANK/Hyprland.
+[cachyos]
+Include = /etc/pacman.d/cachyos-mirrorlist
+EOF
+  "${root_run[@]}" install -Dm644 "$conf_tmp" /etc/pacman.conf
+fi
+
+if ! grep -Eq '^\[multilib\][[:space:]]*$' /etc/pacman.conf; then
+  conf_tmp="$(mktemp)"
+  awk '
+    /^#\[multilib\][[:space:]]*$/ { print "[multilib]"; in_multilib=1; next }
+    in_multilib && /^#Include[[:space:]]*=[[:space:]]*\/etc\/pacman\.d\/mirrorlist[[:space:]]*$/ {
+      print "Include = /etc/pacman.d/mirrorlist"; in_multilib=0; next
+    }
+    { print }
+  ' /etc/pacman.conf >"$conf_tmp"
+  if ! grep -Eq '^\[multilib\][[:space:]]*$' "$conf_tmp"; then
+    cat >>"$conf_tmp" <<'EOF'
+
+[multilib]
+Include = /etc/pacman.d/mirrorlist
+EOF
+  fi
+  "${root_run[@]}" install -Dm644 "$conf_tmp" /etc/pacman.conf
+fi
+
+"${root_run[@]}" pacman -Sy --noconfirm
+printf 'cachyos-repository=enabled\n'

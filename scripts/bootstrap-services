@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if (( EUID == 0 )); then
+  root_run=()
+else
+  root_run=(sudo)
+fi
+
+enable_system_unit() {
+  local unit="$1"
+  if systemctl list-unit-files "$unit" --no-legend >/dev/null 2>&1; then
+    "${root_run[@]}" systemctl enable --now "$unit"
+    printf 'enabled=%s\n' "$unit"
+  else
+    printf 'skipped=missing:%s\n' "$unit"
+  fi
+}
+
+enable_system_unit NetworkManager.service
+enable_system_unit power-profiles-daemon.service
+
+if systemctl list-unit-files gamemoded.service --no-legend >/dev/null 2>&1; then
+  "${root_run[@]}" systemctl enable --now gamemoded.service
+  printf 'enabled=gamemoded.service\n'
+fi
+
+if systemctl --user list-unit-files gamemoded.service --no-legend >/dev/null 2>&1; then
+  systemctl --user enable --now gamemoded.service
+  printf 'enabled=user:gamemoded.service\n'
+fi
+
+desktop_entry=/usr/share/wayland-sessions/hyprland-uwsm.desktop
+if [[ ! -f "$desktop_entry" ]] ||
+  ! grep -qx 'Name=Hyprland (uwsm-managed)' "$desktop_entry"; then
+  "${root_run[@]}" install -Dm644 /dev/stdin "$desktop_entry" <<'EOF'
+[Desktop Entry]
+Name=Hyprland (uwsm-managed)
+Comment=Hyprland launched through UWSM
+Exec=uwsm start -e -D Hyprland hyprland.desktop
+TryExec=uwsm
+DesktopNames=Hyprland
+Type=Application
+EOF
+fi
+printf 'session=%s\n' "$desktop_entry"

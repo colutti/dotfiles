@@ -1,41 +1,92 @@
-# CachyOS workstation com DANK
+# CachyOS/Arch workstation com DANK
 
-Sessão Hyprland 0.56 para esta workstation CachyOS com hardware e atalhos preservados:
-DANK como camada de shell, configuração modular de compositor, dois monitores e
-recuperação pelo Plasma.
+Este repositório reconstrói a sessão atual da máquina `colutti`: Hyprland 0.56,
+DANK/DMS, UWSM, dois monitores, regras de hardware AMD, áudio PipeWire, Steam,
+Discord, Telegram, Zen, Alacritty e as integrações mínimas do KDE. Ele não guarda
+tokens, sessões, bibliotecas Steam, histórico de chats ou outros dados pessoais.
 
-## Instalação
+## Recuperação após instalação limpa
+
+O sistema base precisa estar inicializado, com rede funcionando e com o usuário
+normal `colutti` já criado. O usuário deve conseguir usar `sudo`; o bootstrap não
+cria usuários, não particiona discos e não reinicia a máquina.
+
+O DMS (`dms-shell`), Matugen e alguns componentes da sessão são distribuídos pelos
+repositórios oficiais CachyOS. Se `dms-shell` não estiver disponível, o bootstrap
+instala o keyring/mirrorlist oficial e habilita somente o repositório CachyOS oficial.
+A política deste repositório é estritamente Arch/CachyOS oficial: não use AUR,
+helpers AUR ou pacotes `*-git`.
+
+Clone e execute:
 
 ```bash
-./install.sh preflight
-sudo ./install.sh install
-./install.sh link
-./install.sh validate
+sudo pacman -Syu --needed git ca-certificates
+git clone https://github.com/colutti/dotfiles.git ~/projects/dotfiles
+cd ~/projects/dotfiles
+./install.sh bootstrap
 ```
 
-`install` usa somente repositórios oficiais, instala `dms-shell` e mantém o
-compositor/configuração do hardware sob o Hyprland desta máquina. `link` cria os
-links locais necessários para a sessão e não tenta reconstruir o shell antigo.
+O comando instala somente o que estiver faltando, usando `pacman --needed`, e faz:
 
-Na tela de login, escolha a sessão Hyprland que esta máquina já usa com UWSM.
+- Hyprland, UWSM, DANK/DMS e a entrada `Hyprland (uwsm-managed)`;
+- PipeWire, WirePlumber, portais Hyprland/GTK/KDE e polkit;
+- NetworkManager, power-profiles-daemon e GameMode;
+- Alacritty, Fuzzel, SwayNC, Quickshell, SwayOSD, Hyprpaper, Hypridle e Hyprsunset;
+- Steam, Discord, Telegram, VSCodium e Dolphin; Zen via Flatpak;
+- Gamescope, MangoHud, Vulkan AMD 64/32-bit e GameMode;
+- repositório multilib oficial para as dependências 32-bit da Steam e do Vulkan;
+- apenas a integração KDE necessária: Dolphin, Breeze, integração GTK/Qt, ferramentas
+  KDE, portal FileChooser e agente polkit. O Plasma completo não é instalado;
+- links, backups, temas, Matugen, configurações do Steam e integração do Zen.
+
+O perfil atual é detectado pelo PCI/CPU. Para a RX 7900 XTX/Navi 31, a instalação
+mantém Mesa/RADV e Vulkan 64/32-bit. As regras desta máquina preservam DP-2 em
+3840×2160 com escala 1.67, SDR/8-bit/VRR desligado, e HDMI-A-1 em 1920×1080 com
+escala 1.25.
+
+### Simulação sem alterar o sistema
+
+```bash
+./install.sh bootstrap --dry-run
+```
+
+Esse modo detecta o perfil e resolve o plano do pacman sem instalar pacotes, criar
+serviços, alterar links ou instalar Flatpaks.
+
+### Validação descartável com Podman
+
+```bash
+./scripts/bootstrap-container-check
+```
+
+O check usa a imagem oficial `cachyos/cachyos:latest`, atualiza apenas o container
+descartável, executa as verificações de sintaxe e roda o bootstrap em dry-run. O
+container não comprova GPU, monitores, áudio, login UWSM ou renderização real.
+
+## Primeiro login
+
+Na tela de login, escolha **Hyprland (uwsm-managed)**. Depois faça login manualmente
+em Steam, Discord, Telegram e Zen. A primeira seleção do skin `colutti-matugen` é
+feita em Steam → Settings → Interface. A Flatpak do Zen é instalada, mas contas e
+dados do perfil não são restaurados pelo repositório.
 
 ## Operação
 
 Use o DANK para launcher, notificações, clipboard, settings, process list, lock,
-brightness, audio e screenshots. As regras de monitor e os atalhos de hardware
+brightness, áudio e screenshots. As regras de monitor e os atalhos de hardware
 continuam vindo do Hyprland desta máquina.
 
 ## Temas de aplicativos
 
-As trocas de tema do DANK/Matugen também geram o CSS da interface do Zen no perfil
-Flatpak e o skin do Steam em
-`~/.local/share/Steam/steamui/skins/colutti-matugen/`. No primeiro uso, abra Steam em
-Settings → Interface, selecione `colutti-matugen` e reinicie o Steam quando ele pedir.
-As trocas seguintes apenas regeneram o skin; Steam e Zen precisam ser fechados e
-abertos novamente para mostrar as novas cores.
+As trocas de tema do DANK/Matugen geram o CSS da interface do Zen no perfil Flatpak
+e o skin do Steam em
+`~/.local/share/Steam/steamui/skins/colutti-matugen/`. As trocas seguintes apenas
+regeneram o skin; Steam e Zen precisam ser fechados e abertos novamente para mostrar
+as novas cores.
 
-Para continuar a validação depois de reiniciar, entre na sessão UWSM, volte a este
-repositório e execute:
+## Diagnóstico e recuperação
+
+Depois de entrar na sessão UWSM, rode:
 
 ```bash
 cd ~/projects/dotfiles
@@ -43,7 +94,10 @@ cd ~/projects/dotfiles
 ./install.sh validate
 ```
 
+Se a configuração Hyprland estiver inválida, entre no Plasma (Wayland), use
+`./install.sh rollback` e consulte [`docs/recovery.md`](docs/recovery.md). O Plasma
+permanece instalado e selecionável como fallback.
+
 Arquitetura: [`docs/architecture.md`](docs/architecture.md). Atalhos:
-[`docs/shortcuts.md`](docs/shortcuts.md). Recuperação:
-[`docs/recovery.md`](docs/recovery.md). Evidências e pendências físicas:
+[`docs/shortcuts.md`](docs/shortcuts.md). Evidências históricas:
 [`docs/validation-report.md`](docs/validation-report.md).

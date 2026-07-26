@@ -4,22 +4,87 @@ set -euo pipefail
 repo_root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 backup_root="${XDG_STATE_HOME:-${HOME}/.local/state}/colutti-desktop/backups"
 mode="${1:-help}"
-config_packages=(hyprland systemd uwsm alacritty xdg-desktop-portal autostart gtk vscodium matugen)
+dry_run=0
+config_packages=(
+  alacritty autostart backgrounds fuzzel gtk hyprland matugen quickshell
+  swaync systemd uwsm vscodium xdg-desktop-portal zshrc
+)
 
 usage() {
   printf '%s\n' \
     "usage: ./install.sh <preflight|install|link|validate|rollback|doctor>" \
+    "       ./install.sh bootstrap [--dry-run]" \
     "  preflight  collect a read-only hardware and software report" \
     "  install    install official repository packages with pacman" \
     "  link       back up existing files and stow the configuration" \
     "  validate   run repository, Hyprland and systemd checks" \
     "  rollback   restore the most recent link backup" \
-    "  doctor     run dms doctor"
+    "  doctor     run dms doctor" \
+    "  bootstrap  install packages, services and configuration for a clean Arch base" \
+    "  --dry-run  report bootstrap actions without changing the system"
 }
 
 packages() {
-  python -c 'import json,sys; print(*json.load(open(sys.argv[1]))["install"])' \
-    "${repo_root}/packages.json"
+  awk '
+    /"install"[[:space:]]*:/ { inside=1 }
+    inside { print }
+    inside && /\][[:space:]]*,?[[:space:]]*$/ { exit }
+  ' "${repo_root}/packages.json" |
+    grep -oE '"[A-Za-z0-9@._+:-]+"' |
+    tr -d '"' |
+    grep -vx install
+}
+
+root_run() {
+  if (( EUID == 0 || dry_run )); then
+    "$@"
+  else
+    sudo "$@"
+  fi
+}
+
+require_command() {
+  command -v "$1" >/dev/null 2>&1 || {
+    printf 'missing command: %s\n' "$1" >&2
+    return 1
+  }
+}
+
+check_bootstrap_prerequisites() {
+  [[ "${USER:-$(id -un)}" == colutti || ( dry_run && "${USER:-$(id -un)}" == root ) ]] || {
+    printf 'bootstrap must run as user colutti\n' >&2
+    return 1
+  }
+  [[ -f /etc/arch-release ]] || {
+    printf 'bootstrap requires Arch Linux or CachyOS (/etc/arch-release)\n' >&2
+    return 1
+  }
+  require_command pacman
+  if (( ! dry_run )); then
+    require_command sudo
+    sudo -v
+  fi
+  if ! getent hosts archlinux.org >/dev/null 2>&1; then
+    printf 'network/DNS is unavailable; connect before running bootstrap\n' >&2
+    return 1
+  fi
+}
+
+hardware_profile() {
+  "${repo_root}/scripts/hardware-profile"
+}
+
+install_flatpaks() {
+  flatpak remote-add --user --if-not-exists flathub \
+    https://flathub.org/repo/flathub.flatpakrepo
+  while IFS= read -r app; do
+    [[ -n "$app" ]] || continue
+    flatpak install --user --or-update --noninteractive flathub "$app"
+  done < <(
+    awk '/"flatpak_apps"[[:space:]]*:/ { inside=1 } inside { print } inside && /\][[:space:]]*,?[[:space:]]*$/ { exit }' \
+      "${repo_root}/packages.json" |
+      grep -oE '"[A-Za-z0-9@._+-]+"' | tr -d '"' | grep -vx flatpak_apps
+  )
 }
 
 preflight() {
@@ -46,24 +111,48 @@ preflight() {
 
 install_packages() {
   local desktop_user
-  if (( EUID != 0 )); then
-    printf 'install must run as root: sudo ./install.sh install\n' >&2
-    exit 1
-  fi
-  if snapper -c root list >/dev/null 2>&1; then
-    snapper -c root create --type single \
+  if (( ! dry_run )) && command -v snapper >/dev/null 2>&1 &&
+    root_run snapper -c root list >/dev/null 2>&1; then
+    root_run snapper -c root create --type single \
       --description "Before Colutti Hyprland workstation install"
   fi
   mapfile -t official < <(packages | tr ' ' '\n')
-  pacman -Syu --needed -- "${official[@]}"
-  desktop_user="${SUDO_USER:-}"
-  if [[ -n "${desktop_user}" && "${desktop_user}" != root ]] &&
+  if (( dry_run )); then
+    printf 'package-plan:\n'
+    root_run pacman -Sp --needed -- "${official[@]}"
+    return 0
+  fi
+  root_run pacman -Syu --needed -- "${official[@]}"
+  desktop_user="${USER:-$(id -un)}"
+  if [[ "${desktop_user}" != root ]] &&
     getent group gamemode >/dev/null &&
     ! id -nG "${desktop_user}" | tr ' ' '\n' | grep -qx gamemode; then
-    usermod -aG gamemode -- "${desktop_user}"
+    root_run usermod -aG gamemode -- "${desktop_user}"
     printf 'Added %s to gamemode; log in again before testing GameMode.\n' \
       "${desktop_user}"
   fi
+}
+
+bootstrap() {
+  check_bootstrap_prerequisites
+  printf 'hardware-profile:\n'
+  hardware_profile
+  if (( ! dry_run )); then
+    "${repo_root}/scripts/bootstrap-repositories"
+  fi
+  install_packages
+  if (( dry_run )); then
+    printf 'dry-run: skipping Flatpak, system services, links and generated state\n'
+    return 0
+  fi
+  install_flatpaks
+  "${repo_root}/scripts/bootstrap-services"
+  link_config
+  validate
+  printf '%s\n' \
+    'bootstrap complete' \
+    'next: select Hyprland (uwsm-managed) at the login screen' \
+    'next: sign in to Steam, Discord, Telegram, Zen and any other application accounts'
 }
 
 link_config() {
@@ -182,6 +271,10 @@ rollback() {
 case "${mode}" in
   preflight) preflight ;;
   install) install_packages ;;
+  bootstrap)
+    [[ "${2:-}" == --dry-run ]] && dry_run=1
+    bootstrap
+    ;;
   link) link_config ;;
   validate) validate ;;
   rollback) rollback ;;
