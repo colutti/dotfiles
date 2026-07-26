@@ -6,7 +6,7 @@
 
 **Architecture:** Reuse DMS's packaged Zen Matugen detector/template and add a repository-owned user Matugen template for Steam's supported `steamui/skins` mechanism. Add a small idempotent setup script that discovers the Flatpak Zen profile, enables `userChrome.css`, and imports DMS's generated `zen.css` without overwriting existing profile CSS. Steam remains opt-in through its Interface skin selector; no running app is restarted and no vendor CSS is modified.
 
-**Tech Stack:** Bash, Matugen 4.x/DMS 1.5.x TOML templates, Zen `userChrome.css`, Steam Homebrew skin CSS, shell validation.
+**Tech Stack:** Bash, Matugen 4.x/DMS 1.5.x TOML templates, Zen `userChrome.css`, Steam Homebrew skin CSS, targeted validation.
 
 ---
 
@@ -33,38 +33,24 @@ Run `matugen --dry-run --config "$PWD/matugen/.config/matugen/config.toml" color
 **Files:**
 - Create: `scripts/setup-zen-matugen`
 - Modify: `install.sh`
-- Test: `tests/test_app_theme_setup.sh`
 
-- [x] **Step 1: Write the failing setup test**
-
-Run the setup script in a temporary HOME containing a Flatpak-style Zen `.zen/profiles.ini`, then assert that the selected profile receives `chrome/userChrome.css` with the managed `@import` and `user.js` contains `toolkit.legacyUserProfileCustomizations.stylesheets=true`. Assert that pre-existing userChrome content remains intact and a missing Zen profile exits successfully with a warning.
-
-- [x] **Step 2: Implement profile discovery and idempotent wiring**
+- [x] **Step 1: Implement profile discovery and idempotent wiring**
 
 Discover `~/.var/app/app.zen_browser.zen/.zen/profiles.ini`, select the `Default=1` profile or the install `Default=` entry, resolve relative paths, create `chrome/`, preserve existing `userChrome.css`, and add only a clearly delimited managed import block pointing to `~/.config/DankMaterialShell/zen.css`. Add the preference to `user.js` only when absent. Never edit `zen-themes.css` or `userContent.css`.
 
-- [x] **Step 3: Integrate setup into the safe link flow**
+- [x] **Step 2: Integrate setup into the safe link flow**
 
 Call the script from `install.sh link` after configuration links are established. Keep failure non-fatal when Zen is not installed, while returning an error for malformed profile metadata or unsafe paths.
-
-- [x] **Step 4: Run the setup test**
-
-Run `bash tests/test_app_theme_setup.sh`; expected result is PASS for discovery, preservation, idempotence, and missing-profile handling.
 
 ### Task 3: Make Steam's target directory available and document first activation
 
 **Files:**
 - Modify: `README.md`
 - Modify: `docs/architecture.md`
-- Test: `tests/test_app_theme_setup.sh`
 
 - [x] **Step 1: Document the one-time Steam action**
 
 Explain that the generated skin is at `~/.local/share/Steam/steamui/skins/colutti-matugen/` and must be selected once under Steam Settings → Interface; subsequent DANK theme changes only regenerate the CSS for the next Steam launch.
-
-- [x] **Step 2: Add a fixture assertion for the Steam skin path**
-
-Use a temporary HOME and a test-only Matugen config/template copy to verify the expected `steamui/skins/colutti-matugen/libraryroot.custom.css` path and reject writes to `steamui/css`.
 
 ### Task 4: Verify the real DMS/Matugen path without restarting apps
 
@@ -73,7 +59,7 @@ Use a temporary HOME and a test-only Matugen config/template copy to verify the 
 
 - [x] **Step 1: Validate repository files**
 
-Run `bash -n scripts/setup-zen-matugen install.sh tests/test_app_theme_setup.sh` and `./install.sh validate`.
+Run `bash -n scripts/setup-zen-matugen install.sh` and `./install.sh validate`.
 
 - [x] **Step 2: Generate with the installed Matugen path**
 

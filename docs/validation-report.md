@@ -60,14 +60,14 @@ Validado em 25 de julho de 2026:
 - A entrada **Hyprland (uwsm-managed)** foi confirmada: `uwsm start` iniciou
   `wayland-wm@hyprland.desktop.service`; `session-init` limpou as unidades Plasma e
   Arch-Update herdadas, deixando zero unidades user failed.
-- 41 testes automatizados, parser Lua do Hyprland, `qmllint`, JSON, shell e Python
-  passaram na validação final deste checkpoint. O pacote `swayosd` está instalado,
-  seu serviço está ativo e `install.sh doctor` terminou com código 0.
+- O parser Lua do Hyprland, `qmllint`, JSON, shell e Python passaram na validação
+  final deste checkpoint. O pacote `swayosd` está instalado, seu serviço está ativo
+  e `install.sh doctor` terminou com código 0.
 
 ## Pendências bloqueantes para promoção final
 
 1. Reboot duplo, Plasma, suspensão/retomada, jogo Proton e compartilhamento de
-   tela exigem testes interativos após a nova entrada. Os jogos não são iniciados
+   tela exigem verificação interativa após a nova entrada. Os jogos não são iniciados
    automaticamente pela auditoria.
 
 Até esses itens passarem, a sessão é funcional mas não deve ser declarada 100% promovida.

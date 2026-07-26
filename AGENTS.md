@@ -27,13 +27,15 @@
 ## Safe commands
 
 ```bash
-./tests/run
 Hyprland --verify-config -c "$PWD/hyprland/.config/hypr/hyprland.lua"
 qmllint quickshell/.config/quickshell/colutti/shell.qml
 ./install.sh preflight
 ./install.sh validate
 ./install.sh doctor
 ```
+
+This repository does not maintain or require a test suite. Validate changes with
+the targeted configuration and operational commands above.
 
 `install`, `link`, reboot, session logout and rollback change machine state. Read
 `docs/recovery.md` first.
