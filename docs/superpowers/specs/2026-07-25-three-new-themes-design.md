@@ -1,4 +1,7 @@
-# Three new desktop themes
+# Archived Theme Spec
+
+Este documento registra uma especificação antiga das três temáticas declarativas.
+O fluxo atual usa DANK e não depende mais do caminho antigo descrito abaixo.
 
 ## Goal
 
@@ -59,10 +62,5 @@ the existing repository convention.
 
 ## Validation
 
-- Parse all new manifests with `python -m json.tool`.
-- Run `./tests/run`.
-- Run `./install.sh validate` if it can execute without mutating the machine.
-- Confirm each wallpaper exists and each manifest points to a file inside its own
-  theme directory.
-- Confirm `desktopctl` discovers all three new slugs and preserves the existing
-  theme count plus three.
+Os passos históricos de validação foram removidos porque o caminho atual não usa
+mais o pipeline antigo.

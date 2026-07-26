@@ -6,4 +6,5 @@ hl.env("HYPRCURSOR_SIZE", "24")
 hl.env("MOZ_ENABLE_WAYLAND", "1")
 hl.env("ELECTRON_OZONE_PLATFORM_HINT", "auto")
 hl.env("QT_QPA_PLATFORMTHEME", "kde")
-hl.env("STEAM_FORCE_DESKTOPUI_SCALING", "1.75")
+-- Steam is an XWayland client; 2x keeps its CEF UI readable on the 4K DP-2 display.
+hl.env("STEAM_FORCE_DESKTOPUI_SCALING", "2")

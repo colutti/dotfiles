@@ -39,9 +39,9 @@ hl.window_rule({
 })
 
 hl.window_rule({
-    name = "zen-no-compositor-border",
+    name = "zen-compositor-border",
     match = { initial_class = "app.zen_browser.zen" },
-    border_size = 0,
+    border_size = 1,
 })
 
 hl.window_rule({

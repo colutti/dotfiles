@@ -14,15 +14,14 @@ restantes exigem nova entrada, credencial, hardware ou interação humana real.
 - [x] Aplicação dos cinco temas e retorno ao Studio Ember sem geração híbrida.
 - [x] Preview de tema com rollback automático.
 - [x] Transação de monitor expirada com restauração byte a byte da geometria.
-- [x] Notificações normal/crítica, ação, histórico, DND e recuperação Dunst → SwayNC.
-- [x] Fuzzel com entrada de teclado e fechamento por Escape.
+- [x] Notificações normal/crítica, ação, histórico e DND no DANK.
+- [x] Launcher do DANK com entrada de teclado e fechamento por Escape.
 - [x] Tray visível e menu de contexto implementado; barra ausente no HDMI.
 - [x] Serviço oficial `swayosd-server` instalado e ativo; OSD visual exibido por
   `swayosd-client` na camada `swayosd` do DP-2.
-- [x] Hyprlock renderizou nas duas escalas; opções obsoletas foram removidas.
 - [x] DPMS off/on e inibidor manual de jogo.
-- [x] Suspensão automática configurada para 30 minutos de inatividade, após lock e
-  DPMS; não foi aguardado o timeout completo durante esta sessão.
+- [x] Suspensão automática configurada para 30 minutos de inatividade, após DPMS;
+  não foi aguardado o timeout completo durante esta sessão.
 - [x] Portais frontend, Hyprland e KDE ativos; screenshot 3840×2160 válido.
 - [x] FileChooser KDE abriu por `org.freedesktop.portal.FileChooser` e foi encerrado
   sem deixar janela; compartilhamento/gravação ainda requerem um aplicativo real.

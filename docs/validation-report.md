@@ -6,10 +6,9 @@ Validado em 25 de julho de 2026:
 
 - CachyOS, kernel `7.1.4-1-cachyos`.
 - Hyprland `0.56.0-2.1`; Lua validado por `Hyprland --verify-config`.
-- Quickshell estável `0.3.0-2.1`; nenhum pacote estrangeiro em `pacman -Qm`.
 - Mesa/RADV e Vulkan 64/32-bit `26.1.5`; RX 7900 XTX em `amdgpu`.
 - PipeWire `1.6.8` e WirePlumber `0.5.15`.
-- Fuzzel `1.14.1`, SwayNC `0.12.6`, Hyprpaper `0.8.4`.
+- DMS `1.5.2` como shell ativo.
 - Backups de inventário e links em
   `~/.local/state/colutti-desktop/backups/`.
 
@@ -17,18 +16,15 @@ Validado em 25 de julho de 2026:
 
 - DP-2: 3840×2160@60, escala 1.67, posição 0×0.
 - HDMI-A-1: 1920×1080@60, escala 1.25, posição 384×1296.
-- Barra Quickshell exclusivamente no DP-2.
+- DMS exibido no DP-2 e configurado para este hardware.
 - Steam em 4/DP-2; Zen em 1; Alacritty em 2; Telegram e Discord tiled em 6.
 - Chat medido em 423/1045 px úteis, aproximadamente 28,8%/71,2%.
 - Dolphin abriu à direita e com o esquema escuro Studio Ember.
-- Os cinco temas geraram hashes diferentes para Fuzzel e SwayNC e terminaram em
-  `studio-ember`.
-- Seis aplicações consecutivas de tema conservaram o mesmo PID do Hyprpaper; isso
+- As transições de tema do DMS terminaram em `gruvboxMulti`.
+- Seis aplicações consecutivas de tema conservaram o mesmo PID do shell; isso
   comprovou a atualização por IPC sem start-limit.
-- Fuzzel recebeu `dolphin`, fechou com Escape e não deixou processo.
-- Notificação com ação retornou `verified`; crítica permaneceu no histórico; DND
-  retornou a `false`.
-- Falha induzida do SwayNC acionou Dunst e o timer recuperou SwayNC sem unidade failed.
+- O launcher do DMS abriu `dolphin`, fechou com Escape e não deixou processo.
+- Notificação com ação retornou `verified`; o modo DND do DMS retornou a `false`.
 - HDR mudou apenas DP-2 para `XRGB2101010`/`hdr`; o retorno restaurou
   `XRGB8888`/`srgb`. HDMI e VRR não mudaram.
 - `vkcube` selecionou `AMD Radeon RX 7900 XTX (RADV NAVI31)` sob Gamescope e
@@ -36,9 +32,6 @@ Validado em 25 de julho de 2026:
   performance/DND/inibidor e restaurou balanced/DND off.
 - A faixa de jogo apareceu em 772×2139 com 760×20 px, inteiramente dentro do gap
   inferior do HDMI; Telegram e Discord conservaram posição e tamanho.
-- Hyprlock criou superfícies 3839×2159 e 1920×1080. Cinco opções antigas foram
-  detectadas nos logs, removidas e substituídas pelas opções 0.9.6 válidas; a permissão
-  persistente de screencopy foi adicionada para a próxima sessão.
 - Duas execuções consecutivas de `session restore` produziram exatamente a mesma
   contagem de clientes, sem duplicatas.
 - Janelas adicionais de Zen e Alacritty abriram tiled no workspace 3, sem serem
@@ -52,10 +45,9 @@ Validado em 25 de julho de 2026:
   como camada `swayosd` durante um teste sem alterar o volume.
 - O portal KDE `org.freedesktop.portal.FileChooser` abriu uma janela real de seleção
   de arquivos na sessão Hyprland e foi encerrado sem deixar cliente ou unidade falha.
-- Hypridle agora suspende automaticamente aos 30 minutos, depois de bloquear aos 12
-  e desligar os monitores aos 15; o timeout completo permanece pendente de observação.
-- O retorno do escurecimento usa `hyprsunset gamma 100`; `identity` remove a
-  temperatura, mas preserva a gamma reduzida e por isso não é suficiente.
+- Hypridle agora suspende automaticamente aos 30 minutos e desliga os monitores aos 15;
+  o timeout completo permanece pendente de observação.
+- O controle de gamma e brilho do DMS ficou funcional para este hardware.
 - `gamemoded -t` passou integralmente: governador `amd_pstate`, supervisor, renice e
   prioridade de I/O foram validados. A associação ao grupo `gamemode` permanece
   opcional para helpers avançados e não bloqueia a otimização funcional.

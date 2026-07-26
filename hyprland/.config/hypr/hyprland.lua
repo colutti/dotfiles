@@ -9,11 +9,7 @@ require("modules.binds")
 require("modules.appearance")
 require("modules.permissions")
 require("modules.autostart")
-
-local stateHome = os.getenv("XDG_STATE_HOME") or (os.getenv("HOME") .. "/.local/state")
-local generatedTheme = stateHome .. "/colutti-desktop/generated/hyprland-theme.lua"
-local themeFile = io.open(generatedTheme, "r")
-if themeFile then
-    themeFile:close()
-    dofile(generatedTheme)
-end
+require("dms.colors")
+require("dms.layout")
+require("dms.cursor")
+require("dms.windowrules")

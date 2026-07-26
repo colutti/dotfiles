@@ -1,13 +1,11 @@
 {
   "policy": "official-repositories-only",
   "install": [
-    "alacritty", "brightnessctl", "breeze", "cava", "cliphist", "ddcutil",
-    "discord", "dunst", "file", "flatpak", "fuzzel", "gamemode", "gamescope", "grim", "hypridle", "hyprland",
-    "hyprlock", "hyprpaper", "hyprsunset", "jq", "lib32-gamemode",
-    "libnotify", "mangohud", "noto-fonts", "noto-fonts-emoji",
-    "papirus-icon-theme", "pyside6", "playerctl", "power-profiles-daemon", "quickshell",
-    "satty", "slurp", "socat", "steam", "stow", "swaync", "swayosd", "telegram-desktop", "ttf-jetbrains-mono-nerd", "uwsm",
-    "wl-clipboard", "wtype", "xdg-desktop-portal-hyprland"
+    "alacritty", "brightnessctl", "breeze", "ddcutil", "discord", "file", "flatpak",
+    "gamemode", "gamescope", "grim", "hyprland", "jq", "lib32-gamemode", "mangohud",
+    "noto-fonts", "noto-fonts-emoji", "papirus-icon-theme", "playerctl", "power-profiles-daemon",
+    "satty", "slurp", "socat", "steam", "stow", "telegram-desktop", "ttf-jetbrains-mono-nerd",
+    "uwsm", "wl-clipboard", "wtype", "xdg-desktop-portal-hyprland", "dms-shell"
   ],
   "optional": [
     "network-manager-applet",
@@ -18,9 +16,7 @@
   "flatpak_apps": [
     "app.zen_browser.zen"
   ],
-  "remove": [
-    "quickshell-git"
-  ],
+  "remove": [],
   "session_conflicts": [
     "dms-shell"
   ]

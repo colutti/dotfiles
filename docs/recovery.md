@@ -22,30 +22,30 @@ Uma aplicação via CLI expira em 20 segundos e restaura a última configuraçã
 Para forçar o rollback pelo TTY:
 
 ```bash
-colutti-desktopctl monitors rollback
-systemctl --user restart colutti-desktop.target
+dms doctor
+systemctl --user restart dms
 ```
 
 ## Shell ou notificações
 
 ```bash
-systemctl --user status colutti-quickshell.service
-journalctl --user -u colutti-quickshell.service -b
-systemctl --user start colutti-notifier-fallback.service
+systemctl --user status dms
+journalctl --user -u dms -b
+systemctl --user restart dms
 ```
 
-Se o wallpaper entrar em `start-limit`:
+Se o shell entrar em `start-limit`:
 
 ```bash
-systemctl --user reset-failed hyprpaper.service
-systemctl --user restart hyprpaper.service
+systemctl --user reset-failed dms
+systemctl --user restart dms
 ```
 
 ## Sessão iniciada pela entrada errada
 
-`colutti-desktopctl doctor` mostra `uwsm-session: inactive` quando foi escolhida a
-entrada simples. Saia com `colutti-session-logout` e selecione
-**Hyprland (uwsm-managed)** no próximo login.
+`dms doctor` deve apontar o estado da sessão e das dependências. Saia com
+`colutti-session-logout` e selecione a entrada Hyprland gerenciada por UWSM no
+próximo login.
 
 ## Snapshot Btrfs
 

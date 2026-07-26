@@ -4,7 +4,7 @@ set -euo pipefail
 repo_root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 backup_root="${XDG_STATE_HOME:-${HOME}/.local/state}/colutti-desktop/backups"
 mode="${1:-help}"
-config_packages=(hyprland quickshell systemd uwsm alacritty fuzzel swaync xdg-desktop-portal autostart gtk vscodium)
+config_packages=(hyprland systemd uwsm alacritty xdg-desktop-portal autostart gtk vscodium)
 
 usage() {
   printf '%s\n' \
@@ -12,9 +12,9 @@ usage() {
     "  preflight  collect a read-only hardware and software report" \
     "  install    install official repository packages with pacman" \
     "  link       back up existing files and stow the configuration" \
-    "  validate   run repository, Hyprland, QML and systemd checks" \
+    "  validate   run repository, Hyprland and systemd checks" \
     "  rollback   restore the most recent link backup" \
-    "  doctor     run colutti-desktopctl doctor"
+    "  doctor     run dms doctor"
 }
 
 packages() {
@@ -54,9 +54,6 @@ install_packages() {
     snapper -c root create --type single \
       --description "Before Colutti Hyprland workstation install"
   fi
-  if pacman -Q quickshell-git >/dev/null 2>&1; then
-    pacman -Rns --noconfirm -- quickshell-git
-  fi
   mapfile -t official < <(packages | tr ' ' '\n')
   pacman -Syu --needed -- "${official[@]}"
   desktop_user="${SUDO_USER:-}"
@@ -86,7 +83,6 @@ link_config() {
   mkdir -p "${target}"
   for path in \
     .config/hypr \
-    .config/quickshell \
     .config/systemd/user \
     .config/uwsm \
     .config/alacritty \
@@ -127,46 +123,15 @@ link_config() {
     "${config_packages[@]}"
   systemctl --user daemon-reload 2>/dev/null || true
   mkdir -p "${HOME}/.local/bin"
-  ln -sfn "${repo_root}/bin/colutti-desktopctl" \
-    "${HOME}/.local/bin/colutti-desktopctl"
-  ln -sfn "${repo_root}/scripts/session-restore" \
-    "${HOME}/.local/bin/colutti-session-restore"
   ln -sfn "${repo_root}/scripts/session-init" \
     "${HOME}/.local/bin/colutti-session-init"
-  ln -sfn "${repo_root}/scripts/clipboard-ingest" \
-    "${HOME}/.local/bin/colutti-clipboard-ingest"
-  ln -sfn "${repo_root}/scripts/audio-control" \
-    "${HOME}/.local/bin/colutti-audio-control"
-  ln -sfn "${repo_root}/scripts/settings-open" \
-    "${HOME}/.local/bin/colutti-settings-open"
-  ln -sfn "${repo_root}/scripts/theme-menu" \
-    "${HOME}/.local/bin/colutti-theme-menu"
-  ln -sfn "${repo_root}/scripts/clipboard-menu" \
-    "${HOME}/.local/bin/colutti-clipboard-menu"
-  ln -sfn "${repo_root}/scripts/status-line" \
-    "${HOME}/.local/bin/colutti-status-line"
-  ln -sfn "${repo_root}/scripts/metrics-line" \
-    "${HOME}/.local/bin/colutti-metrics-line"
-  ln -sfn "${repo_root}/scripts/game-run" \
-    "${HOME}/.local/bin/colutti-game-run"
-  ln -sfn "${repo_root}/scripts/brightness-control" \
-    "${HOME}/.local/bin/colutti-brightness-control"
-  ln -sfn "${repo_root}/scripts/settings-gui" \
-    "${HOME}/.local/bin/colutti-settings-gui"
-  ln -sfn "${repo_root}/scripts/shortcuts-open" \
-    "${HOME}/.local/bin/colutti-shortcuts"
   ln -sfn "${repo_root}/scripts/session-logout" \
     "${HOME}/.local/bin/colutti-session-logout"
   mkdir -p "${XDG_CONFIG_HOME:-${HOME}/.config}/colutti-desktop"
-  cp -n -- "${repo_root}/settings/default.json" \
-    "${XDG_CONFIG_HOME:-${HOME}/.config}/colutti-desktop/settings.json" || true
-  local selected_theme
-  selected_theme="$(
-    jq -r '.theme' \
+  if [[ ! -e "${XDG_CONFIG_HOME:-${HOME}/.config}/colutti-desktop/settings.json" ]]; then
+    cp -- "${repo_root}/settings/default.json" \
       "${XDG_CONFIG_HOME:-${HOME}/.config}/colutti-desktop/settings.json"
-  )"
-  COLUTTI_DESKTOP_ROOT="${repo_root}" \
-    "${repo_root}/bin/colutti-desktopctl" theme apply "${selected_theme}"
+  fi
   if [[ "${relink}" == false ]]; then
     : >"${backup_root}/${stamp}/link-complete"
   fi
@@ -174,14 +139,10 @@ link_config() {
 }
 
 validate() {
-  "${repo_root}/tests/run"
   python -m json.tool "${repo_root}/settings/default.json" >/dev/null
   find "${repo_root}/themes" -name manifest.json -exec python -m json.tool {} \; >/dev/null
   if command -v Hyprland >/dev/null; then
     Hyprland --verify-config -c "${repo_root}/hyprland/.config/hypr/hyprland.lua"
-  fi
-  if command -v qmllint >/dev/null; then
-    qmllint "${repo_root}/quickshell/.config/quickshell/colutti/shell.qml"
   fi
   if command -v systemd-analyze >/dev/null; then
     local verify_output verify_status
@@ -220,7 +181,7 @@ case "${mode}" in
   link) link_config ;;
   validate) validate ;;
   rollback) rollback ;;
-  doctor) exec "${repo_root}/bin/colutti-desktopctl" doctor ;;
+  doctor) exec dms doctor ;;
   help|-h|--help) usage ;;
   *) usage >&2; exit 64 ;;
 esac

@@ -4,5 +4,5 @@ hl.on("hyprland.start", function()
 end)
 
 hl.on("hyprland.shutdown", function()
-    hl.exec_cmd("systemctl --user stop colutti-desktop.target")
+    hl.exec_cmd("systemctl --user stop dms")
 end)

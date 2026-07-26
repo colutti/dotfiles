@@ -1,0 +1,41 @@
+<h2>Três direções de tema</h2>
+<p class="subtitle">Clique na direção que mais se aproxima do resultado que você quer; a arquitetura do shell permanece a mesma.</p>
+
+<div class="cards" style="grid-template-columns:repeat(3,minmax(0,1fr));gap:18px">
+  <div class="card" data-choice="nord" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#2e3440;padding:18px;min-height:260px;color:#eceff4;font-family:monospace">
+      <div style="display:flex;justify-content:space-between;border-bottom:1px solid #4c566a;padding-bottom:12px;font-size:12px">
+        <span style="color:#88c0d0">01 02 03 04</span><span>25° · 14:32</span>
+      </div>
+      <div style="margin-top:32px;border-left:3px solid #88c0d0;padding-left:14px">
+        <div style="font-size:22px;font-family:sans-serif">NORD / QUIET FROST</div>
+        <div style="color:#d8dee9;margin-top:12px">focused · precise · low noise</div>
+      </div>
+      <div style="margin-top:46px;color:#a3be8c">CPU 18% &nbsp; MEM 6.4G &nbsp; NET 42k</div>
+    </div>
+    <div class="card-body"><h3>Nord — Quiet Frost</h3><p>Azul-gelo, cinza azulado, acento cyan discreto e material fosco.</p></div>
+  </div>
+
+  <div class="card" data-choice="nothing" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#f1f1ef;padding:18px;min-height:260px;color:#171717;font-family:monospace">
+      <div style="display:flex;justify-content:space-between;font-size:12px;letter-spacing:2px"><span>◉ ◌ ◌</span><span>14:32</span></div>
+      <div style="margin-top:34px;font-family:sans-serif;font-size:28px;letter-spacing:-1px">NOTHING / GLYPH</div>
+      <div style="margin-top:18px;border-top:2px dotted #171717;border-bottom:2px dotted #171717;padding:13px 0;font-size:13px">workspace 01 &nbsp; // &nbsp; system ready</div>
+      <div style="margin-top:36px;font-size:14px">○○○○○○○○  62%</div>
+    </div>
+    <div class="card-body"><h3>Glyph — Nothing-inspired</h3><p>Monocromático, pontilhado, alto contraste e transições com precisão mecânica.</p></div>
+  </div>
+
+  <div class="card" data-choice="aerospace" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#282828;padding:18px;min-height:260px;color:#ebdbb2;font-family:monospace">
+      <div style="display:flex;justify-content:space-between;border-bottom:1px solid #665c54;padding-bottom:12px;font-size:12px"><span style="color:#b8bb26">[ dev ] [ web ] [ chat ]</span><span style="color:#fabd2f">14:32</span></div>
+      <div style="margin-top:36px;font-size:12px;color:#928374">TILING / READY</div>
+      <div style="font-family:sans-serif;font-size:25px;margin-top:8px">AEROSPACE</div>
+      <div style="margin-top:25px;padding:12px;background:#3c3836;border-left:3px solid #d79921">focus: terminal_01</div>
+      <div style="margin-top:24px;color:#b8bb26">CPU 18% &nbsp; MEM 6.4G &nbsp; VOL 72%</div>
+    </div>
+    <div class="card-body"><h3>Aerospace — Gruvbox Flight</h3><p>Carvão, âmbar e verde oliva, mais denso e orientado a fluxo de trabalho.</p></div>
+  </div>
+</div>
+
+<div class="section" style="margin-top:24px"><p class="subtitle">Minha recomendação: manter a mesma geometria lógica do shell e mudar apenas material, densidade, palette e wallpaper por tema.</p></div>

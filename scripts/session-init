@@ -35,8 +35,6 @@ plasma_helpers=(
 )
 systemctl --user stop --no-block "${plasma_helpers[@]}" 2>/dev/null || true
 systemctl --user reset-failed "${plasma_helpers[@]}" 2>/dev/null || true
-systemctl --user stop --no-block colutti-notifier-fallback.service 2>/dev/null || true
-systemctl --user reset-failed colutti-notifier-fallback.service 2>/dev/null || true
 
 systemctl --user reset-failed \
   xdg-desktop-portal-hyprland.service \
@@ -45,5 +43,8 @@ systemctl --user reset-failed \
 systemctl --user restart xdg-desktop-portal-hyprland.service
 systemctl --user restart xdg-desktop-portal.service
 
-systemctl --user start colutti-desktop.target
-systemctl --user start --no-block colutti-session-restore.service
+systemctl --user stop --no-block swaync.service 2>/dev/null || true
+systemctl --user stop --no-block colutti-quickshell.service 2>/dev/null || true
+systemctl --user disable --now colutti-quickshell.service 2>/dev/null || true
+systemctl --user disable --now colutti-desktop.target 2>/dev/null || true
+systemctl --user enable --now dms.service 2>/dev/null || systemctl --user start dms

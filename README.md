@@ -1,8 +1,8 @@
-# CachyOS Hyprland workstation
+# CachyOS workstation com DANK
 
-Sessão Hyprland 0.56 para esta workstation CachyOS: configuração Lua modular,
-Quickshell próprio para a barra, Fuzzel, SwayNC, cinco temas transacionais, restauração
-de aplicações, dois monitores e recuperação pelo Plasma.
+Sessão Hyprland 0.56 para esta workstation CachyOS com hardware e atalhos preservados:
+DANK como camada de shell, configuração modular de compositor, dois monitores e
+recuperação pelo Plasma.
 
 ## Instalação
 
@@ -13,36 +13,17 @@ sudo ./install.sh install
 ./install.sh validate
 ```
 
-`install` usa somente repositórios oficiais, atualiza o sistema, cria um snapshot
-Snapper quando a configuração `root` está disponível e substitui `quickshell-git` pela
-versão estável. Ele também adiciona o usuário que chamou `sudo` ao grupo oficial
-`gamemode`, quando necessário. Ele não reinicia a máquina; a nova associação de grupo
-vale no próximo login. `link` é idempotente, preserva o tema selecionado e guarda
-conflitos antes de criar os links.
+`install` usa somente repositórios oficiais, instala `dms-shell` e mantém o
+compositor/configuração do hardware sob o Hyprland desta máquina. `link` cria os
+links locais necessários para a sessão e não tenta reconstruir o shell antigo.
 
-Na tela de login, escolha exatamente **Hyprland (uwsm-managed)**. A entrada chamada
-apenas **Hyprland** funciona como compatibilidade, mas não satisfaz a arquitetura UWSM.
+Na tela de login, escolha a sessão Hyprland que esta máquina já usa com UWSM.
 
 ## Operação
 
-```bash
-colutti-desktopctl theme list
-colutti-desktopctl theme preview arctic-paper
-colutti-desktopctl theme apply studio-ember
-colutti-desktopctl theme rollback
-colutti-desktopctl monitors apply
-colutti-desktopctl monitors confirm TOKEN
-colutti-desktopctl monitors hdr on
-colutti-desktopctl monitors hdr off
-colutti-desktopctl profile game on
-colutti-desktopctl profile game off
-colutti-desktopctl session restore
-colutti-desktopctl doctor
-```
-
-`SUPER+I` abre a GUI tipada. Mudanças de monitor têm rollback em 20 segundos; temas
-também podem ser pré-visualizados com retorno automático. `colutti-game-run` combina
-GameMode, MangoHud e Gamescope por jogo.
+Use o DANK para launcher, notificações, clipboard, settings, process list, lock,
+brightness, audio e screenshots. As regras de monitor e os atalhos de hardware
+continuam vindo do Hyprland desta máquina.
 
 Para continuar a validação depois de reiniciar, entre na sessão UWSM, volte a este
 repositório e execute:

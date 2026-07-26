@@ -1,6 +1,7 @@
-# Three New Desktop Themes Implementation Plan
+# Archived Theme Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> Histórico da migração antiga de temas. Este arquivo foi mantido apenas como registro e
+> não descreve mais o fluxo atual da máquina.
 
 **Goal:** Add Nord, Nothing-inspired and Aerospace/Gruvbox themes as self-contained manifests and wallpaper assets discovered by the existing desktop theme loader.
 
@@ -116,56 +117,5 @@ git commit -m "feat: add Nord Nothing and Aerospace themes"
 
 ### Task 3: Validate discovery and repository contracts
 
-**Files:**
-- Test: `tests/test_desktopctl.py`
-- Test: `tests/test_repository_contracts.py`
-
-- [ ] **Step 1: Run the repository test suite**
-
-Run `./tests/run`. Expected: all tests pass, including manifest schema and theme
-discovery checks.
-
-- [ ] **Step 2: Verify desktopctl discovers exactly the three new slugs**
-
-Run:
-
-```bash
-python - <<'PY'
-from desktopctl.colutti_desktopctl import theme_manifests
-
-themes = {theme["slug"] for theme in theme_manifests()}
-required = {"nord-quiet-frost", "glyph-nothing", "aerospace-gruvbox"}
-assert required <= themes, (required, themes)
-print("discovered:", ", ".join(sorted(required)))
-PY
-```
-
-Expected: the output lists all three new slugs.
-
-- [ ] **Step 3: Run non-mutating installer validation**
-
-Run `./install.sh validate`. Expected: exit `0` without installing, linking,
-logging out or changing session state.
-
-- [ ] **Step 4: Inspect the final diff and status**
-
-Run:
-
-```bash
-git diff --check HEAD~2..HEAD
-git status --short
-```
-
-Expected: no whitespace errors; only intended theme assets/manifests and the
-committed design/plan documents are present. The generated `.superpowers/`
-visual-companion directory remains untracked and must not be committed.
-
-- [ ] **Step 5: Amend only if validation requires a correction**
-
-If validation exposes a schema or provenance correction, run:
-
-```bash
-git add themes/<affected-theme>
-git commit --amend --no-edit
-```
-
+Este plano antigo foi substituído pela configuração DANK atual. Não use os passos
+abaixo como referência operacional.

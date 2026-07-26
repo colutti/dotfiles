@@ -12,3 +12,15 @@ bold = { family = "JetBrainsMono Nerd Font", style = "Bold" }
 
 [cursor]
 style = { shape = "Beam", blinking = "On" }
+vi_mode_style = { shape = "Block", blinking = "Off" }
+
+[[keyboard.bindings]]
+key = "V"
+mods = "Alt"
+mode = "~Search"
+action = "ToggleViMode"
+
+[[keyboard.bindings]]
+key = "Escape"
+mode = "Vi|~Search"
+action = "ToggleViMode"
