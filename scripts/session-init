@@ -47,4 +47,6 @@ systemctl --user stop --no-block swaync.service 2>/dev/null || true
 systemctl --user stop --no-block colutti-quickshell.service 2>/dev/null || true
 systemctl --user disable --now colutti-quickshell.service 2>/dev/null || true
 systemctl --user disable --now colutti-desktop.target 2>/dev/null || true
-systemctl --user enable --now dms.service 2>/dev/null || systemctl --user start dms
+systemctl --user enable --now hypridle.service
+systemctl --user start dms.service
+systemctl --user start --no-block colutti-session-restore.service

@@ -25,6 +25,15 @@ Use o DANK para launcher, notificações, clipboard, settings, process list, loc
 brightness, audio e screenshots. As regras de monitor e os atalhos de hardware
 continuam vindo do Hyprland desta máquina.
 
+## Temas de aplicativos
+
+As trocas de tema do DANK/Matugen também geram o CSS da interface do Zen no perfil
+Flatpak e o skin do Steam em
+`~/.local/share/Steam/steamui/skins/colutti-matugen/`. No primeiro uso, abra Steam em
+Settings → Interface, selecione `colutti-matugen` e reinicie o Steam quando ele pedir.
+As trocas seguintes apenas regeneram o skin; Steam e Zen precisam ser fechados e
+abertos novamente para mostrar as novas cores.
+
 Para continuar a validação depois de reiniciar, entre na sessão UWSM, volte a este
 repositório e execute:
 

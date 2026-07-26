@@ -4,7 +4,7 @@ set -euo pipefail
 repo_root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 backup_root="${XDG_STATE_HOME:-${HOME}/.local/state}/colutti-desktop/backups"
 mode="${1:-help}"
-config_packages=(hyprland systemd uwsm alacritty xdg-desktop-portal autostart gtk vscodium)
+config_packages=(hyprland systemd uwsm alacritty xdg-desktop-portal autostart gtk vscodium matugen)
 
 usage() {
   printf '%s\n' \
@@ -122,6 +122,10 @@ link_config() {
   stow --dir="${repo_root}" --target="${HOME}" --restow --no-folding \
     "${config_packages[@]}"
   systemctl --user daemon-reload 2>/dev/null || true
+  # dms is started explicitly by session-init after Hyprland exports its
+  # compositor environment; never let the package preset start it in Plasma.
+  systemctl --user disable dms.service 2>/dev/null || true
+  "${repo_root}/scripts/setup-zen-matugen"
   mkdir -p "${HOME}/.local/bin"
   ln -sfn "${repo_root}/scripts/session-init" \
     "${HOME}/.local/bin/colutti-session-init"

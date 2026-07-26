@@ -10,6 +10,11 @@ repo fica responsável pelas regras de hardware e da sessão Hyprland.
 As regras de monitor continuam sendo a fonte de verdade para esta máquina. O hardware
 fica fixo no Hyprland, enquanto o DANK controla a experiência de desktop ao redor.
 
+O DMS fornece o template Matugen oficial para a interface do Zen. O instalador liga esse
+arquivo ao `userChrome.css` do perfil Flatpak descoberto em `profiles.ini`, preservando
+regras existentes. O template local do Steam gera um skin em `steamui/skins`, sem tocar
+nos CSS distribuídos pelo cliente; a seleção do skin é feita uma vez pelo usuário.
+
 ## Sessão
 
 A entrada de Hyprland inicia o compositor como unidade UWSM. No início da sessão,

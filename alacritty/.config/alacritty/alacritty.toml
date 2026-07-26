@@ -1,4 +1,4 @@
-general.import = ["~/.local/state/colutti-desktop/generated/alacritty-theme.toml"]
+general.import = ["~/.config/alacritty/dank-theme.toml"]
 
 [window]
 padding = { x = 12, y = 12 }

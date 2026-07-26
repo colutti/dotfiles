@@ -1,11 +1,11 @@
 {
   "policy": "official-repositories-only",
   "install": [
-    "alacritty", "brightnessctl", "breeze", "ddcutil", "discord", "file", "flatpak",
+    "adw-gtk-theme", "alacritty", "brightnessctl", "breeze", "ddcutil", "discord", "file", "flatpak",
     "gamemode", "gamescope", "grim", "hyprland", "jq", "lib32-gamemode", "mangohud",
     "noto-fonts", "noto-fonts-emoji", "papirus-icon-theme", "playerctl", "power-profiles-daemon",
     "satty", "slurp", "socat", "steam", "stow", "telegram-desktop", "ttf-jetbrains-mono-nerd",
-    "uwsm", "wl-clipboard", "wtype", "xdg-desktop-portal-hyprland", "dms-shell"
+    "uwsm", "wl-clipboard", "wtype", "xdg-desktop-portal-hyprland", "dms-shell", "qt6ct"
   ],
   "optional": [
     "network-manager-applet",

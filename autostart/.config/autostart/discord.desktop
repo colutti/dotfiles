@@ -1,9 +1,9 @@
 [Desktop Entry]
 Type=Application
-Exec=/usr/bin/discord
-TryExec=/usr/bin/discord
-OnlyShowIn=KDE;
+Exec=/home/colutti/.config/discord/app-1.0.150/Discord
+Hidden=false
+NoDisplay=false
 Name=Discord
-Icon=discord
-Comment=Text and voice chat for gamers
-Terminal=false
+Icon=/home/colutti/.config/discord/app-1.0.150/discord.png
+Comment=Text and voice chat for gamers.
+X-GNOME-Autostart-enabled=true

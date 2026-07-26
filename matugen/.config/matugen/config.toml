@@ -1,0 +1,13 @@
+[config]
+
+[templates.telegram]
+input_path = '/home/colutti/projects/dotfiles/matugen/.config/matugen/templates/telegram.tdesktop-theme'
+output_path = '/home/colutti/.config/TelegramDesktop/dms-matugen.tdesktop-theme'
+
+[templates.steam]
+input_path = '/home/colutti/projects/dotfiles/matugen/.config/matugen/templates/steam-libraryroot.custom.css'
+output_path = '/home/colutti/.local/share/Steam/steamui/skins/colutti-matugen/libraryroot.custom.css'
+
+[templates.zen]
+input_path = '/home/colutti/projects/dotfiles/matugen/.config/matugen/templates/zen-userchrome.css'
+output_path = '/home/colutti/.var/app/app.zen_browser.zen/.zen/colutti-dms-zen.css'

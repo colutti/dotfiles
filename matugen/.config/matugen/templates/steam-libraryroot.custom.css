@@ -1,0 +1,125 @@
+/* Colutti DMS Matugen Steam skin. */
+:root {
+  --colutti-bg: {{colors.background.default.hex}};
+  --colutti-surface: {{colors.surface_container.default.hex}};
+  --colutti-surface-high: {{colors.surface_container_high.default.hex}};
+  --colutti-text: {{colors.on_background.default.hex}};
+  --colutti-muted: {{colors.on_surface_variant.default.hex}};
+  --colutti-accent: {{colors.primary.default.hex}};
+  --colutti-accent-container: {{colors.primary_container.default.hex}};
+  --colutti-on-accent: {{colors.on_primary.default.hex}};
+  --colutti-outline: {{colors.outline.default.hex}};
+  --colutti-error: {{colors.error.default.hex}};
+}
+
+/* Stable Steam client surfaces and typography. */
+body,
+#app,
+.WindowFocus,
+.WindowBlur,
+.DialogBody,
+.DialogContent,
+.PopupFullWindow {
+  background: var(--colutti-bg) !important;
+  color: var(--colutti-text) !important;
+}
+
+.DialogHeader,
+.DialogSubHeader,
+.DialogBodyText,
+.DialogLabel,
+.DialogLabelStrong,
+.DialogInputLabelGroup,
+.TextButton,
+.buttonCell,
+.contextMenuItem {
+  color: var(--colutti-text) !important;
+}
+
+.DialogSubHeader,
+.DialogHeaderSubtitle,
+.DialogLabelExplainer,
+.DialogInputPlaceholder,
+.DialogRequirementLabel {
+  color: var(--colutti-muted) !important;
+}
+
+/* Dialogs, settings, context menus, and form controls. */
+.DialogButton,
+.DialogButtonTall,
+.TextButton,
+.buttonCell {
+  background: var(--colutti-surface) !important;
+  color: var(--colutti-text) !important;
+  border-color: var(--colutti-outline) !important;
+}
+
+.DialogButton:hover,
+.DialogButton:focus,
+.DialogButtonTall:hover,
+.DialogButtonTall:focus,
+.TextButton:hover,
+.TextButton:focus,
+.buttonCell:hover,
+.buttonCell:focus,
+.contextMenuItem:hover,
+.contextMenuItem:focus,
+.contextMenuItem.gpfocus {
+  background: var(--colutti-accent-container) !important;
+  color: var(--colutti-on-accent) !important;
+}
+
+.DialogInput,
+.DialogTextInputBase,
+.DialogDropDown,
+.DialogListBuilderInput {
+  background: var(--colutti-surface-high) !important;
+  color: var(--colutti-text) !important;
+  border-color: var(--colutti-outline) !important;
+}
+
+.DialogInput:focus,
+.DialogTextInputBase:focus,
+.DialogDropDown:focus,
+.DialogListBuilderInput:focus {
+  border-color: var(--colutti-accent) !important;
+  outline-color: var(--colutti-accent) !important;
+}
+
+.ModalDialogPopup,
+.GenericConfirmDialog,
+.GenericFormDialog,
+.DialogMenuPosition {
+  background: var(--colutti-surface) !important;
+  color: var(--colutti-text) !important;
+  border-color: var(--colutti-outline) !important;
+}
+
+.menuChecked,
+.DialogCheck,
+.DialogProgressBar_Value,
+.DialogSlider_Grabber {
+  background-color: var(--colutti-accent) !important;
+  color: var(--colutti-on-accent) !important;
+}
+
+.DialogProgressBar_ProgressBarContainer,
+.DialogSlider_Slider,
+.DialogToggleField_OptionPanel,
+.DialogCheckbox,
+.DialogRoundCheckboxField_OuterCircle {
+  background-color: var(--colutti-surface-high) !important;
+  border-color: var(--colutti-outline) !important;
+}
+
+.DialogBodyNotificationBar,
+.NotificationBrowserWarning {
+  background: var(--colutti-accent-container) !important;
+  color: var(--colutti-on-accent) !important;
+}
+
+.ErrorBoundary_GenericError,
+.error,
+.ErrorLabel {
+  color: var(--colutti-error) !important;
+}

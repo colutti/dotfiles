@@ -1,6 +1,8 @@
 -- Publish compositor variables before portals and desktop services are started.
 hl.on("hyprland.start", function()
-    hl.exec_cmd("~/.local/bin/colutti-session-init")
+    -- exec_cmd does not perform shell tilde expansion; use the installed
+    -- absolute entrypoint so UWSM sessions always publish their environment.
+    hl.exec_cmd("/home/colutti/.local/bin/colutti-session-init")
 end)
 
 hl.on("hyprland.shutdown", function()
