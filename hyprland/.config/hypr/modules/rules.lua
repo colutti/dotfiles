@@ -58,5 +58,4 @@ hl.layer_rule({
     blur = true,
     blur_popups = true,
     ignore_alpha = 0.78,
-    no_screen_share = true,
 })

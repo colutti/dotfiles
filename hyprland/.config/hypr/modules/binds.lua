@@ -23,7 +23,7 @@ hl.bind("SUPER + F", hl.dsp.window.fullscreen(), { description = "Fullscreen" })
 hl.bind("SUPER + Q", dms("settings", "focusOrToggle"), { description = "Settings" })
 hl.bind("SUPER + O", dms("keybinds", "toggle", "hyprland"), { description = "Show keybinds" })
 hl.bind("SUPER + P", dms("powermenu", "toggle"), { description = "Power menu" })
-hl.bind("Print", dms("screenshot", "screen"), { description = "Screenshot" })
+hl.bind("Print", hl.dsp.exec_cmd("grim -g \"$(slurp)\" - | wl-copy"), { description = "Screenshot region to clipboard" })
 
 hl.bind("SUPER + Left", hl.dsp.focus({ direction = "l" }), { description = "Focus left" })
 hl.bind("SUPER + Right", hl.dsp.focus({ direction = "r" }), { description = "Focus right" })
