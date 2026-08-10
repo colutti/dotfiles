@@ -243,14 +243,17 @@ class CalibrationWindow(Gtk.Window):
         self.ddc_notice.set_text("Consultando o monitor…")
         while Gtk.events_pending():
             Gtk.main_iteration()
-        self.original_ddc = {
-            label: value for label, code in DDC_CODES.items()
-            if (value := ddc_get(code, self.bus)) is not None
-        }
-        if not self.original_ddc:
-            self.ddc_notice.set_text("DDC/CI não respondeu neste modo HDR.")
+        probe = ddc_get("10", self.bus)
+        if probe is None:
+            self.ddc_notice.set_text(
+                "DDC/CI não respondeu neste modo HDR. Use o menu físico do BenQ."
+            )
             self.detect_ddc_button.set_sensitive(True)
             return
+        self.original_ddc = {"Brilho": probe}
+        for label, code in DDC_CODES.items():
+            if label != "Brilho" and (value := ddc_get(code, self.bus)) is not None:
+                self.original_ddc[label] = value
         self.ddc_notice.set_text("Controles físicos detectados.")
         for label, (current, maximum) in self.original_ddc.items():
             self._add_scale(

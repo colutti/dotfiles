@@ -69,5 +69,10 @@ class HdrCalibrationTargetTests(unittest.TestCase):
 
         self.assertIn("hl.dsp.focus", launcher.read_text())
 
+    def test_ddc_detection_stops_after_the_first_unavailable_control(self):
+        source = Path(__file__).with_name("hdr_calibration.py").read_text()
+
+        self.assertIn('probe = ddc_get("10", self.bus)', source)
+
 if __name__ == "__main__":
     unittest.main()
