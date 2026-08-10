@@ -56,5 +56,13 @@ class HdrCalibrationTargetTests(unittest.TestCase):
 
         self.assertIn('hl.bind("SUPER + SHIFT + H", app("hdr-calibration")', binds.read_text())
 
+    def test_ddc_detection_is_not_part_of_calibrator_startup(self):
+        source = Path(__file__).with_name("hdr_calibration.py").read_text()
+        constructor = source.split("    def __init__", 1)[1].split(
+            "    def _current_tuning", 1
+        )[0]
+
+        self.assertNotIn("ddc_get(code, bus)", constructor)
+
 if __name__ == "__main__":
     unittest.main()

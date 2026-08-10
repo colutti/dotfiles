@@ -98,10 +98,7 @@ class CalibrationWindow(Gtk.Window):
         self.saved = False
         self.restoring = False
         self.pending_preview = 0
-        self.original_ddc = {
-            label: value for label, code in DDC_CODES.items()
-            if (value := ddc_get(code, bus)) is not None
-        }
+        self.original_ddc: dict[str, tuple[int, int]] = {}
         self.ddc_scales: dict[str, Gtk.Scale] = {}
         self.set_default_size(640, 720)
         self.set_border_width(20)
@@ -154,11 +151,12 @@ class CalibrationWindow(Gtk.Window):
         notice.set_xalign(0)
         notice.set_line_wrap(True)
         physical.pack_start(notice, False, False, 0)
-        if not self.original_ddc:
-            physical.pack_start(Gtk.Label(label="DDC/CI indisponível no DP-2."), False, False, 0)
-        else:
-            for label, (current, maximum) in self.original_ddc.items():
-                self._add_scale(physical, self.ddc_scales, label, label, 0, maximum, 1, current, self._queue_ddc)
+        self.ddc_notice = Gtk.Label(label="Os controles físicos são detectados somente quando solicitados.")
+        self.ddc_notice.set_xalign(0)
+        physical.pack_start(self.ddc_notice, False, False, 0)
+        self.detect_ddc_button = Gtk.Button(label="Detectar controles do monitor")
+        self.detect_ddc_button.connect("clicked", self._detect_ddc)
+        physical.pack_start(self.detect_ddc_button, False, False, 0)
 
         self.status = Gtk.Label(label="Ajuste os sliders e observe a tela.")
         self.status.set_xalign(0)
@@ -239,6 +237,28 @@ class CalibrationWindow(Gtk.Window):
                 else:
                     self.status.set_text(f"Não foi possível alterar {label} no monitor.")
                 return
+
+    def _detect_ddc(self, *_args: object) -> None:
+        self.detect_ddc_button.set_sensitive(False)
+        self.ddc_notice.set_text("Consultando o monitor…")
+        while Gtk.events_pending():
+            Gtk.main_iteration()
+        self.original_ddc = {
+            label: value for label, code in DDC_CODES.items()
+            if (value := ddc_get(code, self.bus)) is not None
+        }
+        if not self.original_ddc:
+            self.ddc_notice.set_text("DDC/CI não respondeu neste modo HDR.")
+            self.detect_ddc_button.set_sensitive(True)
+            return
+        self.ddc_notice.set_text("Controles físicos detectados.")
+        for label, (current, maximum) in self.original_ddc.items():
+            self._add_scale(
+                self.ddc_notice.get_parent(), self.ddc_scales, label, label,
+                0, maximum, 1, current, self._queue_ddc,
+            )
+        self.detect_ddc_button.hide()
+        self.show_all()
 
     def _restore(self, *_args: object) -> None:
         self.restoring = True
