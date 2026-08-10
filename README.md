@@ -2,7 +2,7 @@
 
 Este repositório reconstrói a sessão atual da máquina `colutti`: Hyprland 0.56,
 DANK/DMS, UWSM, dois monitores, regras de hardware AMD, áudio PipeWire, Steam,
-Discord, Telegram, Zen, Alacritty e as integrações mínimas do KDE. Ele não guarda
+Discord, Telegram, Zen, Kitty e as integrações mínimas do KDE. Ele não guarda
 tokens, sessões, bibliotecas Steam, histórico de chats ou outros dados pessoais.
 
 ## Recuperação após instalação limpa
@@ -16,6 +16,10 @@ repositórios oficiais CachyOS. Se `dms-shell` não estiver disponível, o boots
 instala o keyring/mirrorlist oficial e habilita somente o repositório CachyOS oficial.
 A política deste repositório é estritamente Arch/CachyOS oficial: não use AUR,
 helpers AUR ou pacotes `*-git`.
+
+O bootstrap instala uma política gerenciada do `pacman` que coloca helpers AUR
+conhecidos em `IgnorePkg` e remove qualquer helper encontrado. Isso evita uso
+acidental sem desabilitar o `makepkg` para desenvolvimento local.
 
 Clone e execute:
 
@@ -31,7 +35,7 @@ O comando instala somente o que estiver faltando, usando `pacman --needed`, e fa
 - Hyprland, UWSM, DANK/DMS e a entrada `Hyprland (uwsm-managed)`;
 - PipeWire, WirePlumber, portais Hyprland/GTK/KDE e polkit;
 - NetworkManager, power-profiles-daemon e GameMode;
-- Alacritty, Fuzzel, SwayNC, Quickshell, SwayOSD, Hyprpaper, Hypridle e Hyprsunset;
+- Kitty, Fuzzel, SwayNC, Quickshell, SwayOSD, Hyprpaper, Hypridle e Hyprsunset;
 - Steam, Discord, Telegram, VSCodium e Dolphin; Zen via Flatpak;
 - Gamescope, MangoHud, Vulkan AMD 64/32-bit e GameMode;
 - repositório multilib oficial para as dependências 32-bit da Steam e do Vulkan;
@@ -41,8 +45,8 @@ O comando instala somente o que estiver faltando, usando `pacman --needed`, e fa
 
 O perfil atual é detectado pelo PCI/CPU. Para a RX 7900 XTX/Navi 31, a instalação
 mantém Mesa/RADV e Vulkan 64/32-bit. As regras desta máquina preservam DP-2 em
-3840×2160 com escala 1.67, SDR/8-bit/VRR desligado, e HDMI-A-1 em 1920×1080 com
-escala 1.25.
+3840×2160 com escala 1.67, SDR/8-bit e VRR desligado; HDR é ativado somente
+para conteúdo fullscreen compatível. HDMI-A-1 permanece em SDR/8-bit com escala 1.25.
 
 ### Simulação sem alterar o sistema
 
@@ -75,6 +79,22 @@ dados do perfil não são restaurados pelo repositório.
 Use o DANK para launcher, notificações, clipboard, settings, process list, lock,
 brightness, áudio e screenshots. As regras de monitor e os atalhos de hardware
 continuam vindo do Hyprland desta máquina.
+
+### Steam HDR em 4K nativo
+
+Para um jogo que ofereça HDR, selecione Proton-CachyOS SLR na compatibilidade do
+jogo, habilite HDR nas opções internas dele e use em Steam → Propriedades → Geral:
+
+```bash
+DXVK_HDR=1 game-performance gamescope -f -W 3840 -H 2160 -w 3840 -h 2160 --hdr-enabled --mangoapp -- %command%
+```
+
+As resoluções interna e de saída são ambas 4K: não há upscaling. `--mangoapp` usa
+o MangoHud configurado em `~/.config/MangoHud/MangoHud.conf`; não acrescente
+`mangohud` ao mesmo comando. O DP-2 volta automaticamente a SDR ao encerrar o
+jogo, evitando conversão SDR→HDR no desktop. O CachyOS `game-performance` é preferível ao
+GameMode nesta máquina porque `ananicy-cpp` está ativo. Não use VRR, pois DP-2
+não o oferece. HDR/10-bit pode limitar captura e compartilhamento de tela.
 
 ## Temas de aplicativos
 

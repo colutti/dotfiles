@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -euo pipefail
+script_path="$(readlink -f -- "${BASH_SOURCE[0]}")"
+repo_root="${COLUTTI_DESKTOP_ROOT:-$(cd -- "$(dirname -- "${script_path}")/.." && pwd)}"
+exec python "${repo_root}/desktopctl/hdr_calibration.py" "$@"

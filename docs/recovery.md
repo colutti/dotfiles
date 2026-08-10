@@ -22,9 +22,11 @@ Uma aplicação via CLI expira em 20 segundos e restaura a última configuraçã
 Para forçar o rollback pelo TTY:
 
 ```bash
-dms doctor
-systemctl --user restart dms
+COLUTTI_DESKTOP_ROOT=~/projects/dotfiles colutti-desktopctl monitors rollback
 ```
+
+Isso restaura o último layout confirmado. Como alternativa, entre no Plasma (Wayland) e
+rode `./install.sh rollback`.
 
 ## Shell ou notificações
 

@@ -23,9 +23,6 @@ dbus-update-activation-environment --systemd "${environment[@]}"
 # untouched and starts them normally in a Plasma session.
 plasma_helpers=(
   arch-update-tray.service
-  app-discord@autostart.service
-  app-steam@autostart.service
-  app-org.telegram.desktop@autostart.service
   plasma-foreground-booster.service
   plasma-gmenudbusmenuproxy.service
   plasma-kaccess.service
@@ -49,4 +46,7 @@ systemctl --user disable --now colutti-quickshell.service 2>/dev/null || true
 systemctl --user disable --now colutti-desktop.target 2>/dev/null || true
 systemctl --user enable --now hypridle.service
 systemctl --user start dms.service
-systemctl --user start --no-block colutti-session-restore.service
+# This unit is RemainAfterExit=yes and may have been pulled in before
+# Hyprland's environment was imported. Restart it so every login gets a fresh
+# restore attempt after the compositor is ready.
+systemctl --user restart --no-block colutti-session-restore.service

@@ -2,13 +2,13 @@
 
 **Date:** 2026-08-09
 
-**Goal:** Make DP-2 use permanent 4K HDR at 10-bit while providing a safe, reproducible Steam launch path for native-resolution HDR games through Gamescope with a readable MangoHud overlay and temporary CachyOS performance profile.
+**Goal:** Keep DP-2 in accurate 4K SDR on the desktop while enabling 10-bit HDR on demand for compatible fullscreen Steam games through Gamescope, with a readable MangoHud overlay and temporary CachyOS performance profile.
 
 **Scope:** DP-2 only. Keep its 3840x2160@60 mode and VRR disabled; retain HDMI-A-1 as SDR/8-bit. Preserve Plasma fallback, existing session behavior, and a documented SDR recovery route. Do not install non-official packages, launch Steam/games, or enable Gamescope as the entire login session.
 
 ## Architecture
 
-The persisted monitor source of truth is the declarative Hyprland monitor module: DP-2 will be changed to 10-bit HDR, while its mode, location, scale, and VRR policy stay unchanged. The desktop monitor mutation boundary must be restored before a live monitor change is attempted. It will read typed settings, atomically render the generated monitor configuration, apply the requested DP-2 HDR change, and hold a 20-second confirmation transaction that restores the last known-good monitor state if it is not confirmed.
+The persisted monitor source of truth is the declarative Hyprland monitor module: DP-2 remains SDR/8-bit outside games, while its mode, location, scale, and VRR policy stay unchanged. `render.cm_auto_hdr = 1` permits an HDR-capable fullscreen client to temporarily switch only DP-2 to HDR. The desktop monitor mutation boundary must be restored before a live monitor change is attempted and retains a 20-second confirmation transaction for manual monitor changes.
 
 MangoHud configuration belongs in a tracked dotfiles path and is linked into `~/.config/MangoHud/MangoHud.conf`. It reports GPU/CPU temperatures and power, VRAM/RAM, FPS and frame-time percentiles, HDR status, refresh rate, renderer, and the active performance profile. Gamescope must use `--mangoapp`; ordinary `mangohud` wrapping is intentionally not combined with Gamescope.
 
@@ -33,7 +33,7 @@ The matching game must use an HDR-capable Proton version and enable HDR in its o
 
 The live monitor operation must never change HDMI-A-1, VRR, geometry, scale, or mode. It must save the preceding settings and generated monitor state before application. If visual confirmation is not received within 20 seconds, it restores that state automatically. Recovery remains possible by selecting Plasma at login, or by using the documented desktop recovery command from a TTY.
 
-HDR remains active after a confirmed transaction and after future Hyprland restarts. SDR is not reapplied after a game closes. The known drawback is that screen capture and screen sharing may be limited by HDR/10-bit.
+HDR is used only while an HDR-capable fullscreen game needs it; SDR resumes after the game closes. The known drawback is that screen capture and screen sharing may be limited while HDR/10-bit is active.
 
 ## Validation
 

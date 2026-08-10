@@ -17,8 +17,8 @@
       "kde-cli-tools", "kde-gtk-config", "plasma-integration", "qt6ct"
     ],
     "desktop": [
-      "alacritty", "brightnessctl", "ddcutil", "fuzzel", "grim", "hypridle",
-      "hyprpaper", "hyprsunset", "playerctl", "satty", "slurp", "socat",
+      "brightnessctl", "ddcutil", "fuzzel", "grim", "hypridle", "hyprpaper",
+      "hyprsunset", "kitty", "playerctl", "satty", "slurp", "socat",
       "swaync", "swayosd", "quickshell", "wl-clipboard", "wtype", "vscodium"
     ],
     "audio": ["pipewire", "pipewire-alsa", "pipewire-audio", "pipewire-pulse", "wireplumber"],
@@ -31,14 +31,14 @@
     "hardware_amd_navi31": ["amd-ucode"]
   },
   "install": [
-    "adw-gtk-theme", "alacritty", "amd-ucode", "brightnessctl", "breeze", "breeze-cursors",
+    "adw-gtk-theme", "amd-ucode", "brightnessctl", "breeze", "breeze-cursors",
     "breeze-gtk", "breeze-icons", "ca-certificates", "ddcutil", "discord", "dolphin", "dms-shell",
     "dunst", "file", "flatpak", "fuzzel", "gamemode", "gamescope", "git", "grim", "hypridle",
     "hyprland", "hyprland-guiutils", "hyprpaper", "hyprsunset", "jq", "kde-cli-tools", "kde-gtk-config",
     "lib32-gamemode", "lib32-mesa", "lib32-vulkan-radeon", "mangohud", "mesa", "networkmanager",
     "noto-fonts", "noto-fonts-emoji", "papirus-icon-theme", "pciutils", "pipewire", "pipewire-alsa", "pipewire-audio",
     "pipewire-pulse", "playerctl", "polkit", "polkit-kde-agent", "power-profiles-daemon", "plasma-integration",
-    "python", "qt6ct", "quickshell", "satty", "slurp", "socat", "steam", "stow", "sudo", "swaync",
+    "kitty", "python", "qt6ct", "quickshell", "satty", "slurp", "socat", "steam", "stow", "sudo", "swaync",
     "swayosd", "telegram-desktop", "ttf-jetbrains-mono-nerd", "uwsm", "vscodium", "vulkan-radeon",
     "usbutils", "vulkan-tools", "wayland-utils", "wireplumber", "wl-clipboard", "wtype", "xdg-desktop-portal",
     "xdg-desktop-portal-gtk", "xdg-desktop-portal-hyprland", "xdg-desktop-portal-kde", "zsh"

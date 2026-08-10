@@ -1,0 +1,114 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+repo_root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
+source_fragment="${repo_root}/pacman/colutti-no-aur.conf"
+target_fragment=/etc/pacman.d/colutti-no-aur.conf
+pacman_config=/etc/pacman.conf
+include_line='Include = /etc/pacman.d/colutti-no-aur.conf'
+helpers=(paru yay pamac-aur pikaur trizen aura aurutils)
+
+check_source() {
+  [[ -f "${source_fragment}" ]] || {
+    printf 'missing AUR policy fragment: %s\n' "${source_fragment}" >&2
+    return 1
+  }
+  local helper
+  for helper in "${helpers[@]}"; do
+    grep -Eq "^IgnorePkg[[:space:]]*=.*(^|[[:space:]])${helper}([[:space:]]|$)" \
+      "${source_fragment}" || {
+      printf 'AUR helper missing from policy: %s\n' "${helper}" >&2
+      return 1
+    }
+  done
+}
+
+installed_helpers() {
+  local helper
+  for helper in "${helpers[@]}"; do
+    pacman -Qq -- "${helper}" 2>/dev/null || true
+  done
+}
+
+check_live() {
+  check_source
+  cmp -s -- "${source_fragment}" "${target_fragment}" || {
+    printf 'AUR policy fragment is not installed or differs from the repository\n' >&2
+    return 1
+  }
+  grep -Fqx -- "${include_line}" "${pacman_config}" || {
+    printf 'pacman does not include the managed AUR policy\n' >&2
+    return 1
+  }
+  pacman-conf >/dev/null
+  local installed
+  installed="$(installed_helpers)"
+  [[ -z "${installed}" ]] || {
+    printf 'installed AUR helpers violate policy:\n%s\n' "${installed}" >&2
+    return 1
+  }
+  command -v makepkg >/dev/null || {
+    printf 'makepkg is unavailable; local package development must remain enabled\n' >&2
+    return 1
+  }
+  printf 'aur-policy=active\n'
+}
+
+apply_policy() {
+  (( EUID == 0 )) || {
+    printf 'apply must run as root\n' >&2
+    return 1
+  }
+  check_source
+
+  local stamp backup_dir fragment_tmp config_tmp
+  stamp="$(date -u +%Y%m%dT%H%M%SZ)"
+  backup_dir="/var/lib/colutti-desktop/backups/aur-policy-${stamp}"
+  fragment_tmp="$(mktemp)"
+  config_tmp="$(mktemp)"
+  trap 'rm -f -- "${fragment_tmp:-}" "${config_tmp:-}"' EXIT
+
+  install -m644 -- "${source_fragment}" "${fragment_tmp}"
+  if grep -Fqx -- "${include_line}" "${pacman_config}"; then
+    cp -- "${pacman_config}" "${config_tmp}"
+  else
+    awk -v policy_include="${include_line}" '
+      /^\[options\][[:space:]]*$/ {
+        print
+        print policy_include
+        next
+      }
+      { print }
+    ' "${pacman_config}" >"${config_tmp}"
+  fi
+  grep -Fqx -- "${include_line}" "${config_tmp}" || {
+    printf 'could not place AUR policy include under [options]\n' >&2
+    return 1
+  }
+
+  install -Dm644 -- "${fragment_tmp}" "${target_fragment}"
+  pacman-conf --config "${config_tmp}" >/dev/null
+
+  install -d -m755 -- "${backup_dir}"
+  install -m644 -- "${pacman_config}" "${backup_dir}/pacman.conf"
+  install -m644 -- "${config_tmp}" "${pacman_config}"
+  pacman-conf >/dev/null
+
+  local installed
+  mapfile -t installed < <(installed_helpers)
+  if (( ${#installed[@]} )); then
+    pacman -Rns --noconfirm -- "${installed[@]}"
+  fi
+  check_live
+  printf 'backup=%s\n' "${backup_dir}"
+}
+
+case "${1:-check-live}" in
+  check-source) check_source ;;
+  check-live) check_live ;;
+  apply) apply_policy ;;
+  *)
+    printf 'usage: %s <check-source|check-live|apply>\n' "${0##*/}" >&2
+    exit 64
+    ;;
+esac

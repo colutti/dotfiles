@@ -6,7 +6,7 @@ backup_root="${XDG_STATE_HOME:-${HOME}/.local/state}/colutti-desktop/backups"
 mode="${1:-help}"
 dry_run=0
 config_packages=(
-  alacritty autostart backgrounds fuzzel gtk hyprland matugen quickshell
+  autostart backgrounds fuzzel gtk hyprland kitty mangohud matugen quickshell
   swaync systemd uwsm vscodium xdg-desktop-portal zshrc
 )
 
@@ -89,6 +89,7 @@ install_flatpaks() {
 
 preflight() {
   local stamp report_dir
+  "${repo_root}/scripts/aur-policy" check-source
   stamp="$(date -u +%Y%m%dT%H%M%S%NZ)"
   report_dir="${backup_root}/${stamp}/inventory"
   mkdir -p "${report_dir}"
@@ -115,6 +116,11 @@ install_packages() {
     root_run snapper -c root list >/dev/null 2>&1; then
     root_run snapper -c root create --type single \
       --description "Before Colutti Hyprland workstation install"
+  fi
+  if (( dry_run )); then
+    printf 'dry-run: would install the no-AUR pacman policy and remove AUR helpers\n'
+  else
+    root_run "${repo_root}/scripts/aur-policy" apply
   fi
   mapfile -t official < <(packages | tr ' ' '\n')
   if (( dry_run )); then
@@ -174,7 +180,7 @@ link_config() {
     .config/hypr \
     .config/systemd/user \
     .config/uwsm \
-    .config/alacritty \
+    .config/kitty \
     .config/xdg-desktop-portal \
     .config/autostart \
     .config/gtk-3.0 \
@@ -216,6 +222,12 @@ link_config() {
   systemctl --user disable dms.service 2>/dev/null || true
   "${repo_root}/scripts/setup-zen-matugen"
   mkdir -p "${HOME}/.local/bin"
+  ln -sfn "${repo_root}/bin/colutti-desktopctl" \
+    "${HOME}/.local/bin/colutti-desktopctl"
+  ln -sfn "${repo_root}/bin/game-hdr" \
+    "${HOME}/.local/bin/game-hdr"
+  ln -sfn "${repo_root}/bin/hdr-calibration" \
+    "${HOME}/.local/bin/hdr-calibration"
   ln -sfn "${repo_root}/scripts/session-init" \
     "${HOME}/.local/bin/colutti-session-init"
   ln -sfn "${repo_root}/scripts/session-logout" \
@@ -232,6 +244,7 @@ link_config() {
 }
 
 validate() {
+  "${repo_root}/scripts/aur-policy" check-live
   python -m json.tool "${repo_root}/settings/default.json" >/dev/null
   find "${repo_root}/themes" -name manifest.json -exec python -m json.tool {} \; >/dev/null
   if command -v Hyprland >/dev/null; then
@@ -268,6 +281,11 @@ rollback() {
   printf 'restored=%s\n' "${latest}"
 }
 
+doctor() {
+  "${repo_root}/scripts/aur-policy" check-live
+  dms doctor
+}
+
 case "${mode}" in
   preflight) preflight ;;
   install) install_packages ;;
@@ -278,7 +296,7 @@ case "${mode}" in
   link) link_config ;;
   validate) validate ;;
   rollback) rollback ;;
-  doctor) exec dms doctor ;;
+  doctor) doctor ;;
   help|-h|--help) usage ;;
   *) usage >&2; exit 64 ;;
 esac

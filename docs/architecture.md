@@ -26,7 +26,8 @@ FileChooser e integração Qt.
 
 ## Monitores e workspaces
 
-DP-2 usa 3840×2160@60, escala 1.666667, SDR/sRGB/8-bit e VRR off. HDMI-A-1 usa
-1920×1080@60, escala 1.25 e posição lógica 384×1296. HDR/10-bit é permitido somente no
-DP-2 e sempre retorna a SDR. Os atalhos de workspace, foco e movimento continuam vindo
-do Hyprland desta máquina, enquanto o shell visual passa ao DANK.
+DP-2 usa 3840×2160@60, escala 1.666667, SDR/8-bit e VRR off. HDMI-A-1 usa
+1920×1080@60, escala 1.25, SDR/8-bit e posição lógica 384×1296. `cm_auto_hdr = 2`
+permite HDR/10-bit no DP-2 quando um cliente fullscreen compatível o solicita, usando
+as primárias EDID, retornando a SDR fora do jogo. Os atalhos de workspace, foco e
+movimento continuam vindo do Hyprland desta máquina, enquanto o shell visual passa ao DANK.

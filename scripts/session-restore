@@ -124,8 +124,8 @@ hyprctl dispatch 'hl.dsp.focus({ monitor = "DP-2" })'
 
 restore_app Zen start_once app.zen_browser.zen tiled 1 DP-2 2264 1212 20 64 \
   'app\.zen_browser\.zen' "flatpak run app.zen_browser.zen"
-restore_app Alacritty start_once Alacritty tiled 2 DP-2 2264 1212 20 64 \
-  '(^|/)alacritty([[:space:]]|$)' alacritty
+restore_app Kitty start_once kitty tiled 2 DP-2 2264 1212 20 64 \
+  '(^|/)kitty([[:space:]]|$)' kitty
 restore_app Steam start_once steam tiled 4 DP-2 2264 1212 20 64 \
   '(^|/)steam([[:space:]]|$)' "env STEAM_FORCE_DESKTOPUI_SCALING=1.75 steam"
 restore_app Telegram start_once org.telegram.desktop tiled 6 HDMI-A-1 423 780 404 1360 \
