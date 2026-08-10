@@ -64,5 +64,10 @@ class HdrCalibrationTargetTests(unittest.TestCase):
 
         self.assertNotIn("ddc_get(code, bus)", constructor)
 
+    def test_calibration_launcher_focuses_an_existing_window(self):
+        launcher = Path(__file__).parents[1] / "bin/hdr-calibration"
+
+        self.assertIn("hl.dsp.focus", launcher.read_text())
+
 if __name__ == "__main__":
     unittest.main()
