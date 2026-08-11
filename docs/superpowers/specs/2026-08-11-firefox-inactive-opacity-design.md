@@ -8,8 +8,8 @@ behavior of any other application.
 ## Design
 
 Add one declarative Hyprland window rule in `hyprland/.config/hypr/modules/rules.lua`.
-It matches Zen Browser's initial class (`app.zen_browser.zen`) and sets both active and inactive
-opacity to `1.0`.
+It matches Zen Browser's initial class (`app.zen_browser.zen`) and overrides both active and
+inactive opacity to `1.0`, so the values are not multiplied by the global inactive opacity.
 
 The global `decoration.inactive_opacity = 0.96` remains unchanged, so all other
 windows retain the current visual behavior. The rule does not modify blur, focus,

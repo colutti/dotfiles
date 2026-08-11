@@ -30,7 +30,7 @@ Add this declaration after the existing application window rules:
 hl.window_rule({
     name = "zen-browser-opaque-when-inactive",
     match = { initial_class = "app.zen_browser.zen" },
-    opacity = "1.0 1.0",
+    opacity = "1.0 override 1.0 override",
 })
 ```
 
