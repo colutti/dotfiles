@@ -81,7 +81,7 @@ def build_hdr_calibration_target(
         "sdr_min_luminance": sdr_min_luminance,
         "sdr_max_luminance": int(round(sdr_max_luminance)),
         "min_luminance": 0.25,
-        "max_luminance": 480,
+        "max_luminance": 351,
         "max_avg_luminance": 302,
     }
     return target
@@ -230,13 +230,13 @@ def set_monitor_hdr(output: str, enabled: bool) -> dict[str, Any]:
     monitor["color_mode"] = "hdr" if enabled else "srgb"
     if enabled and output == "DP-2":
         monitor["hdr_tuning"] = {
-            "sdrbrightness": 1.2,
-            "sdrsaturation": 0.98,
+            "sdrbrightness": 1.0,
+            "sdrsaturation": 1.0,
             "sdr_eotf": "srgb",
             "sdr_min_luminance": 0.25,
-            "sdr_max_luminance": 480,
+            "sdr_max_luminance": 450,
             "min_luminance": 0.25,
-            "max_luminance": 480,
+            "max_luminance": 351,
             "max_avg_luminance": 302,
         }
     elif not enabled:

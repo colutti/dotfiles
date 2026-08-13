@@ -62,10 +62,10 @@ def initial_hdr_values(current: dict[str, object]) -> dict[str, float | str]:
         tuning = {}
     return {
         "sdrbrightness": float(tuning.get("sdrbrightness", 1.0)),
-        "sdrsaturation": float(tuning.get("sdrsaturation", 0.98)),
+        "sdrsaturation": float(tuning.get("sdrsaturation", 1.0)),
         "sdr_eotf": "srgb",
         "sdr_min_luminance": float(tuning.get("sdr_min_luminance", 0.25)),
-        "sdr_max_luminance": float(tuning.get("sdr_max_luminance", 480)),
+        "sdr_max_luminance": float(tuning.get("sdr_max_luminance", 450)),
     }
 
 
@@ -89,6 +89,108 @@ def ddc_set(code: str, value: int, bus: int) -> bool:
     ).returncode == 0
 
 
+class ReferencePatternsWindow(Gtk.Window):
+    """Visual references for tuning SDR content shown through the HDR pipeline."""
+
+    def __init__(self) -> None:
+        super().__init__(title="Padrões de referência")
+        self.set_default_size(1024, 760)
+        self.set_border_width(18)
+        root = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=8)
+        root.get_style_context().add_class("hdr-calibration")
+        self.add(root)
+        title = Gtk.Label()
+        title.set_markup("<span size='x-large' weight='bold'>Referência visual SDR em HDR</span>")
+        title.set_xalign(0)
+        root.pack_start(title, False, False, 0)
+        hint = Gtk.Label(label=(
+            "Deixe esta janela visível e ajuste os sliders na calibração. Estes padrões não medem "
+            "precisão, mas expõem clipping, dominante de cor e saturação excessiva."
+        ))
+        hint.set_xalign(0)
+        hint.set_line_wrap(True)
+        root.pack_start(hint, False, False, 0)
+        canvas = Gtk.DrawingArea()
+        canvas.set_hexpand(True)
+        canvas.set_vexpand(True)
+        canvas.connect("draw", self._draw)
+        root.pack_start(canvas, True, True, 0)
+
+    @staticmethod
+    def _text(context, text: str, x: float, y: float, size: float = 14) -> None:
+        context.set_source_rgb(0.84, 0.86, 0.89)
+        context.select_font_face("Noto Sans", 0, 0)
+        context.set_font_size(size)
+        context.move_to(x, y)
+        context.show_text(text)
+
+    @staticmethod
+    def _swatches(context, values: list[tuple[float, float, float]], x: float, y: float, width: float, height: float) -> None:
+        step = width / len(values)
+        for index, color in enumerate(values):
+            context.set_source_rgb(*color)
+            context.rectangle(x + index * step, y, step + 1, height)
+            context.fill()
+
+    def _draw(self, _widget: Gtk.DrawingArea, context) -> bool:
+        width = _widget.get_allocated_width()
+        height = _widget.get_allocated_height()
+        margin = 20
+        content_width = width - margin * 2
+        context.set_source_rgb(0.07, 0.08, 0.10)
+        context.paint()
+
+        y = 28
+        self._text(context, "Preto e detalhe em sombras", margin, y)
+        y += 12
+        near_black = [(level / 255,) * 3 for level in (0, 1, 2, 3, 4, 5, 6, 8, 10, 12, 16, 20, 24, 32)]
+        self._swatches(context, near_black, margin, y, content_width, 52)
+        self._text(context, "0  1  2  3  4  5  6  8  10  12  16  20  24  32", margin, y + 72, 12)
+
+        y += 112
+        self._text(context, "Escala de cinza, nenhuma faixa deve parecer colorida", margin, y)
+        y += 12
+        gray = [(level, level, level) for level in [index / 31 for index in range(32)]]
+        self._swatches(context, gray, margin, y, content_width, 62)
+
+        y += 106
+        self._text(context, "Brancos próximos, distinga os blocos sem perder detalhe", margin, y)
+        y += 12
+        near_white = [(level / 255,) * 3 for level in (180, 200, 216, 224, 232, 236, 240, 244, 248, 252, 255)]
+        self._swatches(context, near_white, margin, y, content_width, 48)
+        self._text(context, "180  200  216  224  232  236  240  244  248  252  255", margin, y + 68, 12)
+
+        y += 108
+        self._text(context, "Cores de referência, procure por vermelho fluorescente ou pele alaranjada", margin, y)
+        y += 12
+        reference_colors = [
+            (0.95, 0.10, 0.13), (0.98, 0.35, 0.08), (0.96, 0.77, 0.08),
+            (0.18, 0.70, 0.28), (0.08, 0.57, 0.85), (0.29, 0.31, 0.88),
+            (0.68, 0.20, 0.72), (0.45, 0.25, 0.15), (0.76, 0.52, 0.36),
+            (0.93, 0.72, 0.56), (0.99, 0.83, 0.69),
+        ]
+        self._swatches(context, reference_colors, margin, y, content_width, 72)
+
+        y += 116
+        self._text(context, "Rampas de saturação, pare antes de os extremos parecerem luz neon", margin, y)
+        y += 12
+        rows = [(0.95, 0.10, 0.13), (0.18, 0.70, 0.28), (0.08, 0.57, 0.85)]
+        row_height = max(28, min(42, (height - y - 20) / 3))
+        for red, green, blue in rows:
+            colors = []
+            for index in range(32):
+                amount = index / 31
+                gray_value = 0.50
+                colors.append((
+                    gray_value + (red - gray_value) * amount,
+                    gray_value + (green - gray_value) * amount,
+                    gray_value + (blue - gray_value) * amount,
+                ))
+            self._swatches(context, colors, margin, y, content_width, row_height)
+            y += row_height + 8
+        return False
+
+
 class CalibrationWindow(Gtk.Window):
     def __init__(self, output: str, bus: int) -> None:
         super().__init__(title="Calibração HDR")
@@ -100,6 +202,7 @@ class CalibrationWindow(Gtk.Window):
         self.pending_preview = 0
         self.original_ddc: dict[str, tuple[int, int]] = {}
         self.ddc_scales: dict[str, Gtk.Scale] = {}
+        self.patterns: ReferencePatternsWindow | None = None
         self.set_default_size(640, 720)
         self.set_border_width(20)
         self.connect("delete-event", self._on_delete)
@@ -130,7 +233,7 @@ class CalibrationWindow(Gtk.Window):
         baseline = self._current_tuning()
         self.hdr_scales: dict[str, Gtk.Scale] = {}
         self._add_scale(hdr, self.hdr_scales, "Brilho SDR", "sdrbrightness", 0.50, 2.00, 0.01, float(baseline["sdrbrightness"]), self._queue_preview)
-        self._add_scale(hdr, self.hdr_scales, "Saturação SDR", "sdrsaturation", 0.75, 1.25, 0.01, float(baseline["sdrsaturation"]), self._queue_preview)
+        self._add_scale(hdr, self.hdr_scales, "Saturação SDR", "sdrsaturation", 0.00, 1.25, 0.01, float(baseline["sdrsaturation"]), self._queue_preview)
         self._add_scale(hdr, self.hdr_scales, "Preto SDR (nits)", "sdr_min_luminance", 0.00, 0.50, 0.01, float(baseline["sdr_min_luminance"]), self._queue_preview)
         self._add_scale(hdr, self.hdr_scales, "Pico SDR (nits)", "sdr_max_luminance", 80, 600, 5, float(baseline["sdr_max_luminance"]), self._queue_preview)
         eotf_row = Gtk.Box(spacing=12)
@@ -165,6 +268,9 @@ class CalibrationWindow(Gtk.Window):
         restore = Gtk.Button(label="Restaurar sessão")
         restore.connect("clicked", self._restore)
         actions.pack_start(restore, False, False, 0)
+        patterns = Gtk.Button(label="Abrir padrões")
+        patterns.connect("clicked", self._show_patterns)
+        actions.pack_start(patterns, False, False, 0)
         cancel = Gtk.Button(label="Cancelar")
         cancel.connect("clicked", lambda *_: self.destroy())
         actions.pack_end(cancel, False, False, 0)
@@ -173,6 +279,13 @@ class CalibrationWindow(Gtk.Window):
         save.connect("clicked", self._save)
         actions.pack_end(save, False, False, 0)
         root.pack_start(actions, False, False, 0)
+
+    def _show_patterns(self, *_args: object) -> None:
+        if self.patterns is None:
+            self.patterns = ReferencePatternsWindow()
+            self.patterns.connect("destroy", lambda *_: setattr(self, "patterns", None))
+        self.patterns.show_all()
+        self.patterns.present()
 
     @staticmethod
     def _add_scale(
@@ -296,6 +409,8 @@ class CalibrationWindow(Gtk.Window):
         self.status.set_text("Calibração salva e será reaplicada no próximo início do Hyprland.")
 
     def _on_delete(self, *_args: object) -> bool:
+        if self.patterns is not None:
+            self.patterns.destroy()
         if not self.saved:
             self._restore()
         return False
