@@ -2,7 +2,7 @@
 
 ## Comunicação
 
-Discord e Telegram são os clientes de comunicação do desktop. Eles devem abrir no espaço Chat do monitor secundário. KDE Connect integra dispositivos móveis ao desktop; pareamento e conteúdo compartilhado são pessoais e devem ser refeitos manualmente.
+Discord e Telegram são os clientes de comunicação do desktop. Eles devem abrir no espaço Chat do monitor secundário. LocalSend inicia com a sessão para transferência local de arquivos. KDE Connect integra dispositivos móveis ao desktop; pareamento e conteúdo compartilhado são pessoais e devem ser refeitos manualmente.
 
 ## Segurança e acesso remoto
 

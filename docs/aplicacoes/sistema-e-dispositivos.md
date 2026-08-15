@@ -6,7 +6,9 @@ Além do shell principal, o desktop mantém um launcher alternativo, centro de n
 
 ## Integrações de dispositivo
 
-Bluetooth, gerenciador de rede, suporte a OpenVPN, impressão, digitalização HP, exibição e controle de cor de monitores devem estar presentes. O computador usa Btrfs com snapshots e ferramentas gráficas de recuperação; o mecanismo equivalente na distribuição de destino deve oferecer restauração segura.
+Bluetooth, gerenciador de rede, suporte a OpenVPN, impressão, digitalização HP, exibição e controle de cor de monitores devem estar presentes. O computador usa Btrfs com snapshots e ferramentas gráficas de recuperação; o mecanismo equivalente na distribuição de destino deve oferecer restauração segura. O atualizador do sistema deve oferecer indicador de sessão e verificações regulares.
+
+Btrfs Assistant, Snapper, Partition Manager, o gerenciador de kernel e Octopi são as aplicações gráficas de manutenção hoje disponíveis. A distribuição de destino pode oferecer interfaces diferentes, desde que preserve manutenção, atualização e recuperação explícitas.
 
 ## Alternativas instaladas
 

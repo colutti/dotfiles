@@ -16,6 +16,6 @@ O estado vivo da máquina é a fonte de verdade. Esta primeira versão foi inven
 - [Estado atual](docs/estado-atual.md)
 - [Hardware](docs/hardware.md)
 - [Sessão e desktop](docs/sessao-e-desktop.md)
-- Aplicações: [terminal e desenvolvimento](docs/aplicacoes/terminal-e-desenvolvimento.md), [navegação e produtividade](docs/aplicacoes/navegacao-e-produtividade.md), [comunicação e segurança](docs/aplicacoes/comunicacao-e-seguranca.md), [mídia e jogos](docs/aplicacoes/midia-e-jogos.md), [sistema e dispositivos](docs/aplicacoes/sistema-e-dispositivos.md)
+- Aplicações: [catálogo](docs/aplicacoes/catalogo.md), [terminal e desenvolvimento](docs/aplicacoes/terminal-e-desenvolvimento.md), [navegação e produtividade](docs/aplicacoes/navegacao-e-produtividade.md), [comunicação e segurança](docs/aplicacoes/comunicacao-e-seguranca.md), [mídia e jogos](docs/aplicacoes/midia-e-jogos.md), [sistema e dispositivos](docs/aplicacoes/sistema-e-dispositivos.md)
 - Experiência: [aparência](docs/experiencia/aparencia.md), [monitores](docs/experiencia/monitores.md), [atalhos](docs/experiencia/atalhos.md)
 - Operação: [manutenção](docs/operacao/manutencao.md), [limites e dados pessoais](docs/operacao/limites-e-dados-pessoais.md)
