@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-set -euo pipefail
-script_path="$(readlink -f -- "${BASH_SOURCE[0]}")"
-repo_root="${COLUTTI_DESKTOP_ROOT:-$(cd -- "$(dirname -- "${script_path}")/.." && pwd)}"
-module="${repo_root}/desktopctl/colutti_desktopctl.py"
-if [[ ! -f "${module}" ]]; then
-  module="${HOME}/.local/lib/colutti-desktop/colutti_desktopctl.py"
-fi
-exec python "${module}" "$@"

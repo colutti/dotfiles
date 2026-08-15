@@ -1,9 +1,0 @@
-export XCURSOR_THEME=Breeze
-export XCURSOR_SIZE=24
-# Use KDE's native Qt platform theme so Qt6 applications (notably Dolphin)
-# consume the same KDE color scheme instead of qt6ct's independent palette.
-export QT_QPA_PLATFORMTHEME=kde
-export QT_QPA_PLATFORMTHEME_QT6=kde
-export MOZ_ENABLE_WAYLAND=1
-export ELECTRON_OZONE_PLATFORM_HINT=auto
-export STEAM_FORCE_DESKTOPUI_SCALING=1.75

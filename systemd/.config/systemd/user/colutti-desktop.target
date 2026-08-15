@@ -1,9 +1,0 @@
-[Unit]
-Description=Colutti Hyprland desktop services
-Requires=dms.service
-Wants=hyprpaper.service hypridle.service hyprsunset.service plasma-polkit-agent.service swayosd-server.service
-After=graphical-session.target
-BindsTo=graphical-session.target
-
-[Install]
-WantedBy=graphical-session.target
